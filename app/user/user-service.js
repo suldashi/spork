@@ -1,3 +1,5 @@
+
+
 let users = {
 	1:{
 		id:1,
@@ -13,38 +15,36 @@ let users = {
 	}
 };
 
+let UserRepository = require("./user-repository");
+//let UserRepository = require("./user-repository-mock");
+
 class UserService {
-	constructor() {
-		this.userCtr = 3;
+	async getUserByUsername(username) {
+		return UserRepository.getByUsername(username);
 	}
 
-	getUserByUsername(username) {
-		let targetUser = Object.values(users).find((el) => el.username === username);
-		return targetUser?targetUser:null;
+	async getUserByCredentials(username,password) {
+		let user = await this.getUserByUsername(username);
+		if(user && user.password === password) {
+			return user;
+		}
+		return null;
 	}
 
-	getUserByCredentials(username,password) {
-		let targetUser = Object.values(users).find((el) => el.username === username && el.password === password);
-		return targetUser?targetUser:null;
+	async getUserById(userId) {
+		return UserRepository.getById(userId);
 	}
 
-	getUserById(userId) {
-		let targetUser = users[userId];
-		return targetUser?targetUser:null;
-	}
-
-	addUser(username,password) {
-		let possibleUser = this.getUserByUsername(username);
+	async addUser(username,password) {
+		let possibleUser = await this.getUserByUsername(username);
 		if(!possibleUser) {
-			users[this.userCtr] = {
-				id:this.userCtr,
-				username,
-				password,
-				activated:false
-			}
-			return this.userCtr++;
+			return UserRepository.addUser(username,password,"foo","bar");
 		}
 		return false;
+	}
+
+	async removeUser(id) {
+		return UserRepository.removeUser(id);
 	}
 }
 

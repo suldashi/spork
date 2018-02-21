@@ -18,11 +18,15 @@ module.exports = ((app) => {
 		if(user) {
 			let authToken = uuid();
 			userMap[authToken] = user.id;
-			res.send(JSON.stringify({authToken}));	
+			if(user.activated) {
+				res.send(JSON.stringify({authToken}));	
+			}
+			else {
+				res.send(JSON.stringify({needsActivation:true}));	
+			}
 		}
 		else {
 			res.status(400).send(JSON.stringify({error:"invalid credentials"}));
 		}
-		
 	});
 });

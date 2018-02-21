@@ -16,13 +16,17 @@ export class LoginComponent extends React.Component {
         this.state = {
             isLoginInProgress: false,
             formHasError: false,
-            loginSucceeded: false
+            loginSucceeded: false,
+            needsActivation:false
         };
     }
 
     render() {
         if(this.state.loginSucceeded) {
             return <Redirect to="/" />
+        }
+        else if(this.state.needsActivation) {
+            return <div>y'all need to activate your account</div>
         }
         else {
             return <div>
@@ -72,6 +76,11 @@ export class LoginComponent extends React.Component {
                 formHasError:true,
                 isLoginInProgress: false
             })
+        }
+        else if(data.needsActivation) {
+            this.setState({
+                needsActivation:true
+            });
         }
         else {
             this.onLoginSuccessful(data.authToken);

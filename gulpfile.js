@@ -5,6 +5,7 @@ const babel = require('gulp-babel');
 const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
 const runSequence = require("run-sequence");
+const exec = require('child_process').exec;
 const del = require("del");
 
 gulp.task("clean",() => {
@@ -57,4 +58,23 @@ gulp.task("watch-ui", () => {
 
 gulp.task("default", () => {
 	return runSequence("ui");
+});
+
+gulp.task("db-dump", () => {
+	var dbConfig = require("./app/config").db;
+	var env = process.env;
+	env.PGPASSWORD=dbConfig.password;
+	return exec(`pg_dump -Ox -U ${dbConfig.username} -h ${dbConfig.host} ${dbConfig.dbName} > database.sql`,{env:env});
+});
+
+gulp.task("db-restore", () => {
+	var dbConfig = require("./app/config").db;
+	var env = process.env;
+	env.PGPASSWORD=dbConfig.password;
+	if(process.platform==="win32") {
+		return exec(`dropdb --if-exists -U ${dbConfig.username} ${dbConfig.dbName} & createdb -U ${dbConfig.username} ${dbConfig.dbName} & psql -h ${dbConfig.host} -U ${dbConfig.username} -f database.sql ${dbConfig.dbName}`,{env:env});
+	}
+	else {
+		return exec(`dropdb --if-exists -U ${dbConfig.username} ${dbConfig.dbName}; createdb -U ${dbConfig.username} ${dbConfig.dbName}; psql -h ${dbConfig.host} -U ${dbConfig.username} -f database.sql ${dbConfig.dbName}`,{env:env});
+	}
 });

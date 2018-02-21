@@ -10,8 +10,10 @@
   "author": "Ermir Suldashi",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "pg-promise": "^7.5.4",
     "react": "^16.2.0",
     "react-auto-bind": "^0.4.2",
     "react-dom": "^16.2.0",

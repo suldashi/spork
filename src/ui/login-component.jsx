@@ -10,8 +10,6 @@ export class LoginComponent extends React.Component {
         this.username = "";
         this.password = "";
 
-        this.submitLogin = this.submitLogin.bind(this);
-        this.updateInputForms = this.updateInputForms.bind(this);
         this.onLoginSuccessful = props.onLoginSuccessful;
         this.state = {
             isLoginInProgress: false,

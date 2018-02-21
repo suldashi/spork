@@ -22,14 +22,13 @@ const UserRepository = {
 		return targetUser?targetUser:null;
     },
 
-    addUser: async (username,password,activationCodeGenerator,salt) => {
+    addUser: async (username,password,activationCodeGenerator) => {
         users[userCtr] = {
             id:userCtr,
             username,
             password,
             is_active:false,
-            activation_code_generator:activationCodeGenerator,
-            salt,
+            activation_code_generator:activationCodeGenerator
         };
         return userCtr++;
     },

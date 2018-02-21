@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const UserService = require("../app/user/user-service");
 const UserRepository = require("../mocks/user/user-repository");
 
-const userService = new UserService(UserRepository);
+const userService = new UserService();
 
 let userToInsert = {
 	username:"foo@bar.com",
@@ -26,7 +26,6 @@ describe("UserService.addUser", () => {
 		expect(userModel).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
-			password:userToInsert.password,
 			activated:false
 		});
 	});
@@ -37,7 +36,6 @@ describe("UserService.addUser", () => {
 		expect(userModel).to.deep.include({
 			id:secondUserId,
 			username:secondUserToInsert.username,
-			password:secondUserToInsert.password,
 			activated:false
 		});
 	});
@@ -54,7 +52,6 @@ describe("UserService.getUserByUsername", () => {
 		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
-			password:userToInsert.password,
 			activated:false
 		});
 	});
@@ -71,7 +68,6 @@ describe("UserService.getUserById", () => {
 		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
-			password:userToInsert.password,
 			activated:false
 		});
 	});
@@ -87,7 +83,6 @@ describe("UserService.getUserByCredentials", () => {
 		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
-			password:userToInsert.password,
 			activated:false
 		});
 	});
@@ -103,7 +98,6 @@ describe("UserService.getUserByCredentials", () => {
 		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
-			password:userToInsert.password,
 			activated:false
 		});
 	});

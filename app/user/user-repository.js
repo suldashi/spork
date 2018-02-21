@@ -20,8 +20,8 @@ const UserRepository = {
         return null;
     },
 
-    addUser: async (username,password,activationCodeGenerator,salt) => {
-        var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_code_generator","salt") VALUES ($1,$2,$3,$4,$5) RETURNING id',[username,password,false,activationCodeGenerator,salt]);
+    addUser: async (username,password,activationCodeGenerator) => {
+        var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_code_generator") VALUES ($1,$2,$3,$4) RETURNING id',[username,password,false,activationCodeGenerator]);
         return resultRow.id;
     },
 

@@ -1,4 +1,5 @@
 let UserRepository = require("./user-repository");
+let CryptoService = require("../crpyto-service");
 
 class UserService {
 	constructor(userRepository) {
@@ -10,7 +11,6 @@ class UserService {
 			return {
 				id:user.id,
 				username:user.username,
-				password:user.password,
 				activated:user.is_active,
 				activationCodeGenerator:user.activation_code_generator
 			};
@@ -20,14 +20,16 @@ class UserService {
 
 	async getUserByCredentials(username,password) {
 		let user = await this.userRepository.getByUsername(username);
-		if(user && user.password === password) {
-			return {
-				id:user.id,
-				username:user.username,
-				password:user.password,
-				activated:user.is_active,
-				activationCodeGenerator:user.activation_code_generator
-			};
+		if(user) {
+			let isCorrectPassword = await CryptoService.comparePassword(password,user.password)
+			if(isCorrectPassword) {
+				return {
+					id:user.id,
+					username:user.username,
+					activated:user.is_active,
+					activationCodeGenerator:user.activation_code_generator
+				};
+			}
 		}
 		return null;
 	}
@@ -38,7 +40,6 @@ class UserService {
 			return {
 				id:user.id,
 				username:user.username,
-				password:user.password,
 				activated:user.is_active,
 				activationCodeGenerator:user.activation_code_generator
 			};
@@ -49,7 +50,9 @@ class UserService {
 	async addUser(username,password) {
 		let possibleUser = await this.userRepository.getByUsername(username);
 		if(!possibleUser) {
-			return this.userRepository.addUser(username,password,"foo","bar");
+			let passwordHash = await CryptoService.hashPassword(password);
+			let activationCodeGenerator = CryptoService.getRandomBytes();
+			return this.userRepository.addUser(username,passwordHash,activationCodeGenerator);
 		}
 		return false;
 	}

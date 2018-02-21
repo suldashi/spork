@@ -11,7 +11,8 @@ class UserService {
 				id:user.id,
 				username:user.username,
 				password:user.password,
-				activated:user.is_active
+				activated:user.is_active,
+				activationCodeGenerator:user.activation_code_generator
 			};
 		}
 		return null;
@@ -24,7 +25,8 @@ class UserService {
 				id:user.id,
 				username:user.username,
 				password:user.password,
-				activated:user.is_active
+				activated:user.is_active,
+				activationCodeGenerator:user.activation_code_generator
 			};
 		}
 		return null;
@@ -37,7 +39,8 @@ class UserService {
 				id:user.id,
 				username:user.username,
 				password:user.password,
-				activated:user.is_active
+				activated:user.is_active,
+				activationCodeGenerator:user.activation_code_generator
 			};
 		}
 		return null;
@@ -53,6 +56,14 @@ class UserService {
 
 	async removeUser(id) {
 		return this.userRepository.removeUser(id);
+	}
+
+	async generateActivationCode(id,activationCodeGenerator) {
+		return this.userRepository.generateActivationCode(id,activationCodeGenerator);
+	}
+
+	async activateUser(id,activationCode) {
+		return this.userRepository.activateUser(id,activationCode);
 	}
 }
 

@@ -1,3 +1,6 @@
+const moment = require("moment");
+const uuid = require("uuid/v4");
+
 let db = require("../db");
 
 const UserRepository = {
@@ -17,21 +20,38 @@ const UserRepository = {
         return null;
     },
 
-    addUser: async (username,password,activationLinkGenerator,salt) => {
-        var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_link_generator","salt") VALUES ($1,$2,$3,$4,$5) RETURNING id',[username,password,false,activationLinkGenerator,salt]);
+    addUser: async (username,password,activationCodeGenerator,salt) => {
+        var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_code_generator","salt") VALUES ($1,$2,$3,$4,$5) RETURNING id',[username,password,false,activationCodeGenerator,salt]);
         return resultRow.id;
     },
 
     removeUser: async (id) => {
-        let successfullyRemoved = false;
-        try {
-            await db.one('DELETE FROM "user" WHERE "id" = $1 RETURNING id',id);
-            successfullyRemoved = true;
+        let result = await db.oneOrNone('DELETE FROM "user" WHERE "id" = $1 RETURNING id',id);
+        if(result && result.id === id) {
+            return true;
         }
-        catch(err) {
+        return false;
+    },
 
+    generateActivationCode: async (id,activationCodeGenerator) => {
+        let user = await UserRepository.getById(id);
+        if(user && !user.is_active && user.activation_code_generator === activationCodeGenerator) {
+            let activationCode = uuid();
+            let expirationTime = moment().add(2,"h").toISOString();
+            let result = await db.one('INSERT INTO "user_activation_code" ("user_id","activation_code","expiration_time") VALUES ($1,$2,$3) RETURNING id',[id,activationCode,expirationTime]);
+            return activationCode;
         }
-        return successfullyRemoved;
+        return false;
+    },
+
+    activateUser: async (id,activationCode) => {
+        let activationCodes = await db.any('SELECT * FROM "user_activation_code" WHERE "user_id" = $1',id);
+        let target = activationCodes.find(el => el.activation_code === activationCode && moment(el.expiration_time).isAfter(moment()));
+        if(target) {
+            await db.oneOrNone('UPDATE "user" SET "is_active" = true WHERE "id" = $1',id);
+            return true;  
+        }
+        return false;
     }
 };
 

@@ -23,7 +23,7 @@ describe("UserService.addUser", () => {
 		firstUserId = await userService.addUser(userToInsert.username,userToInsert.password);
 		let userModel = await userService.getUserByUsername(userToInsert.username);
 		expect(firstUserId).to.be.exist;
-		expect(userModel).to.deep.equal({
+		expect(userModel).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
 			password:userToInsert.password,
@@ -34,7 +34,7 @@ describe("UserService.addUser", () => {
 		secondUserId = await userService.addUser(secondUserToInsert.username,secondUserToInsert.password);
 		let userModel = await userService.getUserByUsername(secondUserToInsert.username);
 		expect(secondUserId).to.be.exist;
-		expect(userModel).to.deep.equal({
+		expect(userModel).to.deep.include({
 			id:secondUserId,
 			username:secondUserToInsert.username,
 			password:secondUserToInsert.password,
@@ -51,7 +51,7 @@ describe("UserService.getUserByUsername", () => {
 	let username = userToInsert.username;
 	it("there should be a user returned",async () => {
 		let result = await userService.getUserByUsername(username);
-		expect(result).to.deep.equals({
+		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
 			password:userToInsert.password,
@@ -68,7 +68,7 @@ describe("UserService.getUserById", () => {
 	let userId = firstUserId;
 	it("there should be a user returned",async () => {
 		let result = await userService.getUserById(firstUserId);
-		expect(result).to.deep.equals({
+		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
 			password:userToInsert.password,
@@ -84,7 +84,7 @@ describe("UserService.getUserById", () => {
 describe("UserService.getUserByCredentials", () => {
 	it("there should be a user returned",async () => {
 		let result = await userService.getUserByCredentials(userToInsert.username,userToInsert.password);
-		expect(result).to.deep.equals({
+		expect(result).to.deep.include({
 			id:firstUserId,
 			username:userToInsert.username,
 			password:userToInsert.password,
@@ -94,6 +94,40 @@ describe("UserService.getUserByCredentials", () => {
 	it("the result should be null if credentials were wrong",async () => {
 		let result = await userService.getUserByCredentials(userToInsert.username,null);
 		expect(result).to.be.null;
+	});
+});
+
+describe("UserService.getUserByCredentials", () => {
+	it("there should be a user returned",async () => {
+		let result = await userService.getUserByCredentials(userToInsert.username,userToInsert.password);
+		expect(result).to.deep.include({
+			id:firstUserId,
+			username:userToInsert.username,
+			password:userToInsert.password,
+			activated:false
+		});
+	});
+	it("the result should be null if credentials were wrong",async () => {
+		let result = await userService.getUserByCredentials(userToInsert.username,null);
+		expect(result).to.be.null;
+	});
+});
+
+describe("UserService.generateActivationCode and UserService.activateUser", () => {
+	let activationCode = null;
+	it("activation code should be generated successfully on an existing, nonactivated user",async () => {
+		let user = await userService.getUserById(firstUserId);
+		activationCode = await userService.generateActivationCode(user.id,user.activationCodeGenerator);
+		expect(activationCode).to.be.a("string");
+	});
+	it("user should be activated successfully",async () => {
+		let result = await userService.activateUser(firstUserId,activationCode);
+		expect(result).to.be.true;
+	});
+	it("activation code cannot be generated on an activated user",async () => {
+		let user = await userService.getUserById(firstUserId);
+		let result = await userService.generateActivationCode(user.id,user.activationCodeGenerator);
+		expect(result).to.be.false;
 	});
 });
 

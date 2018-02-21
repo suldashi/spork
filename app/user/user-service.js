@@ -1,51 +1,59 @@
-
-
-let users = {
-	1:{
-		id:1,
-		username:"ermirsuldashi@gmail.com",
-		password:"foo",
-		activated:true
-	},
-	2:{
-		id:2,
-		username:"summer@gmail.com",
-		password:"ruby",
-		activated:false
-	}
-};
-
 let UserRepository = require("./user-repository");
-//let UserRepository = require("./user-repository-mock");
 
 class UserService {
+	constructor(userRepository) {
+		this.userRepository = userRepository?userRepository:UserRepository;
+	}
 	async getUserByUsername(username) {
-		return UserRepository.getByUsername(username);
+		let user = await this.userRepository.getByUsername(username);
+		if(user) {
+			return {
+				id:user.id,
+				username:user.username,
+				password:user.password,
+				activated:user.is_active
+			};
+		}
+		return null;
 	}
 
 	async getUserByCredentials(username,password) {
-		let user = await this.getUserByUsername(username);
+		let user = await this.userRepository.getByUsername(username);
 		if(user && user.password === password) {
-			return user;
+			return {
+				id:user.id,
+				username:user.username,
+				password:user.password,
+				activated:user.is_active
+			};
 		}
 		return null;
 	}
 
 	async getUserById(userId) {
-		return UserRepository.getById(userId);
+		let user = await this.userRepository.getById(userId);
+		if(user) {
+			return {
+				id:user.id,
+				username:user.username,
+				password:user.password,
+				activated:user.is_active
+			};
+		}
+		return null;
 	}
 
 	async addUser(username,password) {
-		let possibleUser = await this.getUserByUsername(username);
+		let possibleUser = await this.userRepository.getByUsername(username);
 		if(!possibleUser) {
-			return UserRepository.addUser(username,password,"foo","bar");
+			return this.userRepository.addUser(username,password,"foo","bar");
 		}
 		return false;
 	}
 
 	async removeUser(id) {
-		return UserRepository.removeUser(id);
+		return this.userRepository.removeUser(id);
 	}
 }
 
-module.exports = new UserService();
+module.exports = UserService;

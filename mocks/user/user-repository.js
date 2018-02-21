@@ -3,13 +3,17 @@ let users = {
 		id:1,
 		username:"ermirsuldashi@gmail.com",
 		password:"foo",
-		activated:true
+        activation_link_generator:"foo",
+        salt:"foo",
+		is_active:true
 	},
 	2:{
 		id:2,
 		username:"summer@gmail.com",
 		password:"ruby",
-		activated:false
+        activation_link_generator:"foo",
+        salt:"foo",
+		is_active:false
 	}
 };
 
@@ -31,7 +35,9 @@ const UserRepository = {
             id:userCtr,
             username,
             password,
-            activated:false
+            is_active:false,
+            activation_link_generator:activationLinkGenerator,
+            salt,
         };
         return userCtr++;
     },

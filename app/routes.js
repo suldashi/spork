@@ -3,6 +3,7 @@ const path = require("path");
 const uuid = require("uuid/v4");
 
 const UserService = require("./user/user-service");
+const userService = new UserService();
 
 let userMap = {};
 
@@ -14,7 +15,7 @@ module.exports = ((app) => {
 	});
 
 	app.post("/login",(req,res) => {
-		let user = UserService.getUserByCredentials(req.body.username,req.body.password);
+		let user = userService.getUserByCredentials(req.body.username,req.body.password);
 		if(user) {
 			let authToken = uuid();
 			userMap[authToken] = user.id;

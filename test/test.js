@@ -1,6 +1,9 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const UserService = require("../app/user/user-service");
+const UserRepository = require("../mocks/user/user-repository");
+
+const userService = new UserService(UserRepository);
 
 let userToInsert = {
 	username:"foo@bar.com",
@@ -17,8 +20,8 @@ let secondUserId = null;
 
 describe("UserService.addUser", () => {
 	it("the user should be added successfully",async () => {
-		firstUserId = await UserService.addUser(userToInsert.username,userToInsert.password);
-		let userModel = await UserService.getUserByUsername(userToInsert.username);
+		firstUserId = await userService.addUser(userToInsert.username,userToInsert.password);
+		let userModel = await userService.getUserByUsername(userToInsert.username);
 		expect(firstUserId).to.be.exist;
 		expect(userModel).to.deep.equal({
 			id:firstUserId,
@@ -28,8 +31,8 @@ describe("UserService.addUser", () => {
 		});
 	});
 	it("second user should be added successfully",async () => {
-		secondUserId = await UserService.addUser(secondUserToInsert.username,secondUserToInsert.password);
-		let userModel = await UserService.getUserByUsername(secondUserToInsert.username);
+		secondUserId = await userService.addUser(secondUserToInsert.username,secondUserToInsert.password);
+		let userModel = await userService.getUserByUsername(secondUserToInsert.username);
 		expect(secondUserId).to.be.exist;
 		expect(userModel).to.deep.equal({
 			id:secondUserId,
@@ -39,7 +42,7 @@ describe("UserService.addUser", () => {
 		});
 	});
 	it("same user cannot be added twice",async () => {
-		let result = await UserService.addUser(userToInsert.username,userToInsert.password);
+		let result = await userService.addUser(userToInsert.username,userToInsert.password);
 		expect(result).to.be.false;
 	});
 });
@@ -47,7 +50,7 @@ describe("UserService.addUser", () => {
 describe("UserService.getUserByUsername", () => {
 	let username = userToInsert.username;
 	it("there should be a user returned",async () => {
-		let result = await UserService.getUserByUsername(username);
+		let result = await userService.getUserByUsername(username);
 		expect(result).to.deep.equals({
 			id:firstUserId,
 			username:userToInsert.username,
@@ -56,7 +59,7 @@ describe("UserService.getUserByUsername", () => {
 		});
 	});
 	it("the result should be null if username is not found",async () => {
-		let result = await UserService.getUserByUsername("NONEXISTENT");
+		let result = await userService.getUserByUsername("NONEXISTENT");
 		expect(result).to.be.null;
 	});
 });
@@ -64,7 +67,7 @@ describe("UserService.getUserByUsername", () => {
 describe("UserService.getUserById", () => {
 	let userId = firstUserId;
 	it("there should be a user returned",async () => {
-		let result = await UserService.getUserById(firstUserId);
+		let result = await userService.getUserById(firstUserId);
 		expect(result).to.deep.equals({
 			id:firstUserId,
 			username:userToInsert.username,
@@ -73,14 +76,14 @@ describe("UserService.getUserById", () => {
 		});
 	});
 	it("the result should be null if no user is found with that id",async () => {
-		let result = await UserService.getUserById(0);
+		let result = await userService.getUserById(0);
 		expect(result).to.be.null;
 	});
 });
 
 describe("UserService.getUserByCredentials", () => {
 	it("there should be a user returned",async () => {
-		let result = await UserService.getUserByCredentials(userToInsert.username,userToInsert.password);
+		let result = await userService.getUserByCredentials(userToInsert.username,userToInsert.password);
 		expect(result).to.deep.equals({
 			id:firstUserId,
 			username:userToInsert.username,
@@ -89,22 +92,26 @@ describe("UserService.getUserByCredentials", () => {
 		});
 	});
 	it("the result should be null if credentials were wrong",async () => {
-		let result = await UserService.getUserByCredentials(userToInsert.username,null);
+		let result = await userService.getUserByCredentials(userToInsert.username,null);
 		expect(result).to.be.null;
 	});
 });
 
 describe("UserService.removeUser", () => {
 	it("first user should be removed",async () => {
-		let result = await UserService.removeUser(firstUserId);
+		let result = await userService.removeUser(firstUserId);
 		expect(result).to.be.true;
 	});
 	it("second user should be removed",async () => {
-		let result = await UserService.removeUser(secondUserId);
+		let result = await userService.removeUser(secondUserId);
 		expect(result).to.be.true;
 	});
+	it("expect removed user to not exist when requested",async () => {
+		let user = await userService.getUserById(firstUserId);
+		expect(user).to.be.null;
+	});
 	it("nonexistent user cannot be removed",async () => {
-		let result = await UserService.removeUser(0);
+		let result = await userService.removeUser(0);
 		expect(result).to.be.false;
 	});
 });

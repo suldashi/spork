@@ -1,5 +1,5 @@
 const moment = require("moment");
-const uuid = require("uuid/v4");
+const CryptoService = require("../../app/crpyto-service");
 
 let users = {
 };
@@ -46,7 +46,7 @@ const UserRepository = {
             if(!activationCodes[userId]) {
                 activationCodes[userId] = [];
             }
-            let activationCode = uuid();
+            let activationCode = CryptoService.getRandomBytes();
             activationCodes[userId].push({id:activationCodeCtr++,activation_code:activationCode,user_id:userId,expiration_time:moment().add(2,"h").toISOString()});
             return activationCode;
         }

@@ -1,5 +1,5 @@
 const moment = require("moment");
-const uuid = require("uuid/v4");
+const CryptoService = require("../crpyto-service");
 
 let db = require("../db");
 
@@ -36,7 +36,7 @@ const UserRepository = {
     generateActivationCode: async (id,activationCodeGenerator) => {
         let user = await UserRepository.getById(id);
         if(user && !user.is_active && user.activation_code_generator === activationCodeGenerator) {
-            let activationCode = uuid();
+            let activationCode = CryptoService.getRandomBytes();
             let expirationTime = moment().add(2,"h").toISOString();
             let result = await db.one('INSERT INTO "user_activation_code" ("user_id","activation_code","expiration_time") VALUES ($1,$2,$3) RETURNING id',[id,activationCode,expirationTime]);
             return activationCode;

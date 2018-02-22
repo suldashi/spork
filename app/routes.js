@@ -3,9 +3,11 @@ const path = require("path");
 const uuid = require("uuid/v4");
 
 const UserService = require("./user/user-service");
-const userService = new UserService();
+const SessionService = require("./session/session-service");
 
-let userMap = {};
+const userService = new UserService();
+const sessionService = new SessionService();
+
 
 module.exports = ((app) => {
 	app.use('/public', express.static(path.resolve(__dirname,"..",'public')));

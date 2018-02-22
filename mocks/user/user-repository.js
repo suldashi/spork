@@ -1,5 +1,5 @@
 const moment = require("moment");
-const CryptoService = require("../../app/crpyto-service");
+const CryptoService = require("../../app/crypto-service");
 
 let users = {
 };

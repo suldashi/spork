@@ -1,9 +1,9 @@
 let UserRepository = require("./user-repository");
-let CryptoService = require("../crpyto-service");
+let CryptoService = require("../crypto-service");
 
 class UserService {
-	constructor(userRepository) {
-		this.userRepository = userRepository?userRepository:UserRepository;
+	constructor(opts = {}) {
+		this.userRepository = opts.userRepository?opts.userRepository:UserRepository;
 	}
 	async getUserByUsername(username) {
 		let user = await this.userRepository.getByUsername(username);

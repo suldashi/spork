@@ -1,5 +1,5 @@
 const moment = require("moment");
-const CryptoService = require("../crpyto-service");
+const CryptoService = require("../crypto-service");
 
 let db = require("../db");
 

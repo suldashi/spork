@@ -1,11 +1,11 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const UserService = require("../app/user/user-service");
-const SessionService = require("../app/user/session-service");
 const UserRepository = require("../mocks/user/user-repository");
-const SessionRepository = require("../mocks/user/session-repository");
 
-const userService = new UserService(UserRepository);
+const userService = new UserService({
+	userRepository:UserRepository
+});
 
 let userToInsert = {
 	username:"foo@bar.com",

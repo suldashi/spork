@@ -47,8 +47,10 @@ const UserRepository = {
     activateUser: async (activationCode) => {
         let activationCodeInstance = await db.oneOrNone('SELECT * FROM "user_activation_code" WHERE "activation_code" = $1 AND "expiration_time" > now()',activationCode);
         if(activationCodeInstance) {
-            await db.oneOrNone('UPDATE "user" SET "is_active" = true WHERE "id" = $1',activationCodeInstance.user_id);
-            return true;  
+            let result = await db.oneOrNone('UPDATE "user" SET "is_active" = true WHERE "id" = $1 AND "is_active" = $2 RETURNING id',[activationCodeInstance.user_id,false]);
+            if(result) {
+                return true;      
+            }
         }
         return false;
     }

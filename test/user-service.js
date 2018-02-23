@@ -110,6 +110,10 @@ describe("UserService.generateActivationCode and UserService.activateUser", () =
 		let result = await userService.generateActivationCode(user.activationCodeGenerator);
 		expect(result).to.be.false;
 	});
+	it("we should not be able to reuse the activation code on an activated user",async () => {
+		let result = await userService.activateUser(activationCode);
+		expect(result).to.be.false;
+	});
 });
 
 describe("UserService.removeUser", () => {

@@ -24,7 +24,7 @@ module.exports = ((app) => {
 				res.send(JSON.stringify({authToken}));	
 			}
 			else {
-				res.send(JSON.stringify({needsActivation:true}));	
+				res.send(JSON.stringify({needsActivation:true,activationCodeGenerator:user.activationCodeGenerator}));	
 			}
 		}
 		else {
@@ -34,7 +34,22 @@ module.exports = ((app) => {
 
 	app.post('/sendActivationCode', async (req,res) => {
 		let result = await userService.generateActivationCode(req.body.activationCodeGenerator);
-		res.send(JSON.stringify({activationCode:result}));
+		if(result) {
+			res.send(JSON.stringify({activationCode:result}));	
+		}
+		else {
+			res.status(400).send(JSON.stringify({error:"invalid activation code generator"}));
+		}	
+	});
+
+	app.post('/activate', async (req,res) => {
+		let result = await userService.activateUser(req.body.activationCode);
+		if(result) {
+			res.status(200).send();
+		}
+		else {
+			res.status(400).send({error:"invalid activation code"});
+		}
 	});
 
 	app.post("/register",async (req,res) => {

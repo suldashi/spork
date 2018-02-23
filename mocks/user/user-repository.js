@@ -41,20 +41,21 @@ const UserRepository = {
         return false;
     },
 
-    generateActivationCode: async (userId,activationCodeGenerator) => {
+    generateActivationCode: async (activationCodeGenerator) => {
+        let user = Object.values(users).find(el => el.activation_code_generator === activationCodeGenerator);
+        let userId = user?user.id:null;
         if(users[userId] && !users[userId].is_active && users[userId].activation_code_generator === activationCodeGenerator) {
-            if(!activationCodes[userId]) {
-                activationCodes[userId] = [];
-            }
             let activationCode = CryptoService.getRandomBytes();
-            activationCodes[userId].push({id:activationCodeCtr++,activation_code:activationCode,user_id:userId,expiration_time:moment().add(2,"h").toISOString()});
+            activationCodes[activationCodeCtr] = {id:activationCodeCtr++,activation_code:activationCode,user_id:userId,expiration_time:moment().add(2,"h").toISOString()};
             return activationCode;
         }
         return false;
     },
 
-    activateUser: async (userId,activationCode) => {
-        if(users[userId] && !users[userId].is_active && activationCodes[userId] && activationCodes[userId].find((el) => el.activation_code === activationCode && moment(el.expiration_time).isAfter(moment()))) {
+    activateUser: async (activationCode) => {
+        let activationCodeInstance = Object.values(activationCodes).find(el => el.activation_code === activationCode && moment(el.expiration_time).isAfter(moment()));
+        let userId = activationCodeInstance?activationCodeInstance.user_id:null;
+        if(users[userId] && !users[userId].is_active && activationCodeInstance) {
             users[userId].is_active = true;
             return true;
         }

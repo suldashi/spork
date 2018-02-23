@@ -33,22 +33,21 @@ const UserRepository = {
         return false;
     },
 
-    generateActivationCode: async (id,activationCodeGenerator) => {
-        let user = await UserRepository.getById(id);
-        if(user && !user.is_active && user.activation_code_generator === activationCodeGenerator) {
+    generateActivationCode: async (activationCodeGenerator) => {
+        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "activation_code_generator" = $1 AND "is_active" = $2',[activationCodeGenerator,false]);
+        if(user) {
             let activationCode = CryptoService.getRandomBytes();
             let expirationTime = moment().add(2,"h").toISOString();
-            let result = await db.one('INSERT INTO "user_activation_code" ("user_id","activation_code","expiration_time") VALUES ($1,$2,$3) RETURNING id',[id,activationCode,expirationTime]);
+            let result = await db.one('INSERT INTO "user_activation_code" ("user_id","activation_code","expiration_time") VALUES ($1,$2,$3) RETURNING id',[user.id,activationCode,expirationTime]);
             return activationCode;
         }
         return false;
     },
 
-    activateUser: async (id,activationCode) => {
-        let activationCodes = await db.any('SELECT * FROM "user_activation_code" WHERE "user_id" = $1',id);
-        let target = activationCodes.find(el => el.activation_code === activationCode && moment(el.expiration_time).isAfter(moment()));
-        if(target) {
-            await db.oneOrNone('UPDATE "user" SET "is_active" = true WHERE "id" = $1',id);
+    activateUser: async (activationCode) => {
+        let activationCodeInstance = await db.oneOrNone('SELECT * FROM "user_activation_code" WHERE "activation_code" = $1 AND "expiration_time" > now()',activationCode);
+        if(activationCodeInstance) {
+            await db.oneOrNone('UPDATE "user" SET "is_active" = true WHERE "id" = $1',activationCodeInstance.user_id);
             return true;  
         }
         return false;

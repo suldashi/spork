@@ -94,35 +94,20 @@ describe("UserService.getUserByCredentials", () => {
 	});
 });
 
-describe("UserService.getUserByCredentials", () => {
-	it("there should be a user returned",async () => {
-		let result = await userService.getUserByCredentials(userToInsert.username,userToInsert.password);
-		expect(result).to.deep.include({
-			id:firstUserId,
-			username:userToInsert.username,
-			activated:false
-		});
-	});
-	it("the result should be null if credentials were wrong",async () => {
-		let result = await userService.getUserByCredentials(userToInsert.username,null);
-		expect(result).to.be.null;
-	});
-});
-
 describe("UserService.generateActivationCode and UserService.activateUser", () => {
 	let activationCode = null;
 	it("activation code should be generated successfully on an existing, nonactivated user",async () => {
 		let user = await userService.getUserById(firstUserId);
-		activationCode = await userService.generateActivationCode(user.id,user.activationCodeGenerator);
+		activationCode = await userService.generateActivationCode(user.activationCodeGenerator);
 		expect(activationCode).to.be.a("string");
 	});
 	it("user should be activated successfully",async () => {
-		let result = await userService.activateUser(firstUserId,activationCode);
+		let result = await userService.activateUser(activationCode);
 		expect(result).to.be.true;
 	});
 	it("activation code cannot be generated on an activated user",async () => {
 		let user = await userService.getUserById(firstUserId);
-		let result = await userService.generateActivationCode(user.id,user.activationCodeGenerator);
+		let result = await userService.generateActivationCode(user.activationCodeGenerator);
 		expect(result).to.be.false;
 	});
 });

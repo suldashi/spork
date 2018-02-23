@@ -32,6 +32,11 @@ module.exports = ((app) => {
 		}
 	});
 
+	app.post('/sendActivationCode', async (req,res) => {
+		let result = await userService.generateActivationCode(req.body.activationCodeGenerator);
+		res.send(JSON.stringify({activationCode:result}));
+	});
+
 	app.post("/register",async (req,res) => {
 		let user = await userService.getUserByCredentials(req.body.username,req.body.password);
 		if(user) {

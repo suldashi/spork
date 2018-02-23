@@ -61,12 +61,12 @@ class UserService {
 		return this.userRepository.removeUser(id);
 	}
 
-	async generateActivationCode(id,activationCodeGenerator) {
-		return this.userRepository.generateActivationCode(id,activationCodeGenerator);
+	async generateActivationCode(activationCodeGenerator) {
+		return this.userRepository.generateActivationCode(activationCodeGenerator);
 	}
 
-	async activateUser(id,activationCode) {
-		return this.userRepository.activateUser(id,activationCode);
+	async activateUser(activationCode) {
+		return this.userRepository.activateUser(activationCode);
 	}
 }
 

@@ -5,6 +5,7 @@ import {NotFoundComponent} from './not-found-component';
 import {LoginComponent} from './login-component';
 import {LogoutComponent} from './logout-component';
 import {RegisterComponent} from './register-component';
+import {HeaderComponent} from "./header-component";
 const autoBind = require("react-auto-bind");
 
 export class MainComponent extends React.Component {
@@ -15,6 +16,7 @@ export class MainComponent extends React.Component {
 
     render() {
         return <div>
+            <HeaderComponent />
             <Switch>
                 <Route exact path="/" component={this.HomeComponentWithProps} />
                 <Route exact path="/login" component={this.LoginComponent} />

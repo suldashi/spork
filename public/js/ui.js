@@ -24857,6 +24857,66 @@ module.exports = warning;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.HeaderComponent = undefined;
+
+var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require("babel-runtime/helpers/inherits");
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var autoBind = require("react-auto-bind");
+
+var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
+    (0, _inherits3.default)(HeaderComponent, _React$Component);
+
+    function HeaderComponent(props) {
+        (0, _classCallCheck3.default)(this, HeaderComponent);
+
+        var _this = (0, _possibleConstructorReturn3.default)(this, (HeaderComponent.__proto__ || (0, _getPrototypeOf2.default)(HeaderComponent)).call(this, props));
+
+        autoBind(_this);
+        return _this;
+    }
+
+    (0, _createClass3.default)(HeaderComponent, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "header",
+                null,
+                "this is snek"
+            );
+        }
+    }]);
+    return HeaderComponent;
+}(_react2.default.Component);
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145}],182:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.HomeComponent = undefined;
 
 var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
@@ -24940,7 +25000,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }]);
     return HomeComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],182:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],183:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25003,13 +25063,12 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
         _this.username = "";
         _this.password = "";
 
-        _this.submitLogin = _this.submitLogin.bind(_this);
-        _this.updateInputForms = _this.updateInputForms.bind(_this);
         _this.onLoginSuccessful = props.onLoginSuccessful;
         _this.state = {
             isLoginInProgress: false,
             formHasError: false,
-            loginSucceeded: false
+            loginSucceeded: false,
+            needsActivation: false
         };
         return _this;
     }
@@ -25019,6 +25078,12 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
         value: function render() {
             if (this.state.loginSucceeded) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: "/" });
+            } else if (this.state.needsActivation) {
+                return _react2.default.createElement(
+                    "div",
+                    null,
+                    "y'all need to activate your account"
+                );
             } else {
                 return _react2.default.createElement(
                     "div",
@@ -25121,6 +25186,10 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                                         formHasError: true,
                                         isLoginInProgress: false
                                     });
+                                } else if (data.needsActivation) {
+                                    this.setState({
+                                        needsActivation: true
+                                    });
                                 } else {
                                     this.onLoginSuccessful(data.authToken);
                                     this.setState({
@@ -25147,7 +25216,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
     }]);
     return LoginComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/json/stringify":1,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],183:[function(require,module,exports){
+},{"babel-runtime/core-js/json/stringify":1,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],184:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25206,7 +25275,7 @@ var LogoutComponent = exports.LogoutComponent = function (_React$Component) {
     }]);
     return LogoutComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],184:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25250,6 +25319,8 @@ var _logoutComponent = require('./logout-component');
 
 var _registerComponent = require('./register-component');
 
+var _headerComponent = require('./header-component');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var autoBind = require("react-auto-bind");
@@ -25272,6 +25343,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
+                _react2.default.createElement(_headerComponent.HeaderComponent, null),
                 _react2.default.createElement(
                     _reactRouterDom.Switch,
                     null,
@@ -25331,7 +25403,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }]);
     return MainComponent;
 }(_react2.default.Component);
-},{"./home-component":181,"./login-component":182,"./logout-component":183,"./not-found-component":185,"./register-component":186,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],185:[function(require,module,exports){
+},{"./header-component":181,"./home-component":182,"./login-component":183,"./logout-component":184,"./not-found-component":186,"./register-component":187,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],186:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25385,7 +25457,7 @@ var NotFoundComponent = exports.NotFoundComponent = function (_React$Component) 
     }]);
     return NotFoundComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175}],186:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175}],187:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25445,7 +25517,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
     }]);
     return RegisterComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145}],187:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145}],188:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -25467,4 +25539,4 @@ _reactDom2.default.render(_react2.default.createElement(
     null,
     _react2.default.createElement(_mainComponent.MainComponent, null)
 ), document.getElementById('root'));
-},{"./main-component":184,"react":175,"react-dom":148,"react-router-dom":160}]},{},[187]);
+},{"./main-component":185,"react":175,"react-dom":148,"react-router-dom":160}]},{},[188]);

@@ -16,12 +16,11 @@ module.exports = ((app) => {
 		res.sendFile(path.resolve("public/index.html"));
 	});
 
-	app.post("/login",(req,res) => {
-		let user = userService.getUserByCredentials(req.body.username,req.body.password);
+	app.post("/login",async (req,res) => {
+		let user = await userService.getUserByCredentials(req.body.username,req.body.password);
 		if(user) {
-			let authToken = uuid();
-			userMap[authToken] = user.id;
 			if(user.activated) {
+				let authToken = await sessionService.setSession(user.id);
 				res.send(JSON.stringify({authToken}));	
 			}
 			else {
@@ -30,6 +29,17 @@ module.exports = ((app) => {
 		}
 		else {
 			res.status(400).send(JSON.stringify({error:"invalid credentials"}));
+		}
+	});
+
+	app.post("/register",async (req,res) => {
+		let user = await userService.getUserByCredentials(req.body.username,req.body.password);
+		if(user) {
+			res.status(400).send(JSON.stringify({error:"user already exists"}));
+		}
+		else {
+			user = await userService.addUser(req.body.username,req.body.password);
+			res.status(200).send();
 		}
 	});
 });

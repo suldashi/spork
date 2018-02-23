@@ -1,5 +1,5 @@
 const EntryRepository = {
-	addEntry: async (userId,timestamp,distance,time) => {
+	addEntry: async (userId,timestamp,distance,duration,location) => {
 		return true;
 	}
 }

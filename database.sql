@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.5
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -33,6 +33,39 @@ SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: entry; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE entry (
+    id integer NOT NULL,
+    user_id bigint NOT NULL,
+    "timestamp" timestamp without time zone NOT NULL,
+    distance_in_meters integer NOT NULL,
+    duration_in_secs integer NOT NULL,
+    location text NOT NULL
+);
+
+
+--
+-- Name: entry_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE entry_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: entry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE entry_id_seq OWNED BY entry.id;
+
 
 --
 -- Name: user; Type: TABLE; Schema: public; Owner: -
@@ -130,6 +163,13 @@ ALTER SEQUENCE user_session_id_seq OWNED BY user_session.id;
 
 
 --
+-- Name: entry id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entry ALTER COLUMN id SET DEFAULT nextval('entry_id_seq'::regclass);
+
+
+--
 -- Name: user id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -148,6 +188,21 @@ ALTER TABLE ONLY user_activation_code ALTER COLUMN id SET DEFAULT nextval('user_
 --
 
 ALTER TABLE ONLY user_session ALTER COLUMN id SET DEFAULT nextval('user_session_id_seq'::regclass);
+
+
+--
+-- Data for Name: entry; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY entry (id, user_id, "timestamp", distance_in_meters, duration_in_secs, location) FROM stdin;
+\.
+
+
+--
+-- Name: entry_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('entry_id_seq', 1, false);
 
 
 --
@@ -196,6 +251,14 @@ SELECT pg_catalog.setval('user_session_id_seq', 1, false);
 
 
 --
+-- Name: entry entry_id; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entry
+    ADD CONSTRAINT entry_id PRIMARY KEY (id);
+
+
+--
 -- Name: user_activation_code user_activation_code_id; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -217,6 +280,14 @@ ALTER TABLE ONLY "user"
 
 ALTER TABLE ONLY user_session
     ADD CONSTRAINT user_session_id PRIMARY KEY (id);
+
+
+--
+-- Name: entry entry_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entry
+    ADD CONSTRAINT entry_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

@@ -24,6 +24,9 @@ let userToInsert = {
 };
 
 let userId = null;
+let distance = 5000;	//meters
+let duration = 30*60;	//30 minutes in seconds
+let location = "somewhere";	//a gps coord should be here
 
 describe("EntryService.addEntry", () => {
 	before("creating and activating the user", async () => {
@@ -33,7 +36,7 @@ describe("EntryService.addEntry", () => {
 		let result = await userService.activateUser(activationCode);
 	});
 	it("the entry should be added successfully",async () => {
-		let result = await entryService.addEntry(userId,moment(),5,30*60);
+		let result = await entryService.addEntry(userId,moment(),distance,duration,location);
 	});
 	after("deleting the user", async () => {
 		await userService.removeUser(userId);

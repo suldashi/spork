@@ -5,8 +5,8 @@ class EntryService {
 		this.entryRepository = opts.entryRepository?opts.entryRepository:EntryRepository;
 	}
 
-	async addEntry(userId,timestamp,distance,time) {
-		return this.entryRepository.addEntry(userId,timestamp,distance,time);
+	async addEntry(userId,timestamp,distance,duration,location) {
+		return this.entryRepository.addEntry(userId,timestamp,distance,duration,location);
 	}
 }
 

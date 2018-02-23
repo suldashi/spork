@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const UserService = require("../app/user/user-service");
+const CryptoService = require("../app/crypto-service");
 const UserRepository = require("../mocks/user/user-repository");
 
 const userService = new UserService({
@@ -8,13 +9,13 @@ const userService = new UserService({
 });
 
 let userToInsert = {
-	username:"foo@bar.com",
-	password:"qux"
+	username:CryptoService.getRandomBytes(),
+	password:CryptoService.getRandomBytes()
 };
 
 let secondUserToInsert = {
-	username:"bar@baz.com",
-	password:"qux"
+	username:CryptoService.getRandomBytes(),
+	password:CryptoService.getRandomBytes()
 };
 
 let firstUserId = null;

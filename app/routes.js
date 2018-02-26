@@ -53,7 +53,7 @@ module.exports = ((app) => {
 	});
 
 	app.post("/register",async (req,res) => {
-		let user = await userService.getUserByCredentials(req.body.username,req.body.password);
+		let user = await userService.getUserByUsername(req.body.username);
 		if(user) {
 			res.status(400).send(JSON.stringify({error:"user already exists"}));
 		}

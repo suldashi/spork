@@ -17,7 +17,8 @@ export class LoginComponent extends React.Component {
             loginSucceeded: false,
             needsActivation:false,
             activationCodeGenerator:null,
-            activationCode:null
+            activationCode:null,
+            passwordHasBeenReset:false
         };
     }
 
@@ -79,19 +80,24 @@ export class LoginComponent extends React.Component {
                     </div>
                     {this.state.formHasError?<div>
                         <div>Username or password are invalid</div>
-                        <div><button>Reset password</button></div>
+                    <div>{this.state.passwordHasBeenReset?<div>Password reset link has been sent to your email</div>:<button onClick={this.resetPassword}>Reset password</button>}</div>
                     </div>:""}
                 </form>
             </div>
-        }
-        
+        }   
     }
 
     updateInputForms(e) {
         this[e.target.name] = e.target.value;
         this.setState({
             formHasError:false
-        })
+        });
+    }
+
+    resetPassword() {
+        this.setState({
+            passwordHasBeenReset:true
+        });
     }
 
     async submitLogin(e) {

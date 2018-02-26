@@ -15,7 +15,7 @@ export class HomeComponent extends React.Component {
     		return <div>We are logged in! AuthToken: {this.authToken} <Link to="/logout">Logout</Link></div>;
     	}
     	else {
-    		return <div>We are <strong>not</strong> logged in! <Link to="/login">Login</Link></div>;
+    		return <div>Welcome to Spork, the jogging tracker. <Link to="/login">Login</Link> or <Link to="/register">register</Link></div>;
     	}
         
     }

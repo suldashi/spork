@@ -24982,17 +24982,17 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    "We are ",
-                    _react2.default.createElement(
-                        "strong",
-                        null,
-                        "not"
-                    ),
-                    " logged in! ",
+                    "Welcome to Spork, the jogging tracker. ",
                     _react2.default.createElement(
                         _reactRouterDom.Link,
                         { to: "/login" },
                         "Login"
+                    ),
+                    " or ",
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/register" },
+                        "register"
                     )
                 );
             }
@@ -25070,7 +25070,8 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
             loginSucceeded: false,
             needsActivation: false,
             activationCodeGenerator: null,
-            activationCode: null
+            activationCode: null,
+            passwordHasBeenReset: false
         };
         return _this;
     }
@@ -25237,9 +25238,13 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                             _react2.default.createElement(
                                 "div",
                                 null,
-                                _react2.default.createElement(
-                                    "button",
+                                this.state.passwordHasBeenReset ? _react2.default.createElement(
+                                    "div",
                                     null,
+                                    "Password reset link has been sent to your email"
+                                ) : _react2.default.createElement(
+                                    "button",
+                                    { onClick: this.resetPassword },
                                     "Reset password"
                                 )
                             )
@@ -25254,6 +25259,13 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
             this[e.target.name] = e.target.value;
             this.setState({
                 formHasError: false
+            });
+        }
+    }, {
+        key: "resetPassword",
+        value: function resetPassword() {
+            this.setState({
+                passwordHasBeenReset: true
             });
         }
     }, {
@@ -25577,6 +25589,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RegisterComponent = undefined;
 
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _stringify = require("babel-runtime/core-js/json/stringify");
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -25601,6 +25625,8 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var autoBind = require("react-auto-bind");
@@ -25614,22 +25640,151 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
         var _this = (0, _possibleConstructorReturn3.default)(this, (RegisterComponent.__proto__ || (0, _getPrototypeOf2.default)(RegisterComponent)).call(this, props));
 
         autoBind(_this);
+        _this.username = "";
+        _this.password = "";
+        _this.state = {
+            isRegistrationInProgress: false,
+            formHasError: false,
+            registrationSucceeded: false
+        };
         return _this;
     }
 
     (0, _createClass3.default)(RegisterComponent, [{
         key: "render",
         value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                "this is where we would register users"
-            );
+            if (this.state.registrationSucceeded) {
+                return _react2.default.createElement(
+                    "div",
+                    null,
+                    "Registration successful, activation code has been sent to your email. ",
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/login" },
+                        "Click here to log in"
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(
+                        "form",
+                        { onSubmit: this.submitRegister },
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement(
+                                "label",
+                                null,
+                                "Username"
+                            ),
+                            _react2.default.createElement("input", { autoFocus: true, onChange: this.updateInputForms, type: "text", name: "username" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement(
+                                "label",
+                                null,
+                                "Password"
+                            ),
+                            _react2.default.createElement("input", { onChange: this.updateInputForms, type: "password", name: "password" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement("input", { disabled: this.state.isRegistrationInProgress, type: "submit", value: "Login" }),
+                            this.state.isRegistrationInProgress ? _react2.default.createElement("div", { className: "spinner" }) : ""
+                        ),
+                        this.state.formHasError ? _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                "Username is already in use"
+                            )
+                        ) : ""
+                    )
+                );
+            }
         }
+    }, {
+        key: "updateInputForms",
+        value: function updateInputForms(e) {
+            this[e.target.name] = e.target.value;
+            this.setState({
+                formHasError: false
+            });
+        }
+    }, {
+        key: "submitRegister",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (e) {
+                                    e.preventDefault();
+                                }
+                                this.setState({
+                                    isRegistrationInProgress: true
+                                });
+                                _context.next = 4;
+                                return fetch("/register", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        username: this.username,
+                                        password: this.password
+                                    })
+                                });
+
+                            case 4:
+                                res = _context.sent;
+                                _context.next = 7;
+                                return res.json();
+
+                            case 7:
+                                data = _context.sent;
+
+                                if (res.status !== 200) {
+                                    this.setState({
+                                        formHasError: true,
+                                        isRegistrationInProgress: false
+                                    });
+                                } else {
+                                    this.setState({
+                                        formHasError: false,
+                                        isRegistrationInProgress: false,
+                                        registrationSucceeded: true
+                                    });
+                                }
+
+                            case 9:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function submitRegister(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return submitRegister;
+        }()
     }]);
     return RegisterComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145}],188:[function(require,module,exports){
+},{"babel-runtime/core-js/json/stringify":1,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],188:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');

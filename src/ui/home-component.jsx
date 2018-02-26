@@ -7,12 +7,20 @@ export class HomeComponent extends React.Component {
     constructor(props) {
         super(props);
         autoBind(this);
-        this.authToken = props.authToken;
+        this.state = {
+            authToken:props.authToken
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+        this.setState({
+            authToken:nextProps.authToken
+        });
     }
 
     render() {
-    	if(this.authToken) {
-    		return <div>We are logged in! AuthToken: {this.authToken} <Link to="/logout">Logout</Link></div>;
+    	if(this.state.authToken) {
+    		return <div>You should be seeting the jogging entries here pretty soon</div>;
     	}
     	else {
     		return <div>Welcome to Spork, the jogging tracker. <Link to="/login">Login</Link> or <Link to="/register">register</Link></div>;

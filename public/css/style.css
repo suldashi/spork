@@ -10,3 +10,8 @@ body {
 	margin: 0;
 	padding: 0;
 }
+.site-header {
+	border-bottom: 1px dotted black;
+	height: 50px;
+	line-height: 50px;
+}

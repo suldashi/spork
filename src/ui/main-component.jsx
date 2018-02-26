@@ -12,11 +12,14 @@ export class MainComponent extends React.Component {
     constructor(props) {
         super(props);
         autoBind(this);
+        this.state = {
+            authToken:localStorage.getItem("authToken")
+        };
     }
 
     render() {
         return <div>
-            <HeaderComponent />
+            <HeaderComponent authToken={this.state.authToken} />
             <Switch>
                 <Route exact path="/" component={this.HomeComponentWithProps} />
                 <Route exact path="/login" component={this.LoginComponent} />
@@ -27,39 +30,37 @@ export class MainComponent extends React.Component {
         </div>;
     }
 
-    componentWillMount() {
-        this.authToken = localStorage.getItem("authToken");
-    }
-
-    componentWillUpdate() {
-        this.authToken = localStorage.getItem("authToken");
-    }
-
     HomeComponentWithProps() {
-        return <HomeComponent authToken={this.authToken} />
+        return <HomeComponent authToken={this.state.authToken} />
     }
 
     LoginComponent() {
-        return <LoginComponent authToken={this.authToken} onLoginSuccessful={this.loginCallback} />
+        return <LoginComponent authToken={this.state.authToken} onLoginSuccessful={this.loginCallback} />
     }
 
     LogoutComponent() {
-        return <LogoutComponent authToken={this.authToken} onLogout={this.logoutCallback} />
+        return <LogoutComponent authToken={this.state.authToken} onLogout={this.logoutCallback} />
     }
 
     NotFoundComponentWithProps() {
-        return <NotFoundComponent authToken={this.authToken} />
+        return <NotFoundComponent authToken={this.state.authToken} />
     }
 
     RegisterComponent() {
-        return <RegisterComponent authToken={this.authToken} />
+        return <RegisterComponent authToken={this.state.authToken} />
     }
 
     loginCallback(authToken) {
         localStorage.setItem("authToken",authToken);
+        this.setState({
+            authToken
+        });
     }
 
     logoutCallback() {
         localStorage.removeItem("authToken");
+        this.setState({
+            authToken:null
+        });
     }
 }

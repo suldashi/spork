@@ -24883,6 +24883,8 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var autoBind = require("react-auto-bind");
@@ -24896,22 +24898,50 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (HeaderComponent.__proto__ || (0, _getPrototypeOf2.default)(HeaderComponent)).call(this, props));
 
         autoBind(_this);
+        _this.state = {
+            authToken: props.authToken
+        };
         return _this;
     }
 
     (0, _createClass3.default)(HeaderComponent, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(newProps) {
+            if (newProps.authToken !== this.state.authToken) {
+                this.setState({
+                    authToken: newProps.authToken
+                });
+            }
+        }
+    }, {
         key: "render",
         value: function render() {
-            return _react2.default.createElement(
-                "header",
-                null,
-                "this is snek"
-            );
+            if (this.state.authToken) {
+                return _react2.default.createElement(
+                    "header",
+                    { className: "site-header" },
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/logout" },
+                        "Logout"
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    "header",
+                    { className: "site-header" },
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/login" },
+                        "Login"
+                    )
+                );
+            }
         }
     }]);
     return HeaderComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145}],182:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],182:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24958,25 +24988,28 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (HomeComponent.__proto__ || (0, _getPrototypeOf2.default)(HomeComponent)).call(this, props));
 
         autoBind(_this);
-        _this.authToken = props.authToken;
+        _this.state = {
+            authToken: props.authToken
+        };
         return _this;
     }
 
     (0, _createClass3.default)(HomeComponent, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            console.log(nextProps);
+            this.setState({
+                authToken: nextProps.authToken
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
-            if (this.authToken) {
+            if (this.state.authToken) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    "We are logged in! AuthToken: ",
-                    this.authToken,
-                    " ",
-                    _react2.default.createElement(
-                        _reactRouterDom.Link,
-                        { to: "/logout" },
-                        "Logout"
-                    )
+                    "You should be seeting the jogging entries here pretty soon"
                 );
             } else {
                 return _react2.default.createElement(
@@ -25458,6 +25491,9 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (MainComponent.__proto__ || (0, _getPrototypeOf2.default)(MainComponent)).call(this, props));
 
         autoBind(_this);
+        _this.state = {
+            authToken: localStorage.getItem("authToken")
+        };
         return _this;
     }
 
@@ -25467,7 +25503,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_headerComponent.HeaderComponent, null),
+                _react2.default.createElement(_headerComponent.HeaderComponent, { authToken: this.state.authToken }),
                 _react2.default.createElement(
                     _reactRouterDom.Switch,
                     null,
@@ -25480,49 +25516,45 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
             );
         }
     }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-            this.authToken = localStorage.getItem("authToken");
-        }
-    }, {
-        key: 'componentWillUpdate',
-        value: function componentWillUpdate() {
-            this.authToken = localStorage.getItem("authToken");
-        }
-    }, {
         key: 'HomeComponentWithProps',
         value: function HomeComponentWithProps() {
-            return _react2.default.createElement(_homeComponent.HomeComponent, { authToken: this.authToken });
+            return _react2.default.createElement(_homeComponent.HomeComponent, { authToken: this.state.authToken });
         }
     }, {
         key: 'LoginComponent',
         value: function LoginComponent() {
-            return _react2.default.createElement(_loginComponent.LoginComponent, { authToken: this.authToken, onLoginSuccessful: this.loginCallback });
+            return _react2.default.createElement(_loginComponent.LoginComponent, { authToken: this.state.authToken, onLoginSuccessful: this.loginCallback });
         }
     }, {
         key: 'LogoutComponent',
         value: function LogoutComponent() {
-            return _react2.default.createElement(_logoutComponent.LogoutComponent, { authToken: this.authToken, onLogout: this.logoutCallback });
+            return _react2.default.createElement(_logoutComponent.LogoutComponent, { authToken: this.state.authToken, onLogout: this.logoutCallback });
         }
     }, {
         key: 'NotFoundComponentWithProps',
         value: function NotFoundComponentWithProps() {
-            return _react2.default.createElement(_notFoundComponent.NotFoundComponent, { authToken: this.authToken });
+            return _react2.default.createElement(_notFoundComponent.NotFoundComponent, { authToken: this.state.authToken });
         }
     }, {
         key: 'RegisterComponent',
         value: function RegisterComponent() {
-            return _react2.default.createElement(_registerComponent.RegisterComponent, { authToken: this.authToken });
+            return _react2.default.createElement(_registerComponent.RegisterComponent, { authToken: this.state.authToken });
         }
     }, {
         key: 'loginCallback',
         value: function loginCallback(authToken) {
             localStorage.setItem("authToken", authToken);
+            this.setState({
+                authToken: authToken
+            });
         }
     }, {
         key: 'logoutCallback',
         value: function logoutCallback() {
             localStorage.removeItem("authToken");
+            this.setState({
+                authToken: null
+            });
         }
     }]);
     return MainComponent;

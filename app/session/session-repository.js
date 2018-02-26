@@ -3,10 +3,6 @@ const moment = require("moment");
 
 const db = require("../db");
 
-let sessions = {};
-
-let sessionCtr = 1;
-
 const SessionRepository = {
     setSession: async (userId) => {
         if(userId) {

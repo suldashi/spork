@@ -25068,21 +25068,130 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
             isLoginInProgress: false,
             formHasError: false,
             loginSucceeded: false,
-            needsActivation: false
+            needsActivation: false,
+            activationCodeGenerator: null,
+            activationCode: null
         };
         return _this;
     }
 
     (0, _createClass3.default)(LoginComponent, [{
+        key: "sendActivationEmail",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
+                var res, body;
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                e.preventDefault();
+                                _context.next = 3;
+                                return fetch("/sendActivationCode", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCodeGenerator: this.state.activationCodeGenerator
+                                    })
+                                });
+
+                            case 3:
+                                res = _context.sent;
+                                _context.next = 6;
+                                return res.json();
+
+                            case 6:
+                                body = _context.sent;
+
+                                this.setState({
+                                    activationCode: body.activationCode
+                                });
+
+                            case 8:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function sendActivationEmail(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return sendActivationEmail;
+        }()
+    }, {
+        key: "activateAccount",
+        value: function () {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(e) {
+                var res, body;
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                e.preventDefault();
+                                _context2.next = 3;
+                                return fetch("/activate", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCode: this.state.activationCode
+                                    })
+                                });
+
+                            case 3:
+                                res = _context2.sent;
+                                _context2.next = 6;
+                                return res.json();
+
+                            case 6:
+                                body = _context2.sent;
+
+                                if (res.status === 200) {
+                                    this.submitLogin();
+                                }
+
+                            case 8:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function activateAccount(_x2) {
+                return _ref2.apply(this, arguments);
+            }
+
+            return activateAccount;
+        }()
+    }, {
         key: "render",
         value: function render() {
             if (this.state.loginSucceeded) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: "/" });
+            } else if (this.state.activationCode) {
+                return _react2.default.createElement(
+                    "button",
+                    { onClick: this.activateAccount },
+                    "Activate account"
+                );
             } else if (this.state.needsActivation) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    "y'all need to activate your account"
+                    "y'all need to activate your account",
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.sendActivationEmail },
+                        "Send Activation Code"
+                    )
                 );
             } else {
                 return _react2.default.createElement(
@@ -25150,17 +25259,19 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
     }, {
         key: "submitLogin",
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(e) {
                 var res, data;
-                return _regenerator2.default.wrap(function _callee$(_context) {
+                return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
-                        switch (_context.prev = _context.next) {
+                        switch (_context3.prev = _context3.next) {
                             case 0:
-                                e.preventDefault();
+                                if (e) {
+                                    e.preventDefault();
+                                }
                                 this.setState({
                                     isLoginInProgress: true
                                 });
-                                _context.next = 4;
+                                _context3.next = 4;
                                 return fetch("/login", {
                                     method: "post",
                                     headers: {
@@ -25174,12 +25285,12 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                                 });
 
                             case 4:
-                                res = _context.sent;
-                                _context.next = 7;
+                                res = _context3.sent;
+                                _context3.next = 7;
                                 return res.json();
 
                             case 7:
-                                data = _context.sent;
+                                data = _context3.sent;
 
                                 if (res.status !== 200) {
                                     this.setState({
@@ -25188,7 +25299,8 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                                     });
                                 } else if (data.needsActivation) {
                                     this.setState({
-                                        needsActivation: true
+                                        needsActivation: true,
+                                        activationCodeGenerator: data.activationCodeGenerator
                                     });
                                 } else {
                                     this.onLoginSuccessful(data.authToken);
@@ -25201,14 +25313,14 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
 
                             case 9:
                             case "end":
-                                return _context.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee, this);
+                }, _callee3, this);
             }));
 
-            function submitLogin(_x) {
-                return _ref.apply(this, arguments);
+            function submitLogin(_x3) {
+                return _ref3.apply(this, arguments);
             }
 
             return submitLogin;

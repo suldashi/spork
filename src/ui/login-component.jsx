@@ -15,16 +15,58 @@ export class LoginComponent extends React.Component {
             isLoginInProgress: false,
             formHasError: false,
             loginSucceeded: false,
-            needsActivation:false
+            needsActivation:false,
+            activationCodeGenerator:null,
+            activationCode:null
         };
+    }
+
+    async sendActivationEmail(e) {
+        e.preventDefault();
+        let res = await fetch("/sendActivationCode",{
+            method:"post",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                activationCodeGenerator:this.state.activationCodeGenerator
+            })
+        });
+        let body = await res.json();
+        this.setState({
+            activationCode:body.activationCode
+        });
+    }
+
+    async activateAccount(e) {
+        e.preventDefault();
+        let res = await fetch("/activate",{
+            method:"post",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                activationCode:this.state.activationCode
+            })
+        });
+        let body = await res.json();
+        if(res.status===200) {
+            this.submitLogin();
+        }
     }
 
     render() {
         if(this.state.loginSucceeded) {
             return <Redirect to="/" />
         }
+        else if(this.state.activationCode) {
+            return <button onClick={this.activateAccount}>Activate account</button>;
+        }
         else if(this.state.needsActivation) {
-            return <div>y'all need to activate your account</div>
+            return <div>y'all need to activate your account
+            <button onClick={this.sendActivationEmail}>Send Activation Code</button></div>;
         }
         else {
             return <div>
@@ -53,7 +95,9 @@ export class LoginComponent extends React.Component {
     }
 
     async submitLogin(e) {
-        e.preventDefault();
+        if(e) {
+            e.preventDefault();
+        }
         this.setState({
             isLoginInProgress:true
         });
@@ -77,7 +121,8 @@ export class LoginComponent extends React.Component {
         }
         else if(data.needsActivation) {
             this.setState({
-                needsActivation:true
+                needsActivation:true,
+                activationCodeGenerator:data.activationCodeGenerator
             });
         }
         else {

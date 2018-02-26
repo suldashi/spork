@@ -45,7 +45,7 @@ module.exports = ((app) => {
 	app.post('/activate', async (req,res) => {
 		let result = await userService.activateUser(req.body.activationCode);
 		if(result) {
-			res.status(200).send();
+			res.status(200).send({});
 		}
 		else {
 			res.status(400).send({error:"invalid activation code"});
@@ -59,7 +59,7 @@ module.exports = ((app) => {
 		}
 		else {
 			user = await userService.addUser(req.body.username,req.body.password);
-			res.status(200).send();
+			res.status(200).send({});
 		}
 	});
 });

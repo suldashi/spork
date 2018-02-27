@@ -21,6 +21,11 @@ const EntryRepository = {
 			return entry;
 		}
 		return null;
+	},
+
+	getEntriesByUserId: async (userId) => {
+		let result = Object.values(entries).filter((el) => el.user_id === userId);
+		return result;
 	}
 }
 

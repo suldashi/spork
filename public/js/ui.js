@@ -24857,6 +24857,236 @@ module.exports = warning;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.ApiClient = undefined;
+
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _stringify = require("babel-runtime/core-js/json/stringify");
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ApiClientClass = function () {
+    function ApiClientClass() {
+        (0, _classCallCheck3.default)(this, ApiClientClass);
+    }
+
+    (0, _createClass3.default)(ApiClientClass, [{
+        key: "registerUser",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(username, password) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return fetch("/api/auth/register", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        username: username,
+                                        password: password
+                                    })
+                                });
+
+                            case 2:
+                                res = _context.sent;
+                                _context.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context.sent;
+                                return _context.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function registerUser(_x, _x2) {
+                return _ref.apply(this, arguments);
+            }
+
+            return registerUser;
+        }()
+    }, {
+        key: "login",
+        value: function () {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(username, password) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return fetch("/api/auth/login", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        username: username,
+                                        password: password
+                                    })
+                                });
+
+                            case 2:
+                                res = _context2.sent;
+                                _context2.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context2.sent;
+                                return _context2.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function login(_x3, _x4) {
+                return _ref2.apply(this, arguments);
+            }
+
+            return login;
+        }()
+    }, {
+        key: "sendActivationEmail",
+        value: function () {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(activationCodeGenerator) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return fetch("/api/auth/sendActivationCode", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCodeGenerator: activationCodeGenerator
+                                    })
+                                });
+
+                            case 2:
+                                res = _context3.sent;
+                                _context3.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context3.sent;
+                                return _context3.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function sendActivationEmail(_x5) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return sendActivationEmail;
+        }()
+    }, {
+        key: "activateAccount",
+        value: function () {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(activationCode) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                _context4.next = 2;
+                                return fetch("/api/auth/activate", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCode: activationCode
+                                    })
+                                });
+
+                            case 2:
+                                res = _context4.sent;
+                                _context4.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context4.sent;
+                                return _context4.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function activateAccount(_x6) {
+                return _ref4.apply(this, arguments);
+            }
+
+            return activateAccount;
+        }()
+    }]);
+    return ApiClientClass;
+}();
+
+var ApiClient = exports.ApiClient = new ApiClientClass();
+},{"babel-runtime/core-js/json/stringify":1,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/regenerator":110}],182:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.HeaderComponent = undefined;
 
 var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
@@ -24941,7 +25171,7 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
     }]);
     return HeaderComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],182:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],183:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24989,7 +25219,8 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
         autoBind(_this);
         _this.state = {
-            authToken: props.authToken
+            authToken: props.authToken,
+            entries: null
         };
         return _this;
     }
@@ -24997,10 +25228,11 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     (0, _createClass3.default)(HomeComponent, [{
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            console.log(nextProps);
-            this.setState({
-                authToken: nextProps.authToken
-            });
+            if (this.state.authToken !== nextProps.authToken) {
+                this.setState({
+                    authToken: nextProps.authToken
+                });
+            }
         }
     }, {
         key: "render",
@@ -25009,8 +25241,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    "You should be seeting the jogging entries here pretty soon ",
-                    this.state.authToken
+                    "You should be seeting the jogging entries here pretty soon"
                 );
             } else {
                 return _react2.default.createElement(
@@ -25034,7 +25265,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }]);
     return HomeComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],183:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],184:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25045,10 +25276,6 @@ exports.LoginComponent = undefined;
 var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _stringify = require("babel-runtime/core-js/json/stringify");
-
-var _stringify2 = _interopRequireDefault(_stringify);
 
 var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
@@ -25079,6 +25306,8 @@ var _react = require("react");
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = require("react-router-dom");
+
+var _apiClient = require("./api-client");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25114,37 +25343,23 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
         key: "sendActivationEmail",
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
-                var res, body;
+                var result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 e.preventDefault();
                                 _context.next = 3;
-                                return fetch("/api/auth/sendActivationCode", {
-                                    method: "post",
-                                    headers: {
-                                        "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        activationCodeGenerator: this.state.activationCodeGenerator
-                                    })
-                                });
+                                return _apiClient.ApiClient.sendActivationEmail(this.state.activationCodeGenerator);
 
                             case 3:
-                                res = _context.sent;
-                                _context.next = 6;
-                                return res.json();
-
-                            case 6:
-                                body = _context.sent;
+                                result = _context.sent;
 
                                 this.setState({
-                                    activationCode: body.activationCode
+                                    activationCode: result.data.activationCode
                                 });
 
-                            case 8:
+                            case 5:
                             case "end":
                                 return _context.stop();
                         }
@@ -25162,37 +25377,23 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
         key: "activateAccount",
         value: function () {
             var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(e) {
-                var res, body;
+                var result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 e.preventDefault();
                                 _context2.next = 3;
-                                return fetch("/api/auth/activate", {
-                                    method: "post",
-                                    headers: {
-                                        "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        activationCode: this.state.activationCode
-                                    })
-                                });
+                                return _apiClient.ApiClient.activateAccount(this.state.activationCode);
 
                             case 3:
-                                res = _context2.sent;
-                                _context2.next = 6;
-                                return res.json();
+                                result = _context2.sent;
 
-                            case 6:
-                                body = _context2.sent;
-
-                                if (res.status === 200) {
+                                if (result.status === 200) {
                                     this.submitLogin();
                                 }
 
-                            case 8:
+                            case 5:
                             case "end":
                                 return _context2.stop();
                         }
@@ -25306,7 +25507,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
         key: "submitLogin",
         value: function () {
             var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(e) {
-                var res, data;
+                var result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -25318,38 +25519,23 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                                     isLoginInProgress: true
                                 });
                                 _context3.next = 4;
-                                return fetch("/api/auth/login", {
-                                    method: "post",
-                                    headers: {
-                                        "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        username: this.username,
-                                        password: this.password
-                                    })
-                                });
+                                return _apiClient.ApiClient.login(this.username, this.password);
 
                             case 4:
-                                res = _context3.sent;
-                                _context3.next = 7;
-                                return res.json();
+                                result = _context3.sent;
 
-                            case 7:
-                                data = _context3.sent;
-
-                                if (res.status !== 200) {
+                                if (result.status !== 200) {
                                     this.setState({
                                         formHasError: true,
                                         isLoginInProgress: false
                                     });
-                                } else if (data.needsActivation) {
+                                } else if (result.data.needsActivation) {
                                     this.setState({
                                         needsActivation: true,
-                                        activationCodeGenerator: data.activationCodeGenerator
+                                        activationCodeGenerator: result.data.activationCodeGenerator
                                     });
                                 } else {
-                                    this.onLoginSuccessful(data.authToken);
+                                    this.onLoginSuccessful(result.data.authToken);
                                     this.setState({
                                         formHasError: false,
                                         isLoginInProgress: false,
@@ -25357,7 +25543,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                                     });
                                 }
 
-                            case 9:
+                            case 6:
                             case "end":
                                 return _context3.stop();
                         }
@@ -25374,7 +25560,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
     }]);
     return LoginComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/json/stringify":1,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],184:[function(require,module,exports){
+},{"./api-client":181,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],185:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25433,7 +25619,7 @@ var LogoutComponent = exports.LogoutComponent = function (_React$Component) {
     }]);
     return LogoutComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],185:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25560,7 +25746,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }]);
     return MainComponent;
 }(_react2.default.Component);
-},{"./header-component":181,"./home-component":182,"./login-component":183,"./logout-component":184,"./not-found-component":186,"./register-component":187,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],186:[function(require,module,exports){
+},{"./header-component":182,"./home-component":183,"./login-component":184,"./logout-component":185,"./not-found-component":187,"./register-component":188,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175,"react-auto-bind":145,"react-router-dom":160}],187:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25614,7 +25800,7 @@ var NotFoundComponent = exports.NotFoundComponent = function (_React$Component) 
     }]);
     return NotFoundComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175}],187:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"react":175}],188:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25625,10 +25811,6 @@ exports.RegisterComponent = undefined;
 var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _stringify = require("babel-runtime/core-js/json/stringify");
-
-var _stringify2 = _interopRequireDefault(_stringify);
 
 var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
@@ -25659,6 +25841,8 @@ var _react = require("react");
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = require("react-router-dom");
+
+var _apiClient = require("./api-client");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25755,7 +25939,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
         key: "submitRegister",
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
-                var res, data;
+                var result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -25766,28 +25950,14 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
                                 this.setState({
                                     isRegistrationInProgress: true
                                 });
+
                                 _context.next = 4;
-                                return fetch("/api/auth/register", {
-                                    method: "post",
-                                    headers: {
-                                        "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        username: this.username,
-                                        password: this.password
-                                    })
-                                });
+                                return _apiClient.ApiClient.registerUser(this.username, this.password);
 
                             case 4:
-                                res = _context.sent;
-                                _context.next = 7;
-                                return res.json();
+                                result = _context.sent;
 
-                            case 7:
-                                data = _context.sent;
-
-                                if (res.status !== 200) {
+                                if (result.status !== 200) {
                                     this.setState({
                                         formHasError: true,
                                         isRegistrationInProgress: false
@@ -25800,7 +25970,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
                                     });
                                 }
 
-                            case 9:
+                            case 6:
                             case "end":
                                 return _context.stop();
                         }
@@ -25817,7 +25987,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
     }]);
     return RegisterComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/json/stringify":1,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],188:[function(require,module,exports){
+},{"./api-client":181,"babel-runtime/core-js/object/get-prototype-of":4,"babel-runtime/helpers/asyncToGenerator":9,"babel-runtime/helpers/classCallCheck":10,"babel-runtime/helpers/createClass":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/possibleConstructorReturn":13,"babel-runtime/regenerator":110,"react":175,"react-auto-bind":145,"react-router-dom":160}],189:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -25839,4 +26009,4 @@ _reactDom2.default.render(_react2.default.createElement(
     null,
     _react2.default.createElement(_mainComponent.MainComponent, null)
 ), document.getElementById('root'));
-},{"./main-component":185,"react":175,"react-dom":148,"react-router-dom":160}]},{},[188]);
+},{"./main-component":186,"react":175,"react-dom":148,"react-router-dom":160}]},{},[189]);

@@ -1,5 +1,7 @@
 import React from "react";
 import { Redirect } from 'react-router-dom'
+import {ApiClient} from "./api-client";
+
 const autoBind = require("react-auto-bind");
 
 export class LoginComponent extends React.Component {
@@ -24,36 +26,16 @@ export class LoginComponent extends React.Component {
 
     async sendActivationEmail(e) {
         e.preventDefault();
-        let res = await fetch("/api/auth/sendActivationCode",{
-            method:"post",
-            headers: {
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                activationCodeGenerator:this.state.activationCodeGenerator
-            })
-        });
-        let body = await res.json();
+        let result = await ApiClient.sendActivationEmail(this.state.activationCodeGenerator);
         this.setState({
-            activationCode:body.activationCode
+            activationCode:result.data.activationCode
         });
     }
 
     async activateAccount(e) {
         e.preventDefault();
-        let res = await fetch("/api/auth/activate",{
-            method:"post",
-            headers: {
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                activationCode:this.state.activationCode
-            })
-        });
-        let body = await res.json();
-        if(res.status===200) {
+        let result = await ApiClient.activateAccount(this.state.activationCode);
+        if(result.status===200) {
             this.submitLogin();
         }
     }
@@ -107,32 +89,21 @@ export class LoginComponent extends React.Component {
         this.setState({
             isLoginInProgress:true
         });
-        let res = await fetch("/api/auth/login",{
-            method:"post",
-            headers: {
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                username:this.username,
-                password:this.password
-            })
-        });
-        let data = await res.json();
-        if(res.status!==200) {
+        let result = await ApiClient.login(this.username,this.password);
+        if(result.status!==200) {
             this.setState({
                 formHasError:true,
                 isLoginInProgress: false
             })
         }
-        else if(data.needsActivation) {
+        else if(result.data.needsActivation) {
             this.setState({
                 needsActivation:true,
-                activationCodeGenerator:data.activationCodeGenerator
+                activationCodeGenerator:result.data.activationCodeGenerator
             });
         }
         else {
-            this.onLoginSuccessful(data.authToken);
+            this.onLoginSuccessful(result.data.authToken);
             this.setState({
                 formHasError:false,
                 isLoginInProgress: false,

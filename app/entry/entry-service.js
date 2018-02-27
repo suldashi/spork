@@ -23,6 +23,18 @@ class EntryService {
 		}
 		return null;
 	}
+
+	async getEntriesByUserId(userId) {
+		let entries = await this.entryRepository.getEntriesByUserId(userId);
+		return entries.map((el) => {return {
+			id: el.id,
+			userId: el.user_id,
+			distance:el.distance_in_meters,
+			duration:el.duration_in_secs,
+			location:el.location,
+			timestamp:el.timestamp
+		}});
+	}
 }
 
 module.exports = EntryService;

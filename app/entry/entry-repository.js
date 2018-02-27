@@ -15,6 +15,14 @@ const EntryRepository = {
 			return entry;
 		}
 		return null;
+	},
+
+	getEntriesByUserId: async (userId) => {
+		let entries = await db.any('SELECT * FROM "entry" WHERE "user_id" = $1',userId);
+		if(entries) {
+			return entries;
+		}
+		return [];
 	}
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {ApiClient} from "./api-client";
 
 const autoBind = require("react-auto-bind");
 
@@ -51,19 +52,9 @@ export class RegisterComponent extends React.Component {
         this.setState({
             isRegistrationInProgress:true
         });
-        let res = await fetch("/api/auth/register",{
-            method:"post",
-            headers: {
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                username:this.username,
-                password:this.password
-            })
-        });
-        let data = await res.json();
-        if(res.status!==200) {
+
+        let result = await ApiClient.registerUser(this.username,this.password);
+        if(result.status!==200) {
             this.setState({
                 formHasError:true,
                 isRegistrationInProgress: false

@@ -11,11 +11,11 @@ const EntryRepository = require("../mocks/entry/entry-repository");
 const moment = require("moment");
 
 const userService = new UserService({
-	userRepository:UserRepository
+	//userRepository:UserRepository
 });
 
 const entryService = new EntryService({
-	entryRepository:EntryRepository
+	//entryRepository:EntryRepository
 });
 
 let userToInsert = {
@@ -23,12 +23,12 @@ let userToInsert = {
 	password:CryptoService.getRandomBytes()
 };
 
-let userId = null;
 let distance = 5000;	//meters
 let duration = 30*60;	//30 minutes in seconds
 let location = "somewhere";	//a gps coord should be here
 
 describe("EntryService.addEntry()", () => {
+	let userId = null;
 	before("creating and activating the user", async () => {
 		userId = await userService.addUser(userToInsert.username,userToInsert.password);
 		let user = await userService.getUserById(userId);
@@ -45,6 +45,7 @@ describe("EntryService.addEntry()", () => {
 
 describe("EntryService.getEntryById()", () => {
 	let entryId = null;
+	let userId = null;
 	before("creating and activating the user", async () => {
 		userId = await userService.addUser(userToInsert.username,userToInsert.password);
 		let user = await userService.getUserById(userId);
@@ -54,12 +55,80 @@ describe("EntryService.getEntryById()", () => {
 	});
 	it("the entry should be added successfully",async () => {
 		let entry = await entryService.getEntryById(entryId);
-		expect(entry).to.deep.include({
-			userId,
-			distance,
-			duration,
-			location
-		});
+		expect(entry).to.have.deep.keys([
+			"id",
+			"userId",
+			"distance",
+			"duration",
+			"location",
+			"timestamp"
+		]);
+	});
+	after("deleting the user", async () => {
+		await userService.removeUser(userId);
+	});
+});
+
+describe("EntryService.getEntriesByUserId() multiple entries", () => {
+	let userId = null;
+	before("creating and activating the user, adding some entries", async () => {
+		userId = await userService.addUser(userToInsert.username,userToInsert.password);
+		let user = await userService.getUserById(userId);
+		let activationCode = await userService.generateActivationCode(user.activationCodeGenerator);
+		let result = await userService.activateUser(activationCode);
+		await Promise.all([entryService.addEntry(userId,moment(),distance,duration,location),
+		entryService.addEntry(userId,moment(),distance,duration,location),
+		entryService.addEntry(userId,moment(),distance,duration,location),
+		entryService.addEntry(userId,moment(),distance,duration,location)])
+	});
+	it("there should be 4 entries received, they should have the correct format",async () => {
+		let entries = await entryService.getEntriesByUserId(userId);
+		expect(entries.length).to.equals(4);
+		expect(entries[0]).to.have.deep.keys([
+			"id",
+			"userId",
+			"distance",
+			"duration",
+			"location",
+			"timestamp"
+		]);
+	});
+	after("deleting the user", async () => {
+		await userService.removeUser(userId);
+	});
+});
+
+describe("EntryService.getEntriesByUserId() single entry", () => {
+	let userId = null;
+	before("creating and activating the user, one entry", async () => {
+		userId = await userService.addUser(userToInsert.username,userToInsert.password);
+		let user = await userService.getUserById(userId);
+		let activationCode = await userService.generateActivationCode(user.activationCodeGenerator);
+		let result = await userService.activateUser(activationCode);
+		await entryService.addEntry(userId,moment(),distance,duration,location);
+	});
+	it("there should be an array on one entry received, with the correct format",async () => {
+		let entries = await entryService.getEntriesByUserId(userId);
+		expect(entries.length).to.equals(1);
+		expect(entries[0]).to.have.deep.keys([
+			"id",
+			"userId",
+			"distance",
+			"duration",
+			"location",
+			"timestamp"
+		]);
+	});
+	after("deleting the user", async () => {
+		await userService.removeUser(userId);
+	});
+});
+
+describe("EntryService.getEntriesByUserId() no entries", () => {
+	let userId = 0;	//no user with id 0
+	it("there should be an array of zero entries received",async () => {
+		let entries = await entryService.getEntriesByUserId(userId);
+		expect(entries.length).to.equals(0);
 	});
 	after("deleting the user", async () => {
 		await userService.removeUser(userId);

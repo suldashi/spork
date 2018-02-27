@@ -24,7 +24,7 @@ export class LoginComponent extends React.Component {
 
     async sendActivationEmail(e) {
         e.preventDefault();
-        let res = await fetch("/sendActivationCode",{
+        let res = await fetch("/api/auth/sendActivationCode",{
             method:"post",
             headers: {
                 "Accept":"application/json",
@@ -42,7 +42,7 @@ export class LoginComponent extends React.Component {
 
     async activateAccount(e) {
         e.preventDefault();
-        let res = await fetch("/activate",{
+        let res = await fetch("/api/auth/activate",{
             method:"post",
             headers: {
                 "Accept":"application/json",
@@ -107,7 +107,7 @@ export class LoginComponent extends React.Component {
         this.setState({
             isLoginInProgress:true
         });
-        let res = await fetch("/login",{
+        let res = await fetch("/api/auth/login",{
             method:"post",
             headers: {
                 "Accept":"application/json",

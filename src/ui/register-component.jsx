@@ -51,7 +51,7 @@ export class RegisterComponent extends React.Component {
         this.setState({
             isRegistrationInProgress:true
         });
-        let res = await fetch("/register",{
+        let res = await fetch("/api/auth/register",{
             method:"post",
             headers: {
                 "Accept":"application/json",

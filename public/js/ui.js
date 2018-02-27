@@ -25009,7 +25009,8 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    "You should be seeting the jogging entries here pretty soon"
+                    "You should be seeting the jogging entries here pretty soon ",
+                    this.state.authToken
                 );
             } else {
                 return _react2.default.createElement(
@@ -25120,7 +25121,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                             case 0:
                                 e.preventDefault();
                                 _context.next = 3;
-                                return fetch("/sendActivationCode", {
+                                return fetch("/api/auth/sendActivationCode", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
@@ -25168,7 +25169,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                             case 0:
                                 e.preventDefault();
                                 _context2.next = 3;
-                                return fetch("/activate", {
+                                return fetch("/api/auth/activate", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
@@ -25317,7 +25318,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                                     isLoginInProgress: true
                                 });
                                 _context3.next = 4;
-                                return fetch("/login", {
+                                return fetch("/api/auth/login", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
@@ -25766,7 +25767,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
                                     isRegistrationInProgress: true
                                 });
                                 _context.next = 4;
-                                return fetch("/register", {
+                                return fetch("/api/auth/register", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",

@@ -20,7 +20,7 @@ export class HomeComponent extends React.Component {
 
     render() {
     	if(this.state.authToken) {
-    		return <div>You should be seeting the jogging entries here pretty soon</div>;
+    		return <div>You should be seeting the jogging entries here pretty soon {this.state.authToken}</div>;
     	}
     	else {
     		return <div>Welcome to Spork, the jogging tracker. <Link to="/login">Login</Link> or <Link to="/register">register</Link></div>;

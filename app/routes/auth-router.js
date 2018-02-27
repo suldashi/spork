@@ -1,0 +1,56 @@
+let router = require('express').Router();
+
+const UserService = require("../user/user-service");
+const SessionService = require("../session/session-service");
+
+const userService = new UserService();
+const sessionService = new SessionService();
+
+router.post("/login",async (req,res) => {
+    let user = await userService.getUserByCredentials(req.body.username,req.body.password);
+    if(user) {
+        if(user.activated) {
+            let authToken = await sessionService.setSession(user.id);
+            res.send(JSON.stringify({authToken}));	
+        }
+        else {
+            res.send(JSON.stringify({needsActivation:true,activationCodeGenerator:user.activationCodeGenerator}));	
+        }
+    }
+    else {
+        res.status(400).send(JSON.stringify({error:"invalid credentials"}));
+    }
+});
+
+router.post('/sendActivationCode', async (req,res) => {
+    let result = await userService.generateActivationCode(req.body.activationCodeGenerator);
+    if(result) {
+        res.send(JSON.stringify({activationCode:result}));	
+    }
+    else {
+        res.status(400).send(JSON.stringify({error:"invalid activation code generator"}));
+    }	
+});
+
+router.post('/activate', async (req,res) => {
+    let result = await userService.activateUser(req.body.activationCode);
+    if(result) {
+        res.status(200).send({});
+    }
+    else {
+        res.status(400).send({error:"invalid activation code"});
+    }
+});
+
+router.post("/register",async (req,res) => {
+    let user = await userService.getUserByUsername(req.body.username);
+    if(user) {
+        res.status(400).send(JSON.stringify({error:"user already exists"}));
+    }
+    else {
+        user = await userService.addUser(req.body.username,req.body.password);
+        res.status(200).send({});
+    }
+});
+
+module.exports = router;

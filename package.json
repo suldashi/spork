@@ -17,9 +17,8 @@
     "pg-promise": "^7.5.4",
     "react": "^16.2.0",
     "react-auto-bind": "^0.4.2",
+    "react-datetime": "^2.14.0",
     "react-dom": "^16.2.0",
-    "react-google-maps": "^9.4.5",
-    "react-location-picker": "^1.0.1",
     "react-router-dom": "^4.2.2",
     "uuid": "^3.2.1"
   },

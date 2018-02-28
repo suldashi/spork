@@ -4,12 +4,27 @@ const sessionService = new SessionService();
 module.exports = async (req,res,next) => {
     let bearer = req.header("Authorization");
     if(bearer) {
-        bearer = bearer.split("Bearer ")[1];
-        let userId = await sessionService.getUserId(bearer);
-        req.userId = userId;
+        let authToken = getAuthTokenFromBearerHeader(bearer);
+        let userId = await sessionService.getUserId(authToken);
+        if(userId) {
+            req.userId = userId;
+            next();
+        }
+        else {
+            res.status(403).send({error:"not authenticated"});    
+        }
     }
     else {
-        req.userId = null;
+        res.status(403).send({error:"not authenticated"});
     }
-    next();
+}
+
+function getAuthTokenFromBearerHeader(bearerHeader) {
+    let pieces = bearerHeader.split("Bearer ");
+    if(pieces[1]) {
+        return pieces[1];
+    }
+    else {
+        return null;
+    }
 }

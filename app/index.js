@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 
 const initHttpRoutes = require("./routes");
 
-const port = 8080;
+const port = 8088;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

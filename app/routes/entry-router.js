@@ -12,4 +12,9 @@ router.get("/",async (req,res) => {
     res.send({entries});
 });
 
+router.post("/add",async (req,res) => {
+    let result = await entryService.addEntry(req.userId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);
+    res.send({id:result});
+});
+
 module.exports = router;

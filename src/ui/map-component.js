@@ -1,7 +1,7 @@
 import React from "react";
 const autoBind = require("react-auto-bind");
 
-export class MyMap extends React.Component {
+export class MapComponent extends React.Component {
 	constructor(props) {
 		super(props);
 		autoBind(this);

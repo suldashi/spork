@@ -1,5 +1,5 @@
 import React from "react";
-import {MyMap} from "./my-map";
+import {MapComponent} from "./map-component";
 import {GeolocationPromise} from "./geolocation-promise";
 
 const moment = require('moment');
@@ -87,14 +87,14 @@ export class AddEntryModal extends React.Component {
         if(this.state.isLoaded) {
             return <div className="modal">
                 <div className="modal-overlay" onClick={this.onModalClosed} />
-                 <form className="modal-form" onSubmit={this.onFormSubmit}>
+                <form className="modal-form" onSubmit={this.onFormSubmit}>
                     <div><label htmlFor="distance">Distance in Meters: </label><input onChange={this.onChangeDistance} type="number" name="distance" value={this.state.distance} /></div>
                     <div><label htmlFor="duration">Duration in Seconds: </label><input onChange={this.onChangeDuration} type="number" name="duration" value={this.state.duration} /></div>
                     <div><label htmlFor="timestamp">Jog timestamp: </label><Datetime value={this.state.timestamp} onChange={this.onTimestampChanged} /></div>
                     <div><label htmlFor="location">Location: </label><a onClick={this.openLocationModal} href="#">Click to enter location on map</a></div>
                     <div><input type="submit" value="submit" /></div>
                 </form>
-                {this.state.isLocationModalOpen?<MyMap initialPosition={this.state.position} onNewPosition={this.onNewPosition} />:""}
+                {this.state.isLocationModalOpen?<MapComponent initialPosition={this.state.position} onNewPosition={this.onNewPosition} />:""}
             </div>
         }
         else {

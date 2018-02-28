@@ -1,15 +1,15 @@
 let router = require('express').Router();
 
-const UserService = require("../user/user-service");
-const userService = new UserService();
+const EntryService = require("../entry/entry-service");
+const entryService = new EntryService();
 
 const authMiddleware = require("./auth-middleware");
 
 router.use(authMiddleware);
 
 router.get("/",async (req,res) => {
-    let user = await userService.getUserById(req.userId);
-    res.send({user});
+    let entries = await entryService.getEntriesByUserId(req.userId);
+    res.send({entries});
 });
 
 module.exports = router;

@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Link } from 'react-router-dom'
 import {HomeComponent} from './home-component';
+import {AnonHomeComponent} from './anon-home-component';
 import {NotFoundComponent} from './not-found-component';
 import {LoginComponent} from './login-component';
 import {LogoutComponent} from './logout-component';
@@ -31,23 +32,28 @@ export class MainComponent extends React.Component {
     }
 
     HomeComponentWithProps() {
-        return <HomeComponent authToken={this.state.authToken} />
+        if(this.state.authToken) {
+            return <HomeComponent authToken={this.state.authToken} />;
+        }
+        else {
+            return <AnonHomeComponent />;
+        }   
     }
 
     LoginComponent() {
-        return <LoginComponent authToken={this.state.authToken} onLoginSuccessful={this.loginCallback} />
+        return <LoginComponent authToken={this.state.authToken} onLoginSuccessful={this.loginCallback} />;
     }
 
     LogoutComponent() {
-        return <LogoutComponent authToken={this.state.authToken} onLogout={this.logoutCallback} />
+        return <LogoutComponent authToken={this.state.authToken} onLogout={this.logoutCallback} />;
     }
 
     NotFoundComponentWithProps() {
-        return <NotFoundComponent authToken={this.state.authToken} />
+        return <NotFoundComponent authToken={this.state.authToken} />;
     }
 
     RegisterComponent() {
-        return <RegisterComponent authToken={this.state.authToken} />
+        return <RegisterComponent authToken={this.state.authToken} />;
     }
 
     loginCallback(authToken) {

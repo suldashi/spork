@@ -71,6 +71,22 @@ class ApiClientClass {
         	data,
         	status:res.status
         }
+    }
+    
+    async getEntries(authToken) {
+		let res = await fetch("/api/entry",{
+            method:"get",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            }
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        }
 	}
 }
 

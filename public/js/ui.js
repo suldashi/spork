@@ -32338,25 +32338,22 @@ var ApiClientClass = function () {
             return registerUser;
         }()
     }, {
-        key: "login",
+        key: "getUser",
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(username, password) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(authToken) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.next = 2;
-                                return fetch("/api/auth/login", {
-                                    method: "post",
+                                return fetch("/api/user", {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        username: username,
-                                        password: password
-                                    })
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    }
                                 });
 
                             case 2:
@@ -32379,30 +32376,31 @@ var ApiClientClass = function () {
                 }, _callee2, this);
             }));
 
-            function login(_x3, _x4) {
+            function getUser(_x3) {
                 return _ref2.apply(this, arguments);
             }
 
-            return login;
+            return getUser;
         }()
     }, {
-        key: "sendActivationEmail",
+        key: "login",
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(activationCodeGenerator) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(username, password) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 _context3.next = 2;
-                                return fetch("/api/auth/sendActivationCode", {
+                                return fetch("/api/auth/login", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json"
                                     },
                                     body: (0, _stringify2.default)({
-                                        activationCodeGenerator: activationCodeGenerator
+                                        username: username,
+                                        password: password
                                     })
                                 });
 
@@ -32426,30 +32424,30 @@ var ApiClientClass = function () {
                 }, _callee3, this);
             }));
 
-            function sendActivationEmail(_x5) {
+            function login(_x4, _x5) {
                 return _ref3.apply(this, arguments);
             }
 
-            return sendActivationEmail;
+            return login;
         }()
     }, {
-        key: "activateAccount",
+        key: "sendActivationEmail",
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(activationCode) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(activationCodeGenerator) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 _context4.next = 2;
-                                return fetch("/api/auth/activate", {
+                                return fetch("/api/auth/sendActivationCode", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json"
                                     },
                                     body: (0, _stringify2.default)({
-                                        activationCode: activationCode
+                                        activationCodeGenerator: activationCodeGenerator
                                     })
                                 });
 
@@ -32473,29 +32471,31 @@ var ApiClientClass = function () {
                 }, _callee4, this);
             }));
 
-            function activateAccount(_x6) {
+            function sendActivationEmail(_x6) {
                 return _ref4.apply(this, arguments);
             }
 
-            return activateAccount;
+            return sendActivationEmail;
         }()
     }, {
-        key: "getEntries",
+        key: "activateAccount",
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(authToken) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(activationCode) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 _context5.next = 2;
-                                return fetch("/api/entry", {
-                                    method: "get",
+                                return fetch("/api/auth/activate", {
+                                    method: "post",
                                     headers: {
                                         "Accept": "application/json",
-                                        "Content-Type": "application/json",
-                                        "Authorization": "Bearer " + authToken
-                                    }
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCode: activationCode
+                                    })
                                 });
 
                             case 2:
@@ -32518,32 +32518,29 @@ var ApiClientClass = function () {
                 }, _callee5, this);
             }));
 
-            function getEntries(_x7) {
+            function activateAccount(_x7) {
                 return _ref5.apply(this, arguments);
             }
 
-            return getEntries;
+            return activateAccount;
         }()
     }, {
-        key: "addEntry",
+        key: "getEntries",
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(authToken, distance, duration, timestamp, location) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(authToken) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 _context6.next = 2;
-                                return fetch("/api/entry/add", {
-                                    method: "post",
+                                return fetch("/api/entry", {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        distance: distance, duration: duration, timestamp: timestamp, location: location
-                                    })
+                                    }
                                 });
 
                             case 2:
@@ -32566,23 +32563,23 @@ var ApiClientClass = function () {
                 }, _callee6, this);
             }));
 
-            function addEntry(_x8, _x9, _x10, _x11, _x12) {
+            function getEntries(_x8) {
                 return _ref6.apply(this, arguments);
             }
 
-            return addEntry;
+            return getEntries;
         }()
     }, {
-        key: "editEntry",
+        key: "addEntry",
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(authToken, entryId, distance, duration, timestamp, location) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(authToken, distance, duration, timestamp, location) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
                                 _context7.next = 2;
-                                return fetch("/api/entry/edit", {
+                                return fetch("/api/entry/add", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
@@ -32590,7 +32587,7 @@ var ApiClientClass = function () {
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
+                                        distance: distance, duration: duration, timestamp: timestamp, location: location
                                     })
                                 });
 
@@ -32614,23 +32611,23 @@ var ApiClientClass = function () {
                 }, _callee7, this);
             }));
 
-            function editEntry(_x13, _x14, _x15, _x16, _x17, _x18) {
+            function addEntry(_x9, _x10, _x11, _x12, _x13) {
                 return _ref7.apply(this, arguments);
             }
 
-            return editEntry;
+            return addEntry;
         }()
     }, {
-        key: "deleteEntry",
+        key: "editEntry",
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(authToken, entryId) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(authToken, entryId, distance, duration, timestamp, location) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.next = 2;
-                                return fetch("/api/entry/delete", {
+                                return fetch("/api/entry/edit", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
@@ -32638,7 +32635,7 @@ var ApiClientClass = function () {
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId
+                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
                                     })
                                 });
 
@@ -32662,8 +32659,56 @@ var ApiClientClass = function () {
                 }, _callee8, this);
             }));
 
-            function deleteEntry(_x19, _x20) {
+            function editEntry(_x14, _x15, _x16, _x17, _x18, _x19) {
                 return _ref8.apply(this, arguments);
+            }
+
+            return editEntry;
+        }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(authToken, entryId) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee9$(_context9) {
+                    while (1) {
+                        switch (_context9.prev = _context9.next) {
+                            case 0:
+                                _context9.next = 2;
+                                return fetch("/api/entry/delete", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        entryId: entryId
+                                    })
+                                });
+
+                            case 2:
+                                res = _context9.sent;
+                                _context9.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context9.sent;
+                                return _context9.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context9.stop();
+                        }
+                    }
+                }, _callee9, this);
+            }));
+
+            function deleteEntry(_x20, _x21) {
+                return _ref9.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -32761,6 +32806,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HeaderComponent = undefined;
 
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -32787,6 +32840,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = require("react-router-dom");
 
+var _apiClient = require("./api-client");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var autoBind = require("react-auto-bind");
@@ -32801,17 +32856,68 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
 
         autoBind(_this);
         _this.state = {
-            authToken: props.authToken
+            authToken: props.authToken,
+            user: null
         };
         return _this;
     }
 
     (0, _createClass3.default)(HeaderComponent, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            if (this.state.authToken) {
+                this.updateUser(this.state.authToken);
+            }
+        }
+    }, {
+        key: "updateUser",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(authToken) {
+                var _this2 = this;
+
+                var result;
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return _apiClient.ApiClient.getUser(authToken);
+
+                            case 2:
+                                result = _context.sent;
+
+                                if (result.status === 200) {
+                                    this.setState({
+                                        user: result.data.user
+                                    }, function () {
+                                        console.log(_this2.state);
+                                    });
+                                }
+
+                            case 4:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function updateUser(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return updateUser;
+        }()
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(newProps) {
+            var _this3 = this;
+
             if (newProps.authToken !== this.state.authToken) {
                 this.setState({
                     authToken: newProps.authToken
+                }, function () {
+                    _this3.updateUser(newProps.authToken);
                 });
             }
         }
@@ -32828,9 +32934,25 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
                         "Spork"
                     ),
                     _react2.default.createElement(
-                        _reactRouterDom.Link,
-                        { className: "header-text-element", to: "/logout" },
-                        "Logout"
+                        "span",
+                        { className: "header-text-element" },
+                        this.state.user ? _react2.default.createElement(
+                            "span",
+                            null,
+                            "Welcome ",
+                            this.state.user.username,
+                            " | "
+                        ) : "",
+                        this.state.user && this.state.user.isUserManager ? _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: "/userManager" },
+                            "User manager | "
+                        ) : "",
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: "/logout" },
+                            "Logout"
+                        )
                     )
                 );
             } else {
@@ -32863,7 +32985,7 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
     }]);
     return HeaderComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],203:[function(require,module,exports){
+},{"./api-client":199,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],203:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33693,6 +33815,8 @@ var _reactRouterDom = require('react-router-dom');
 
 var _homeComponent = require('./home-component');
 
+var _userManagerComponent = require('./user-manager-component');
+
 var _anonHomeComponent = require('./anon-home-component');
 
 var _notFoundComponent = require('./not-found-component');
@@ -33740,9 +33864,15 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: this.LoginComponent }),
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/logout', component: this.LogoutComponent }),
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/register', component: this.RegisterComponent }),
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/userManager', component: this.UserManagerComponentWithProps }),
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '*', component: this.NotFoundComponentWithProps })
                 )
             );
+        }
+    }, {
+        key: 'UserManagerComponentWithProps',
+        value: function UserManagerComponentWithProps() {
+            return _react2.default.createElement(_userManagerComponent.UserManagerComponent, { authToken: this.state.authToken });
         }
     }, {
         key: 'HomeComponentWithProps',
@@ -33792,7 +33922,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }]);
     return MainComponent;
 }(_react2.default.Component);
-},{"./anon-home-component":198,"./forbidden-component":200,"./header-component":202,"./home-component":203,"./login-component":204,"./logout-component":205,"./not-found-component":208,"./register-component":209,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],207:[function(require,module,exports){
+},{"./anon-home-component":198,"./forbidden-component":200,"./header-component":202,"./home-component":203,"./login-component":204,"./logout-component":205,"./not-found-component":208,"./register-component":209,"./user-manager-component":211,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],207:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34220,4 +34350,150 @@ _reactDom2.default.render(_react2.default.createElement(
     null,
     _react2.default.createElement(_mainComponent.MainComponent, null)
 ), document.getElementById('root'));
-},{"./main-component":206,"react":191,"react-dom":163,"react-router-dom":176}]},{},[210]);
+},{"./main-component":206,"react":191,"react-dom":163,"react-router-dom":176}],211:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.UserManagerComponent = undefined;
+
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require("babel-runtime/helpers/inherits");
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _apiClient = require("./api-client");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var autoBind = require("react-auto-bind");
+
+var UserManagerComponent = exports.UserManagerComponent = function (_React$Component) {
+    (0, _inherits3.default)(UserManagerComponent, _React$Component);
+
+    function UserManagerComponent(props) {
+        (0, _classCallCheck3.default)(this, UserManagerComponent);
+
+        var _this = (0, _possibleConstructorReturn3.default)(this, (UserManagerComponent.__proto__ || (0, _getPrototypeOf2.default)(UserManagerComponent)).call(this, props));
+
+        autoBind(_this);
+        _this.state = {
+            authToken: props.authToken,
+            isLoading: true,
+            isAuthenticated: false
+        };
+        return _this;
+    }
+
+    (0, _createClass3.default)(UserManagerComponent, [{
+        key: "componentDidMount",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+                var result;
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (!this.state.authToken) {
+                                    _context.next = 5;
+                                    break;
+                                }
+
+                                _context.next = 3;
+                                return _apiClient.ApiClient.getUser(this.state.authToken);
+
+                            case 3:
+                                result = _context.sent;
+
+                                if (result.status === 200 && result.data.user.isUserManager) {
+                                    this.setState({
+                                        isLoading: false,
+                                        isAuthenticated: true
+                                    });
+                                } else {
+                                    this.setState({
+                                        isLoading: false
+                                    });
+                                }
+
+                            case 5:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function componentDidMount() {
+                return _ref.apply(this, arguments);
+            }
+
+            return componentDidMount;
+        }()
+    }, {
+        key: "render",
+        value: function render() {
+            if (this.state.isLoading) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        "Loading..."
+                    )
+                );
+            } else if (this.state.isAuthenticated) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        "Welcome, you are in"
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        "Not authenticated"
+                    )
+                );
+            }
+        }
+    }]);
+    return UserManagerComponent;
+}(_react2.default.Component);
+},{"./api-client":199,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153}]},{},[210]);

@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Link } from 'react-router-dom'
 import {HomeComponent} from './home-component';
+import {UserManagerComponent} from './user-manager-component';
 import {AnonHomeComponent} from './anon-home-component';
 import {NotFoundComponent} from './not-found-component';
 import {ForbiddenComponent} from './forbidden-component';
@@ -27,9 +28,14 @@ export class MainComponent extends React.Component {
                 <Route exact path="/login" component={this.LoginComponent} />
                 <Route exact path="/logout" component={this.LogoutComponent} />
                 <Route exact path="/register" component={this.RegisterComponent} />
+                <Route exact path="/userManager" component={this.UserManagerComponentWithProps} />
                 <Route exact path="*" component={this.NotFoundComponentWithProps} />
             </Switch>
         </div>;
+    }
+
+    UserManagerComponentWithProps() {
+        return <UserManagerComponent authToken={this.state.authToken} />
     }
 
     HomeComponentWithProps() {

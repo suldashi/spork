@@ -16,6 +16,22 @@ class ApiClientClass {
         	data,
         	status:res.status
         };
+    }
+    
+    async getUser(authToken) {
+		let res = await fetch("/api/user",{
+            method:"get",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            }
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        };
 	}
 
 	async login(username,password) {

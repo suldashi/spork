@@ -5,15 +5,19 @@ let db = require("../db");
 
 const UserRepository = {
     getById: async (id) => {
-        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "id" = $1',id);
+        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "id" = $1 AND "is_deleted" = false',id);
         if(user) {
             return user;
         }
         return null;
     },
 
+    getAll: async () => {
+        return db.any('SELECT * FROM "user" WHERE "is_deleted" = false');
+    },
+
     getByUsername: async (username) => {
-        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "username" = $1',username);
+        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "username" = $1 AND "is_deleted" = false',username);
         if(user) {
             return user;
         }
@@ -26,15 +30,15 @@ const UserRepository = {
     },
 
     removeUser: async (id) => {
-        let result = await db.oneOrNone('DELETE FROM "user" WHERE "id" = $1 RETURNING id',id);
-        if(result && result.id === id) {
+        let result = await db.oneOrNone('UPDATE "user" SET "is_deleted" = true WHERE "id" = $1 RETURNING id',id);
+        if(result) {
             return true;
         }
         return false;
     },
 
     generateActivationCode: async (activationCodeGenerator) => {
-        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "activation_code_generator" = $1 AND "is_active" = $2',[activationCodeGenerator,false]);
+        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "activation_code_generator" = $1 AND "is_active" = $2 AND "is_deleted" = false',[activationCodeGenerator,false]);
         if(user) {
             let activationCode = CryptoService.getRandomBytes();
             let expirationTime = moment().add(2,"h").toISOString();

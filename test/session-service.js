@@ -11,11 +11,11 @@ const UserRepository = require("../mocks/user/user-repository");
 
 
 const sessionService = new SessionService({
-    sessionRepository:SessionRepository
+    //sessionRepository:SessionRepository
 });
 
 const userService = new UserService({
-	userRepository:UserRepository
+	//userRepository:UserRepository
 });
 
 describe("SessionService.setSession() and SessionService.getUserId()", () => {

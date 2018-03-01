@@ -18,6 +18,20 @@ class UserService {
 		return null;
 	}
 
+	async getAll() {
+		let users = await this.userRepository.getAll();
+		if(users) {
+			return users.map((el) => {return {
+				id:el.id,
+				username:el.username,
+				activated:el.is_active,
+				activationCodeGenerator:el.activation_code_generator,
+				isUserManager:el.is_user_manager
+			}});
+		}
+		return [];
+	}
+
 	async getUserByCredentials(username,password) {
 		let user = await this.userRepository.getByUsername(username);
 		if(user) {
@@ -27,7 +41,8 @@ class UserService {
 					id:user.id,
 					username:user.username,
 					activated:user.is_active,
-					activationCodeGenerator:user.activation_code_generator
+					activationCodeGenerator:user.activation_code_generator,
+					isUserManager:user.is_user_manager
 				};
 			}
 		}
@@ -41,7 +56,8 @@ class UserService {
 				id:user.id,
 				username:user.username,
 				activated:user.is_active,
-				activationCodeGenerator:user.activation_code_generator
+				activationCodeGenerator:user.activation_code_generator,
+				isUserManager:user.is_user_manager
 			};
 		}
 		return null;

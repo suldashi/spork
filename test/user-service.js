@@ -5,7 +5,7 @@ const CryptoService = require("../app/crypto-service");
 const UserRepository = require("../mocks/user/user-repository");
 
 const userService = new UserService({
-	userRepository:UserRepository
+	//userRepository:UserRepository
 });
 
 let userToInsert = {
@@ -45,6 +45,13 @@ describe("UserService.addUser", () => {
 	it("same user cannot be added twice",async () => {
 		let result = await userService.addUser(userToInsert.username,userToInsert.password);
 		expect(result).to.be.false;
+	});
+});
+
+describe("UserService.getAll()", () => {
+	it("there should be two users",async () => {
+		let users = await userService.getAll();
+		expect(users.length).to.be.greaterThan(1);
 	});
 });
 

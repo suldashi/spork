@@ -17,6 +17,10 @@ const UserRepository = {
 		return targetUser?targetUser:null;
     },
 
+    getAll: async () => {
+        return users;
+    },
+
     getById: async (userId) => {
         let targetUser = users[userId];
 		return targetUser?targetUser:null;
@@ -28,7 +32,8 @@ const UserRepository = {
             username,
             password,
             is_active:false,
-            activation_code_generator:activationCodeGenerator
+            activation_code_generator:activationCodeGenerator,
+            is_user_manager:false
         };
         return userCtr++;
     },

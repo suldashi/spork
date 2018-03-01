@@ -77,7 +77,9 @@ CREATE TABLE "user" (
     username text NOT NULL,
     password text NOT NULL,
     is_active boolean DEFAULT false NOT NULL,
-    activation_code_generator text NOT NULL
+    activation_code_generator text NOT NULL,
+    is_user_manager boolean DEFAULT false NOT NULL,
+    is_deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -210,7 +212,7 @@ SELECT pg_catalog.setval('entry_id_seq', 1, false);
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY "user" (id, username, password, is_active, activation_code_generator) FROM stdin;
+COPY "user" (id, username, password, is_active, activation_code_generator, is_user_manager, is_deleted) FROM stdin;
 \.
 
 

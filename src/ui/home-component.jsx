@@ -16,7 +16,9 @@ export class HomeComponent extends React.Component {
             authToken:props.authToken,
             entries:null,
             isLoading:props.authToken?true:false,
-            isAddEntryModalOpen:false
+            isAddEntryModalOpen:false,
+            activeEntry:null,
+            addEditSubmitCallback:this.onAddEntry
         }
     }
 
@@ -69,7 +71,41 @@ export class HomeComponent extends React.Component {
     }
 
     editEntryModal(entry) {
-        console.log(entry);
+        this.setState({
+            isAddEntryModalOpen:true,
+            activeEntry:entry,
+            addEditSubmitCallback:this.editEntry
+        });
+    }
+
+    async editEntry(entry) {
+        let result = await ApiClient.editEntry(this.state.authToken,entry.id,entry.distance,entry.duration,entry.timestamp,entry.location);
+        if(result.status===200) {
+            this.setState({
+                entries:this.state.entries.map((el) => {
+                    return el.id === entry.id?
+                    {
+                        id:el.id,
+                        userId:el.userId,
+                        distance:entry.distance,
+                        duration:entry.duration,
+                        timestamp:entry.timestmap,
+                        location:entry.location
+                    }:
+                    el
+                }),
+                activeEntry:null,
+                addEditSubmitCallback:this.onAddEntry,
+                isAddEntryModalOpen:false
+            });
+        }
+        else {
+            this.setState({
+                activeEntry:null,
+                addEditSubmitCallback:this.onAddEntry,
+                isAddEntryModalOpen:false
+            })
+        }
     }
 
     async deleteEntry(entryId) {
@@ -116,11 +152,20 @@ export class HomeComponent extends React.Component {
         });
     }
 
-    onSuccessfulSubmission(entry) {
-        this.setState({
-            isAddEntryModalOpen:false,
-            entries:[entry,...this.state.entries]
-        });
+    async onAddEntry(entry) {
+        let result = await ApiClient.addEntry(this.state.authToken,entry.distance,entry.duration,entry.timestamp,entry.location);
+        entry.id = result.data.entryId;
+        if(result.status===200) {
+            this.setState({
+                isAddEntryModalOpen:false,
+                entries:[entry,...this.state.entries]
+            });
+        }
+        else {
+            this.setState({
+                isAddEntryModalOpen:false
+            });
+        }
     }
 
     render() {
@@ -131,7 +176,7 @@ export class HomeComponent extends React.Component {
         }
         else {
             return <div>
-                {this.state.isAddEntryModalOpen?<AddEntryModal authToken={this.state.authToken} onModalClosed={this.onModalClosed} onSuccessfulSubmission={this.onSuccessfulSubmission} />:""}
+                {this.state.isAddEntryModalOpen?<AddEntryModal authToken={this.state.authToken} entry={this.state.activeEntry} onModalClosed={this.onModalClosed} onSubmission={this.state.addEditSubmitCallback} />:""}
                 <div className="body-container">
                     <div className="inner-card card card-1"><a className="button" onClick={this.openAddEntryModal}href="#">Add Entry</a></div>
                 </div>

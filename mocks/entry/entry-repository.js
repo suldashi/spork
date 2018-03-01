@@ -36,6 +36,17 @@ const EntryRepository = {
 		else {
 			return false;
 		}
+	},
+
+	editEntry: async (entryId,timestamp,distance,duration,location) => {
+		if(entries[entryId]) {
+			entries[entryId].timestamp = timestamp;
+			entries[entryId].distance_in_meters = distance;
+			entries[entryId].duration_in_secs = duration;
+			entries[entryId].location = location;
+			return true;
+		}
+		return false;
 	}
 }
 

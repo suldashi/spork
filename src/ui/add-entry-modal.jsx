@@ -1,6 +1,5 @@
 import React from "react";
 import {MapComponent} from "./map-component";
-import {ApiClient} from "./api-client";
 
 const moment = require('moment');
 const Datetime = require('react-datetime');
@@ -13,13 +12,14 @@ export class AddEntryModal extends React.Component {
         super(props);
         autoBind(this);
         this.onModalClosed = props.onModalClosed;
-        this.onSuccessfulSubmission = props.onSuccessfulSubmission;
+        this.onSubmission = props.onSubmission;
         this.state = {
-            distance:"",
-            duration:"",
+            entryId:props.entry?props.entry.id:0,
+            distance:props.entry?props.entry.distance:"",
+            duration:props.entry?props.entry.duration:"",
             isLocationModalOpen:false,
-            timestamp:moment(),
-            location:null,
+            timestamp:props.entry?moment(props.entry.timestamp):moment(),
+            location:props.entry && props.entry.location?props.entry.location:null,
             isSubmitting:false,
             authToken:props.authToken
         }
@@ -31,9 +31,8 @@ export class AddEntryModal extends React.Component {
         this.setState({
             isSubmitting:true
         });
-        let result = await ApiClient.addEntry(this.state.authToken,this.state.distance,this.state.duration,this.state.timestamp.toISOString(),JSON.stringify(this.state.location));
-        this.onSuccessfulSubmission({
-            id:result.data.entryId,
+        this.onSubmission({
+            id:this.state.entryId,
             userId:0,
             distance:parseInt(this.state.distance),
             duration:parseInt(this.state.duration),
@@ -79,15 +78,22 @@ export class AddEntryModal extends React.Component {
     render() {
         return <div className="modal">
             <div className="modal-inner">
-                <form className="modal-form" onSubmit={this.onFormSubmit}>
-                    <button disabled={this.state.isSubmitting} className="modal-close" onClick={this.onModalClosed} />
-                    <div><label htmlFor="distance">Distance in Meters: </label><input onChange={this.onChangeDistance} type="number" name="distance" value={this.state.distance} /></div>
-                    <div><label htmlFor="duration">Duration in Seconds: </label><input onChange={this.onChangeDuration} type="number" name="duration" value={this.state.duration} /></div>
-                    <div><label htmlFor="timestamp">Jog timestamp: </label><Datetime value={this.state.timestamp} onChange={this.onTimestampChanged} /></div>
-                    <div><label htmlFor="location">Location: </label><a onClick={this.openLocationModal} href="#">Click to enter location on map</a></div>
-                    <div><input disabled={this.state.isSubmitting} type="submit" value="submit" /></div>
-                </form>
-                {this.state.isLocationModalOpen?<MapComponent onNewLocation={this.onNewLocation} />:""}
+                <div className="body-container">
+                    <div className="inner-card card card-1">
+                        <h1>Add/Edit Entry</h1>
+                    </div>
+                    <div className="inner-card card card-1">
+                        <form className="modal-form" onSubmit={this.onFormSubmit}>
+                            <div className="input-group"><label>Distance in Meters:</label><input className="text-input" onChange={this.onChangeDistance} type='number' name="distance"  value={this.state.distance} /></div>
+                            <div className="input-group"><label>Duration in Seconds:</label><input className="text-input" onChange={this.onChangeDuration} type='number' name="duration" value={this.state.duration} /></div>
+                            <div className="input-group"><label>Jog timestamp:</label><Datetime value={this.state.timestamp} onChange={this.onTimestampChanged} /></div>
+                            <div className="input-group"><label>Location:</label><a onClick={this.openLocationModal} href="#">Click to enter location on map</a></div>
+                            <div><button className="button" disabled={this.state.isSubmitting} onClick={this.onModalClosed}>Close</button>
+                            <input className="button" disabled={this.state.isSubmitting} type="submit" value="submit" /></div>
+                        </form>
+                        {this.state.isLocationModalOpen?<MapComponent onNewLocation={this.onNewLocation} />:""}
+                    </div>
+                </div>
             </div>
         </div>;
     }

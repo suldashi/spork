@@ -31968,8 +31968,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _mapComponent = require("./map-component");
 
-var _apiClient = require("./api-client");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var moment = require('moment');
@@ -31987,13 +31985,14 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
 
         autoBind(_this);
         _this.onModalClosed = props.onModalClosed;
-        _this.onSuccessfulSubmission = props.onSuccessfulSubmission;
+        _this.onSubmission = props.onSubmission;
         _this.state = {
-            distance: "",
-            duration: "",
+            entryId: props.entry ? props.entry.id : 0,
+            distance: props.entry ? props.entry.distance : "",
+            duration: props.entry ? props.entry.duration : "",
             isLocationModalOpen: false,
-            timestamp: moment(),
-            location: null,
+            timestamp: props.entry ? moment(props.entry.timestamp) : moment(),
+            location: props.entry && props.entry.location ? props.entry.location : null,
             isSubmitting: false,
             authToken: props.authToken
         };
@@ -32004,7 +32003,6 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
         key: "onFormSubmit",
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
-                var result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -32013,14 +32011,8 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
                                 this.setState({
                                     isSubmitting: true
                                 });
-                                _context.next = 4;
-                                return _apiClient.ApiClient.addEntry(this.state.authToken, this.state.distance, this.state.duration, this.state.timestamp.toISOString(), (0, _stringify2.default)(this.state.location));
-
-                            case 4:
-                                result = _context.sent;
-
-                                this.onSuccessfulSubmission({
-                                    id: result.data.entryId,
+                                this.onSubmission({
+                                    id: this.state.entryId,
                                     userId: 0,
                                     distance: parseInt(this.state.distance),
                                     duration: parseInt(this.state.duration),
@@ -32028,7 +32020,7 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
                                     location: this.state.location ? (0, _stringify2.default)(this.state.location) : null
                                 });
 
-                            case 6:
+                            case 3:
                             case "end":
                                 return _context.stop();
                         }
@@ -32091,67 +32083,88 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
                     "div",
                     { className: "modal-inner" },
                     _react2.default.createElement(
-                        "form",
-                        { className: "modal-form", onSubmit: this.onFormSubmit },
-                        _react2.default.createElement("button", { disabled: this.state.isSubmitting, className: "modal-close", onClick: this.onModalClosed }),
+                        "div",
+                        { className: "body-container" },
                         _react2.default.createElement(
                             "div",
-                            null,
+                            { className: "inner-card card card-1" },
                             _react2.default.createElement(
-                                "label",
-                                { htmlFor: "distance" },
-                                "Distance in Meters: "
-                            ),
-                            _react2.default.createElement("input", { onChange: this.onChangeDistance, type: "number", name: "distance", value: this.state.distance })
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            _react2.default.createElement(
-                                "label",
-                                { htmlFor: "duration" },
-                                "Duration in Seconds: "
-                            ),
-                            _react2.default.createElement("input", { onChange: this.onChangeDuration, type: "number", name: "duration", value: this.state.duration })
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            _react2.default.createElement(
-                                "label",
-                                { htmlFor: "timestamp" },
-                                "Jog timestamp: "
-                            ),
-                            _react2.default.createElement(Datetime, { value: this.state.timestamp, onChange: this.onTimestampChanged })
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            _react2.default.createElement(
-                                "label",
-                                { htmlFor: "location" },
-                                "Location: "
-                            ),
-                            _react2.default.createElement(
-                                "a",
-                                { onClick: this.openLocationModal, href: "#" },
-                                "Click to enter location on map"
+                                "h1",
+                                null,
+                                "Add/Edit Entry"
                             )
                         ),
                         _react2.default.createElement(
                             "div",
-                            null,
-                            _react2.default.createElement("input", { disabled: this.state.isSubmitting, type: "submit", value: "submit" })
+                            { className: "inner-card card card-1" },
+                            _react2.default.createElement(
+                                "form",
+                                { className: "modal-form", onSubmit: this.onFormSubmit },
+                                _react2.default.createElement(
+                                    "div",
+                                    { className: "input-group" },
+                                    _react2.default.createElement(
+                                        "label",
+                                        null,
+                                        "Distance in Meters:"
+                                    ),
+                                    _react2.default.createElement("input", { className: "text-input", onChange: this.onChangeDistance, type: "number", name: "distance", value: this.state.distance })
+                                ),
+                                _react2.default.createElement(
+                                    "div",
+                                    { className: "input-group" },
+                                    _react2.default.createElement(
+                                        "label",
+                                        null,
+                                        "Duration in Seconds:"
+                                    ),
+                                    _react2.default.createElement("input", { className: "text-input", onChange: this.onChangeDuration, type: "number", name: "duration", value: this.state.duration })
+                                ),
+                                _react2.default.createElement(
+                                    "div",
+                                    { className: "input-group" },
+                                    _react2.default.createElement(
+                                        "label",
+                                        null,
+                                        "Jog timestamp:"
+                                    ),
+                                    _react2.default.createElement(Datetime, { value: this.state.timestamp, onChange: this.onTimestampChanged })
+                                ),
+                                _react2.default.createElement(
+                                    "div",
+                                    { className: "input-group" },
+                                    _react2.default.createElement(
+                                        "label",
+                                        null,
+                                        "Location:"
+                                    ),
+                                    _react2.default.createElement(
+                                        "a",
+                                        { onClick: this.openLocationModal, href: "#" },
+                                        "Click to enter location on map"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "div",
+                                    null,
+                                    _react2.default.createElement(
+                                        "button",
+                                        { className: "button", disabled: this.state.isSubmitting, onClick: this.onModalClosed },
+                                        "Close"
+                                    ),
+                                    _react2.default.createElement("input", { className: "button", disabled: this.state.isSubmitting, type: "submit", value: "submit" })
+                                )
+                            ),
+                            this.state.isLocationModalOpen ? _react2.default.createElement(_mapComponent.MapComponent, { onNewLocation: this.onNewLocation }) : ""
                         )
-                    ),
-                    this.state.isLocationModalOpen ? _react2.default.createElement(_mapComponent.MapComponent, { onNewLocation: this.onNewLocation }) : ""
+                    )
                 )
             );
         }
     }]);
     return AddEntryModal;
 }(_react2.default.Component);
-},{"./api-client":199,"./map-component":207,"babel-runtime/core-js/json/stringify":2,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154}],198:[function(require,module,exports){
+},{"./map-component":207,"babel-runtime/core-js/json/stringify":2,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154}],198:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32560,16 +32573,16 @@ var ApiClientClass = function () {
             return addEntry;
         }()
     }, {
-        key: "deleteEntry",
+        key: "editEntry",
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(authToken, entryId) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(authToken, entryId, distance, duration, timestamp, location) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
                                 _context7.next = 2;
-                                return fetch("/api/entry/delete", {
+                                return fetch("/api/entry/edit", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
@@ -32577,7 +32590,7 @@ var ApiClientClass = function () {
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId
+                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
                                     })
                                 });
 
@@ -32601,8 +32614,56 @@ var ApiClientClass = function () {
                 }, _callee7, this);
             }));
 
-            function deleteEntry(_x13, _x14) {
+            function editEntry(_x13, _x14, _x15, _x16, _x17, _x18) {
                 return _ref7.apply(this, arguments);
+            }
+
+            return editEntry;
+        }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(authToken, entryId) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee8$(_context8) {
+                    while (1) {
+                        switch (_context8.prev = _context8.next) {
+                            case 0:
+                                _context8.next = 2;
+                                return fetch("/api/entry/delete", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        entryId: entryId
+                                    })
+                                });
+
+                            case 2:
+                                res = _context8.sent;
+                                _context8.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context8.sent;
+                                return _context8.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context8.stop();
+                        }
+                    }
+                }, _callee8, this);
+            }));
+
+            function deleteEntry(_x19, _x20) {
+                return _ref8.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -32870,7 +32931,9 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             authToken: props.authToken,
             entries: null,
             isLoading: props.authToken ? true : false,
-            isAddEntryModalOpen: false
+            isAddEntryModalOpen: false,
+            activeEntry: null,
+            addEditSubmitCallback: _this.onAddEntry
         };
         return _this;
     }
@@ -33023,28 +33086,48 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }, {
         key: "editEntryModal",
         value: function editEntryModal(entry) {
-            console.log(entry);
+            this.setState({
+                isAddEntryModalOpen: true,
+                activeEntry: entry,
+                addEditSubmitCallback: this.editEntry
+            });
         }
     }, {
-        key: "deleteEntry",
+        key: "editEntry",
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(entryId) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(entry) {
                 var result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.next = 2;
-                                return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId);
+                                return _apiClient.ApiClient.editEntry(this.state.authToken, entry.id, entry.distance, entry.duration, entry.timestamp, entry.location);
 
                             case 2:
                                 result = _context2.sent;
 
                                 if (result.status === 200) {
                                     this.setState({
-                                        entries: this.state.entries.filter(function (el) {
-                                            return el.id !== entryId;
-                                        })
+                                        entries: this.state.entries.map(function (el) {
+                                            return el.id === entry.id ? {
+                                                id: el.id,
+                                                userId: el.userId,
+                                                distance: entry.distance,
+                                                duration: entry.duration,
+                                                timestamp: entry.timestmap,
+                                                location: entry.location
+                                            } : el;
+                                        }),
+                                        activeEntry: null,
+                                        addEditSubmitCallback: this.onAddEntry,
+                                        isAddEntryModalOpen: false
+                                    });
+                                } else {
+                                    this.setState({
+                                        activeEntry: null,
+                                        addEditSubmitCallback: this.onAddEntry,
+                                        isAddEntryModalOpen: false
                                     });
                                 }
 
@@ -33056,8 +33139,45 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 }, _callee2, this);
             }));
 
-            function deleteEntry(_x) {
+            function editEntry(_x) {
                 return _ref2.apply(this, arguments);
+            }
+
+            return editEntry;
+        }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(entryId) {
+                var result;
+                return _regenerator2.default.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId);
+
+                            case 2:
+                                result = _context3.sent;
+
+                                if (result.status === 200) {
+                                    this.setState({
+                                        entries: this.state.entries.filter(function (el) {
+                                            return el.id !== entryId;
+                                        })
+                                    });
+                                }
+
+                            case 4:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function deleteEntry(_x2) {
+                return _ref3.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -33105,13 +33225,46 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             });
         }
     }, {
-        key: "onSuccessfulSubmission",
-        value: function onSuccessfulSubmission(entry) {
-            this.setState({
-                isAddEntryModalOpen: false,
-                entries: [entry].concat((0, _toConsumableArray3.default)(this.state.entries))
-            });
-        }
+        key: "onAddEntry",
+        value: function () {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(entry) {
+                var result;
+                return _regenerator2.default.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                _context4.next = 2;
+                                return _apiClient.ApiClient.addEntry(this.state.authToken, entry.distance, entry.duration, entry.timestamp, entry.location);
+
+                            case 2:
+                                result = _context4.sent;
+
+                                entry.id = result.data.entryId;
+                                if (result.status === 200) {
+                                    this.setState({
+                                        isAddEntryModalOpen: false,
+                                        entries: [entry].concat((0, _toConsumableArray3.default)(this.state.entries))
+                                    });
+                                } else {
+                                    this.setState({
+                                        isAddEntryModalOpen: false
+                                    });
+                                }
+
+                            case 5:
+                            case "end":
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function onAddEntry(_x3) {
+                return _ref4.apply(this, arguments);
+            }
+
+            return onAddEntry;
+        }()
     }, {
         key: "render",
         value: function render() {
@@ -33129,7 +33282,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    this.state.isAddEntryModalOpen ? _react2.default.createElement(_addEntryModal.AddEntryModal, { authToken: this.state.authToken, onModalClosed: this.onModalClosed, onSuccessfulSubmission: this.onSuccessfulSubmission }) : "",
+                    this.state.isAddEntryModalOpen ? _react2.default.createElement(_addEntryModal.AddEntryModal, { authToken: this.state.authToken, entry: this.state.activeEntry, onModalClosed: this.onModalClosed, onSubmission: this.state.addEditSubmitCallback }) : "",
                     _react2.default.createElement(
                         "div",
                         { className: "body-container" },

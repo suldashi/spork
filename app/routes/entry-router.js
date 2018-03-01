@@ -26,7 +26,17 @@ router.post("/delete",async (req,res) => {
     else {
         res.status(403).send({error:"cannot delete entry"});
     }
-    
+});
+
+router.post("/edit",async (req,res) => {
+    let entry = await entryService.getEntryById(req.body.entryId);
+    if(entry && entry.userId === req.userId) {
+        let result = await entryService.editEntry(req.body.entryId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);
+        res.send({});
+    }
+    else {
+        res.status(403).send({error:"cannot delete entry"});
+    }
 });
 
 module.exports = router;

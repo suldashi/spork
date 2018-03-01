@@ -39,6 +39,10 @@ class EntryService {
 	async deleteEntry(entryId) {
 		return this.entryRepository.deleteEntry(entryId);
 	}
+
+	async editEntry(entryId,timestamp,distance,duration,location) {
+		return this.entryRepository.editEntry(entryId,timestamp,distance,duration,location);
+	}
 }
 
 module.exports = EntryService;

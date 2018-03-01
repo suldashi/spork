@@ -33,7 +33,16 @@ const EntryRepository = {
 		else {
 			return false;
 		}
-		
+	},
+
+	editEntry: async (entryId,timestamp,distance,duration,location) => {
+		let result = await db.any('UPDATE "entry" SET "timestamp" = $1, "distance_in_meters" = $2,"duration_in_secs" = $3,"location" = $4 WHERE "id" = $5 RETURNING "id"',[timestamp,distance,duration,location,entryId]);
+		if(result) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

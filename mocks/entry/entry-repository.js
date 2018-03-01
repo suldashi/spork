@@ -25,7 +25,7 @@ const EntryRepository = {
 
 	getEntriesByUserId: async (userId) => {
 		let result = Object.values(entries).filter((el) => el.user_id === userId);
-		return result;
+		return sort((l,r) => l.timestamp>r.timestamp,result);
 	}
 }
 

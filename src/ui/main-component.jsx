@@ -3,6 +3,7 @@ import { Switch, Route, Link } from 'react-router-dom'
 import {HomeComponent} from './home-component';
 import {AnonHomeComponent} from './anon-home-component';
 import {NotFoundComponent} from './not-found-component';
+import {ForbiddenComponent} from './forbidden-component';
 import {LoginComponent} from './login-component';
 import {LogoutComponent} from './logout-component';
 import {RegisterComponent} from './register-component';

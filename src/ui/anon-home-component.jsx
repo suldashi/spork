@@ -11,6 +11,13 @@ export class AnonHomeComponent extends React.Component {
     }
 
     render() {
-        return <div>Welcome to Spork, the jogging tracker!<Link to="/login">Login</Link> or <Link to="/register">register</Link></div>;
+        return <div className="body-container">
+            <div className="inner-card card card-1">
+                <h1>Spork Jogging Tracker</h1>
+            </div>
+            <div className="inner-card card card-1">
+                <h3>Welcome to Spork, the jogging tracker! <Link to="/login">Login</Link> or <Link to="/register">register</Link></h3>
+            </div>
+        </div>;
     }
 }

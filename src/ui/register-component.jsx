@@ -19,21 +19,21 @@ export class RegisterComponent extends React.Component {
 
     render() {
         if(this.state.registrationSucceeded) {
-            return <div>Registration successful, activation code has been sent to your email. <Link to="/login">Click here to log in</Link></div>;
+            return <div className="body-container"><div className="inner-card card card-1"><h3>Registration successful, activation code has been sent to your email. <Link to="/login">Click here to log in</Link></h3></div></div>;
         }
         else {
-            return <div>
-                <form onSubmit={this.submitRegister}>
-                    <div><label>Username</label><input autoFocus onChange={this.updateInputForms} type='text' name="username"/></div>
-                    <div><label>Password</label><input onChange={this.updateInputForms} type='password' name="password"/></div>
-                    <div>
-                        <input disabled={this.state.isRegistrationInProgress} type="submit" value="Login"/>
-                        {this.state.isRegistrationInProgress?<div className="spinner" />:""}
-                    </div>
-                    {this.state.formHasError?<div>
-                        <div>Username is already in use</div>
-                    </div>:""}
-                </form>
+            return <div className="body-container">
+                <div className="inner-card card card-1">
+                    <h1>Register to Spork</h1>
+                </div>
+                <div className="inner-card card card-1">
+                    <form onSubmit={this.submitRegister}>
+                        {this.state.formHasError?<div>Username is already in use</div>:""}
+                        <div className="input-group"><label>Username</label><input className="text-input" autoFocus onChange={this.updateInputForms} type='text' name="username"/></div>
+                        <div className="input-group"><label>Password</label><input className="text-input" onChange={this.updateInputForms} type='password' name="password"/></div>
+                        <input disabled={this.state.isRegistrationInProgress} className="button" type="submit" value="Register" />
+                    </form>
+                </div>
             </div>;
         }   
     }

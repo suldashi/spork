@@ -18,7 +18,7 @@ const EntryRepository = {
 	},
 
 	getEntriesByUserId: async (userId) => {
-		let entries = await db.any('SELECT * FROM "entry" WHERE "user_id" = $1',userId);
+		let entries = await db.any('SELECT * FROM "entry" WHERE "user_id" = $1 ORDER BY "timestamp" DESC',userId);
 		if(entries) {
 			return entries;
 		}

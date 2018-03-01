@@ -14,7 +14,7 @@ router.get("/",async (req,res) => {
 
 router.post("/add",async (req,res) => {
     let result = await entryService.addEntry(req.userId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);
-    res.send({id:result});
+    res.send({entryId:result});
 });
 
 module.exports = router;

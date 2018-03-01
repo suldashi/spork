@@ -52,20 +52,20 @@ export class LoginComponent extends React.Component {
             <button onClick={this.sendActivationEmail}>Send Activation Code</button></div>;
         }
         else {
-            return <div>
-                <form onSubmit={this.submitLogin}>
-                    <div><label>Username</label><input autoFocus onChange={this.updateInputForms} type='text' name="username"/></div>
-                    <div><label>Password</label><input onChange={this.updateInputForms} type='password' name="password"/></div>
-                    <div>
-                        <input disabled={this.state.isLoginInProgress} type="submit" value="Login"/>
+            return <div className="body-container">
+                <div className="inner-card card card-1">
+                    <h1>Login to Spork</h1>
+                </div>
+                <div className="inner-card card card-1">
+                    <form onSubmit={this.submitLogin}>
+                        {this.state.formHasError?<div>Username or password are invalid</div>:""}
+                        <div className="input-group"><label>Username</label><input className="text-input" autoFocus onChange={this.updateInputForms} type='text' name="username"/></div>
+                        <div className="input-group"><label>Password</label><input className="text-input" onChange={this.updateInputForms} type='password' name="password"/></div>
+                        <input disabled={this.state.isLoginInProgress} className="button" type="submit" value="Login" />
                         {this.state.isLoginInProgress?<div className="spinner" />:""}
-                    </div>
-                    {this.state.formHasError?<div>
-                        <div>Username or password are invalid</div>
-                    <div>{this.state.passwordHasBeenReset?<div>Password reset link has been sent to your email</div>:<button onClick={this.resetPassword}>Reset password</button>}</div>
-                    </div>:""}
-                </form>
-            </div>
+                    </form>
+                </div>
+            </div>;
         }   
     }
 

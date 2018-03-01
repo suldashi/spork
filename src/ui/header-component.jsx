@@ -21,10 +21,10 @@ export class HeaderComponent extends React.Component {
 
     render() {
         if(this.state.authToken) {
-            return <header className="site-header"><Link to="/logout">Logout</Link></header>
+            return <header className="site-header"><Link to="/">Spork</Link><Link className="header-text-element" to="/logout">Logout</Link></header>
         }
         else {
-            return <header className="site-header"><Link to="/login">Login</Link></header>
+            return <header className="site-header"><Link to="/">Spork</Link><span className="header-text-element"><Link to="/login">Login</Link> | <Link className="header-text-element" to="/register">Register</Link></span></header>
         }
     }
 }

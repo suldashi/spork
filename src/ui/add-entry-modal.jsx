@@ -1,6 +1,6 @@
 import React from "react";
 import {MapComponent} from "./map-component";
-import {GeolocationPromise} from "./geolocation-promise";
+import {ApiClient} from "./api-client";
 
 const moment = require('moment');
 const Datetime = require('react-datetime');
@@ -13,40 +13,33 @@ export class AddEntryModal extends React.Component {
         super(props);
         autoBind(this);
         this.onModalClosed = props.onModalClosed;
+        this.onSuccessfulSubmission = props.onSuccessfulSubmission;
         this.state = {
             distance:"",
             duration:"",
-            isLoaded:false,
             isLocationModalOpen:false,
             timestamp:moment(),
-            position:{
-                lat:45,
-                lng:45
-            }
+            location:null,
+            isSubmitting:false,
+            authToken:props.authToken
         }
     }
 
-    componentWillMount() {
-        GeolocationPromise().then((newPosition) => {
-            this.setState({
-                isLoaded:true,
-                position:newPosition
-            });
-        }).catch((err) => {
-            this.setState({
-                isLoaded:true
-            });
-        })
-    }
 
-    onFormSubmit(e) {
-        console.log({
-            "distance":this.state.distance,
-            "duration":this.state.duration,
-            "timestamp":this.state.timestamp.toISOString(),
-            "location":this.state.location
-        });
+    async onFormSubmit(e) {
         e.preventDefault();
+        this.setState({
+            isSubmitting:true
+        });
+        let result = await ApiClient.addEntry(this.state.authToken,this.state.distance,this.state.duration,this.state.timestamp.toISOString(),JSON.stringify(this.state.location));
+        this.onSuccessfulSubmission({
+            id:result.data.entryId,
+            userId:0,
+            distance:parseInt(this.state.distance),
+            duration:parseInt(this.state.duration),
+            timestamp:this.state.timestamp.toISOString(),
+            location:this.state.location?JSON.stringify(this.state.location):null
+        });
     }
 
     onChangeDistance(e) {
@@ -63,9 +56,9 @@ export class AddEntryModal extends React.Component {
         });
     }
 
-    onNewPosition(newPosition) {
+    onNewLocation(newLocation) {
         this.setState({
-            position:newPosition,
+            location:newLocation,
             isLocationModalOpen:false
         })
     }
@@ -84,21 +77,18 @@ export class AddEntryModal extends React.Component {
     }
 
     render() {
-        if(this.state.isLoaded) {
-            return <div className="modal">
-                <div className="modal-overlay" onClick={this.onModalClosed} />
+        return <div className="modal">
+            <div className="modal-inner">
                 <form className="modal-form" onSubmit={this.onFormSubmit}>
+                    <button disabled={this.state.isSubmitting} className="modal-close" onClick={this.onModalClosed} />
                     <div><label htmlFor="distance">Distance in Meters: </label><input onChange={this.onChangeDistance} type="number" name="distance" value={this.state.distance} /></div>
                     <div><label htmlFor="duration">Duration in Seconds: </label><input onChange={this.onChangeDuration} type="number" name="duration" value={this.state.duration} /></div>
                     <div><label htmlFor="timestamp">Jog timestamp: </label><Datetime value={this.state.timestamp} onChange={this.onTimestampChanged} /></div>
                     <div><label htmlFor="location">Location: </label><a onClick={this.openLocationModal} href="#">Click to enter location on map</a></div>
-                    <div><input type="submit" value="submit" /></div>
+                    <div><input disabled={this.state.isSubmitting} type="submit" value="submit" /></div>
                 </form>
-                {this.state.isLocationModalOpen?<MapComponent initialPosition={this.state.position} onNewPosition={this.onNewPosition} />:""}
+                {this.state.isLocationModalOpen?<MapComponent onNewLocation={this.onNewLocation} />:""}
             </div>
-        }
-        else {
-            return null;
-        }
+        </div>;
     }
 }

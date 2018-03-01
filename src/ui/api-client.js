@@ -87,6 +87,25 @@ class ApiClientClass {
         	data,
         	status:res.status
         }
+    }
+    
+    async addEntry(authToken,distance,duration,timestamp,location) {
+		let res = await fetch("/api/entry/add",{
+            method:"post",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                distance,duration,timestamp,location
+            })
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        }
 	}
 }
 

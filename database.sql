@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.3
--- Dumped by pg_dump version 9.6.3
+-- Dumped from database version 9.6.5
+-- Dumped by pg_dump version 9.6.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -44,7 +44,7 @@ CREATE TABLE entry (
     "timestamp" timestamp without time zone NOT NULL,
     distance_in_meters integer NOT NULL,
     duration_in_secs integer NOT NULL,
-    location text NOT NULL
+    location text
 );
 
 

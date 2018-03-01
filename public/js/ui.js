@@ -32559,6 +32559,54 @@ var ApiClientClass = function () {
 
             return addEntry;
         }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(authToken, entryId) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee7$(_context7) {
+                    while (1) {
+                        switch (_context7.prev = _context7.next) {
+                            case 0:
+                                _context7.next = 2;
+                                return fetch("/api/entry/delete", {
+                                    method: "post",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        entryId: entryId
+                                    })
+                                });
+
+                            case 2:
+                                res = _context7.sent;
+                                _context7.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context7.sent;
+                                return _context7.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context7.stop();
+                        }
+                    }
+                }, _callee7, this);
+            }));
+
+            function deleteEntry(_x13, _x14) {
+                return _ref7.apply(this, arguments);
+            }
+
+            return deleteEntry;
+        }()
     }]);
     return ApiClientClass;
 }();
@@ -32891,8 +32939,16 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             } else {
                 return _react2.default.createElement(
                     "div",
-                    null,
-                    "no entries"
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        _react2.default.createElement(
+                            "h3",
+                            null,
+                            "No entries"
+                        )
+                    )
                 );
             }
         }
@@ -32946,10 +33002,66 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                                 }, href: "#" },
                             "View on map"
                         )
-                    ) : ""
+                    ) : "",
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: function onClick(e) {
+                                e.preventDefault();_this3.editEntryModal(props.entry);
+                            }, className: "button" },
+                        "Edit"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: function onClick(e) {
+                                e.preventDefault();_this3.deleteEntry(props.entry.id);
+                            }, className: "button" },
+                        "Delete"
+                    )
                 )
             );
         }
+    }, {
+        key: "editEntryModal",
+        value: function editEntryModal(entry) {
+            console.log(entry);
+        }
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(entryId) {
+                var result;
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId);
+
+                            case 2:
+                                result = _context2.sent;
+
+                                if (result.status === 200) {
+                                    this.setState({
+                                        entries: this.state.entries.filter(function (el) {
+                                            return el.id !== entryId;
+                                        })
+                                    });
+                                }
+
+                            case 4:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function deleteEntry(_x) {
+                return _ref2.apply(this, arguments);
+            }
+
+            return deleteEntry;
+        }()
     }, {
         key: "displayMap",
         value: function displayMap(ev, location) {

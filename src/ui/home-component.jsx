@@ -45,7 +45,11 @@ export class HomeComponent extends React.Component {
             </div>;
         }
         else {
-            return <div>no entries</div>;
+            return <div className="body-container">
+                <div className="inner-card card card-1">
+                    <h3>No entries</h3>
+                </div>
+            </div>;
         }
     }
 
@@ -58,8 +62,23 @@ export class HomeComponent extends React.Component {
                 <div>Average Speed: {this.toKmh(this.calcSpeed(props.entry.distance,props.entry.duration))}Km/h</div>
                 <div>Time:{moment(props.entry.timestamp).toString()}</div>
                 {hasLocation?<div>Location:<a onClick={(e) => {this.displayMap(e,JSON.parse(props.entry.location))}} href="#">View on map</a></div>:""}
+                <button onClick={(e) => {e.preventDefault();this.editEntryModal(props.entry);}} className="button">Edit</button>
+                <button onClick={(e) => {e.preventDefault();this.deleteEntry(props.entry.id);}} className="button">Delete</button>
             </div>
         </div>;
+    }
+
+    editEntryModal(entry) {
+        console.log(entry);
+    }
+
+    async deleteEntry(entryId) {
+        let result = await ApiClient.deleteEntry(this.state.authToken,entryId);
+        if(result.status === 200) {
+            this.setState({
+                entries:this.state.entries.filter((el) => el.id !==entryId)
+            })
+        }
     }
 
     displayMap(ev,location) {

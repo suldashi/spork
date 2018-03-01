@@ -44,7 +44,8 @@ CREATE TABLE entry (
     "timestamp" timestamp without time zone NOT NULL,
     distance_in_meters integer NOT NULL,
     duration_in_secs integer NOT NULL,
-    location text
+    location text,
+    deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -194,7 +195,7 @@ ALTER TABLE ONLY user_session ALTER COLUMN id SET DEFAULT nextval('user_session_
 -- Data for Name: entry; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY entry (id, user_id, "timestamp", distance_in_meters, duration_in_secs, location) FROM stdin;
+COPY entry (id, user_id, "timestamp", distance_in_meters, duration_in_secs, location, deleted) FROM stdin;
 \.
 
 

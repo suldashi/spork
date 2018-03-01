@@ -10,7 +10,7 @@ const EntryRepository = {
 	},
 
 	getEntryById: async (entryId) => {
-		let entry = await db.oneOrNone('SELECT * FROM "entry" WHERE "id" = $1',entryId);
+		let entry = await db.oneOrNone('SELECT * FROM "entry" WHERE "id" = $1 AND "deleted" = false',entryId);
 		if(entry) {
 			return entry;
 		}
@@ -18,11 +18,22 @@ const EntryRepository = {
 	},
 
 	getEntriesByUserId: async (userId) => {
-		let entries = await db.any('SELECT * FROM "entry" WHERE "user_id" = $1 ORDER BY "timestamp" DESC',userId);
+		let entries = await db.any('SELECT * FROM "entry" WHERE "user_id" = $1 AND "deleted" = false ORDER BY "timestamp" DESC',userId);
 		if(entries) {
 			return entries;
 		}
 		return [];
+	},
+
+	deleteEntry: async (entryId) => {
+		let result = await db.any('UPDATE "entry" SET "deleted" = true WHERE "id" = $1 RETURNING "id"',entryId);
+		if(result) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 }
 

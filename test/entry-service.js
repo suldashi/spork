@@ -134,3 +134,24 @@ describe("EntryService.getEntriesByUserId() no entries", () => {
 		await userService.removeUser(userId);
 	});
 });
+
+describe("EntryService.deleteEntry()", () => {
+	let userId = null;
+	let entryId = null;
+	before("creating and activating the user, one entry", async () => {
+		userId = await userService.addUser(userToInsert.username,userToInsert.password);
+		let user = await userService.getUserById(userId);
+		let activationCode = await userService.generateActivationCode(user.activationCodeGenerator);
+		let result = await userService.activateUser(activationCode);
+		entryId = await entryService.addEntry(userId,moment(),distance,duration,location);
+	});
+	it("deleting the entry should be successful",async () => {
+		let result = await entryService.deleteEntry(entryId);
+		let entry = await entryService.getEntryById(entryId);
+		expect(result).to.be.true;
+		expect(entry).to.be.null;
+	});
+	after("deleting the user", async () => {
+		await userService.removeUser(userId);
+	});
+});

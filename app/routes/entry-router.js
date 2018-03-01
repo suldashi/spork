@@ -17,4 +17,16 @@ router.post("/add",async (req,res) => {
     res.send({entryId:result});
 });
 
+router.post("/delete",async (req,res) => {
+    let entry = await entryService.getEntryById(req.body.entryId);
+    if(entry && entry.userId === req.userId) {
+        let result = await entryService.deleteEntry(req.body.entryId);
+        res.send({entryId:result});
+    }
+    else {
+        res.status(403).send({error:"cannot delete entry"});
+    }
+    
+});
+
 module.exports = router;

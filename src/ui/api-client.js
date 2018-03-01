@@ -106,6 +106,25 @@ class ApiClientClass {
         	data,
         	status:res.status
         }
+    }
+    
+    async deleteEntry(authToken,entryId) {
+		let res = await fetch("/api/entry/delete",{
+            method:"post",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                entryId
+            })
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        }
 	}
 }
 

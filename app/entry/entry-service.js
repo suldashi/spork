@@ -35,6 +35,10 @@ class EntryService {
 			timestamp:el.timestamp
 		}});
 	}
+
+	async deleteEntry(entryId) {
+		return this.entryRepository.deleteEntry(entryId);
+	}
 }
 
 module.exports = EntryService;

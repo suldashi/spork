@@ -25,7 +25,17 @@ const EntryRepository = {
 
 	getEntriesByUserId: async (userId) => {
 		let result = Object.values(entries).filter((el) => el.user_id === userId);
-		return sort((l,r) => l.timestamp>r.timestamp,result);
+		return result.sort((l,r) => l.timestamp>r.timestamp);
+	},
+
+	deleteEntry: async (entryId) => {
+		if(entries[entryId]) {
+			delete entries[entryId];
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

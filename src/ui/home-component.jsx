@@ -5,6 +5,7 @@ import {ApiClient} from "./api-client";
 import {AddEntryModal} from "./add-entry-modal";
 
 const moment = require("moment");
+const Datetime = require('react-datetime');
 const autoBind = require("react-auto-bind");
 
 export class HomeComponent extends React.Component {
@@ -15,10 +16,13 @@ export class HomeComponent extends React.Component {
         this.state = {
             authToken:props.authToken,
             entries:null,
+            filteredEntries:null,
             isLoading:props.authToken?true:false,
             isAddEntryModalOpen:false,
             activeEntry:null,
-            addEditSubmitCallback:this.onAddEntry
+            addEditSubmitCallback:this.onAddEntry,
+            lowerLimit:moment().add(-1,"y"),
+            upperLimit:moment()
         }
     }
 
@@ -27,6 +31,7 @@ export class HomeComponent extends React.Component {
             let result = await ApiClient.getEntries(this.state.authToken);
             this.setState({
                 entries:result.data.entries,
+                filteredEntries:result.data.entries,
                 isLoading:false
             });
         }
@@ -43,7 +48,7 @@ export class HomeComponent extends React.Component {
     Entries() {
         if(this.state.entries && this.state.entries.length>0) {
             return <div>
-                {this.state.entries.map(el => <this.Entry entry={el} key={el.id} />)}
+                {this.state.filteredEntries.map(el => <this.Entry entry={el} key={el.id} />)}
             </div>;
         }
         else {
@@ -168,6 +173,71 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    onLowerLimitChanged(e) {
+        this.setState({
+            lowerLimit:e,
+            filteredEntries:this.state.entries.filter((el) => moment(el.timestamp).isAfter(moment(e) && moment(el.timestamp).isBefore(this.state.upperLimit)))
+        })
+    }
+
+    onUpperLimitChanged(e) {
+        this.setState({
+            upperLimit:e,
+            filteredEntries:this.state.entries.filter((el) => moment(el.timestamp).isAfter(moment(this.state.lowerLimit) && moment(el.timestamp).isBefore(e)))
+        })
+    }
+
+    getFastest(entries) {
+        if(!entries) {
+            return "n/a";
+        }
+        let speeds = entries.map((el) => el.distance/el.duration);
+        let sorted = speeds.sort((l,r) => l<r);
+        if(sorted.length>0) {
+            return this.toKmh(sorted[0]);
+        }
+        else {
+            return "n/a";
+        }
+    }
+
+    getAverage(entries) {
+        if(!entries) {
+            return "n/a";
+        }
+        let sum = 0;
+        for(var i in entries) {
+            sum+=(entries[i].distance/entries[i].duration);
+        }
+        return this.toKmh(sum/entries.length);
+    }
+
+    getGreatest(entries) {
+        if(!entries) {
+            return "n/a";
+        }
+        let speeds = entries.map((el) => el.distance);
+        let sorted = speeds.sort((l,r) => l<r);
+        if(sorted.length>0) {
+            return this.toKm(sorted[0]);
+        }
+        else {
+            return "n/a";
+        }
+    }
+
+    getTotal(entries) {
+        if(!entries) {
+            return "n/a";
+        }
+        let sum = 0;
+        for(var i in entries) {
+            sum+=(entries[i].distance);
+        }
+        return this.toKm(sum);
+    }
+
+
     render() {
         if(this.state.isLoading) {
             return <div className="body-container">
@@ -177,6 +247,20 @@ export class HomeComponent extends React.Component {
         else {
             return <div>
                 {this.state.isAddEntryModalOpen?<AddEntryModal authToken={this.state.authToken} entry={this.state.activeEntry} onModalClosed={this.onModalClosed} onSubmission={this.state.addEditSubmitCallback} />:""}
+                <div className="body-container">
+                    <div className="inner-card card card-1">
+                        <div>Fastest speed:{this.getFastest(this.state.entries)} KM/h</div>
+                        <div>Average speed:{this.getAverage(this.state.entries)} KM/h</div>
+                        <div>Greatest distance:{this.getGreatest(this.state.entries)} KM</div>
+                        <div>Total distance:{this.getTotal(this.state.entries)} KM</div>
+                    </div>
+                </div>
+                <div className="body-container">
+                    <div className="inner-card card card-1">
+                    <Datetime value={this.state.lowerLimit} onChange={this.onLowerLimitChanged} />
+                    <Datetime value={this.state.upperLimit} onChange={this.onUpperLimitChanged} />
+                    </div>
+                </div>
                 <div className="body-container">
                     <div className="inner-card card card-1"><a className="button" onClick={this.openAddEntryModal}href="#">Add Entry</a></div>
                 </div>

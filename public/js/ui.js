@@ -33470,6 +33470,7 @@ var _addEntryModal = require("./add-entry-modal");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var moment = require("moment");
+var Datetime = require('react-datetime');
 var autoBind = require("react-auto-bind");
 
 var HomeComponent = exports.HomeComponent = function (_React$Component) {
@@ -33484,10 +33485,13 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
         _this.state = {
             authToken: props.authToken,
             entries: null,
+            filteredEntries: null,
             isLoading: props.authToken ? true : false,
             isAddEntryModalOpen: false,
             activeEntry: null,
-            addEditSubmitCallback: _this.onAddEntry
+            addEditSubmitCallback: _this.onAddEntry,
+            lowerLimit: moment().add(-1, "y"),
+            upperLimit: moment()
         };
         return _this;
     }
@@ -33514,6 +33518,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
                                 this.setState({
                                     entries: result.data.entries,
+                                    filteredEntries: result.data.entries,
                                     isLoading: false
                                 });
 
@@ -33549,7 +33554,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    this.state.entries.map(function (el) {
+                    this.state.filteredEntries.map(function (el) {
                         return _react2.default.createElement(_this2.Entry, { entry: el, key: el.id });
                     })
                 );
@@ -33820,6 +33825,90 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             return onAddEntry;
         }()
     }, {
+        key: "onLowerLimitChanged",
+        value: function onLowerLimitChanged(e) {
+            var _this4 = this;
+
+            this.setState({
+                lowerLimit: e,
+                filteredEntries: this.state.entries.filter(function (el) {
+                    return moment(el.timestamp).isAfter(moment(e) && moment(el.timestamp).isBefore(_this4.state.upperLimit));
+                })
+            });
+        }
+    }, {
+        key: "onUpperLimitChanged",
+        value: function onUpperLimitChanged(e) {
+            var _this5 = this;
+
+            this.setState({
+                upperLimit: e,
+                filteredEntries: this.state.entries.filter(function (el) {
+                    return moment(el.timestamp).isAfter(moment(_this5.state.lowerLimit) && moment(el.timestamp).isBefore(e));
+                })
+            });
+        }
+    }, {
+        key: "getFastest",
+        value: function getFastest(entries) {
+            if (!entries) {
+                return "n/a";
+            }
+            var speeds = entries.map(function (el) {
+                return el.distance / el.duration;
+            });
+            var sorted = speeds.sort(function (l, r) {
+                return l < r;
+            });
+            if (sorted.length > 0) {
+                return this.toKmh(sorted[0]);
+            } else {
+                return "n/a";
+            }
+        }
+    }, {
+        key: "getAverage",
+        value: function getAverage(entries) {
+            if (!entries) {
+                return "n/a";
+            }
+            var sum = 0;
+            for (var i in entries) {
+                sum += entries[i].distance / entries[i].duration;
+            }
+            return this.toKmh(sum / entries.length);
+        }
+    }, {
+        key: "getGreatest",
+        value: function getGreatest(entries) {
+            if (!entries) {
+                return "n/a";
+            }
+            var speeds = entries.map(function (el) {
+                return el.distance;
+            });
+            var sorted = speeds.sort(function (l, r) {
+                return l < r;
+            });
+            if (sorted.length > 0) {
+                return this.toKm(sorted[0]);
+            } else {
+                return "n/a";
+            }
+        }
+    }, {
+        key: "getTotal",
+        value: function getTotal(entries) {
+            if (!entries) {
+                return "n/a";
+            }
+            var sum = 0;
+            for (var i in entries) {
+                sum += entries[i].distance;
+            }
+            return this.toKm(sum);
+        }
+    }, {
         key: "render",
         value: function render() {
             if (this.state.isLoading) {
@@ -33844,6 +33933,52 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                             "div",
                             { className: "inner-card card card-1" },
                             _react2.default.createElement(
+                                "div",
+                                null,
+                                "Fastest speed:",
+                                this.getFastest(this.state.entries),
+                                " KM/h"
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                "Average speed:",
+                                this.getAverage(this.state.entries),
+                                " KM/h"
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                "Greatest distance:",
+                                this.getGreatest(this.state.entries),
+                                " KM"
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                "Total distance:",
+                                this.getTotal(this.state.entries),
+                                " KM"
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "body-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "inner-card card card-1" },
+                            _react2.default.createElement(Datetime, { value: this.state.lowerLimit, onChange: this.onLowerLimitChanged }),
+                            _react2.default.createElement(Datetime, { value: this.state.upperLimit, onChange: this.onUpperLimitChanged })
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "body-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "inner-card card card-1" },
+                            _react2.default.createElement(
                                 "a",
                                 { className: "button", onClick: this.openAddEntryModal, href: "#" },
                                 "Add Entry"
@@ -33857,7 +33992,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }]);
     return HomeComponent;
 }(_react2.default.Component);
-},{"./add-entry-modal":197,"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/helpers/toConsumableArray":15,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-router-dom":176}],205:[function(require,module,exports){
+},{"./add-entry-modal":197,"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/helpers/toConsumableArray":15,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154,"react-router-dom":176}],205:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

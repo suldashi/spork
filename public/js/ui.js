@@ -32901,47 +32901,52 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
         value: function Entry(props) {
             var _this3 = this;
 
+            var hasLocation = !(props.entry.location === null || props.entry.location === "null");
             return _react2.default.createElement(
                 "div",
-                { className: "home-entry" },
+                { className: "body-container" },
                 _react2.default.createElement(
                     "div",
-                    null,
-                    "Distance: ",
-                    this.toKm(props.entry.distance),
-                    "Km"
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    "Duration: ",
-                    this.toMins(props.entry.duration),
-                    "min"
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    "Average Speed: ",
-                    this.toKmh(this.calcSpeed(props.entry.distance, props.entry.duration)),
-                    "Km/h"
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    "Time:",
-                    moment(props.entry.timestamp).toString()
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    "Location:",
+                    { className: "inner-card card card-1" },
                     _react2.default.createElement(
-                        "a",
-                        { onClick: function onClick(e) {
-                                _this3.displayMap(e, JSON.parse(props.entry.location));
-                            }, href: "#" },
-                        "View on map"
-                    )
+                        "div",
+                        null,
+                        "Distance: ",
+                        this.toKm(props.entry.distance),
+                        "Km"
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        "Duration: ",
+                        this.toMins(props.entry.duration),
+                        "min"
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        "Average Speed: ",
+                        this.toKmh(this.calcSpeed(props.entry.distance, props.entry.duration)),
+                        "Km/h"
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        "Time:",
+                        moment(props.entry.timestamp).toString()
+                    ),
+                    hasLocation ? _react2.default.createElement(
+                        "div",
+                        null,
+                        "Location:",
+                        _react2.default.createElement(
+                            "a",
+                            { onClick: function onClick(e) {
+                                    _this3.displayMap(e, JSON.parse(props.entry.location));
+                                }, href: "#" },
+                            "View on map"
+                        )
+                    ) : ""
                 )
             );
         }
@@ -33001,8 +33006,12 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             if (this.state.isLoading) {
                 return _react2.default.createElement(
                     "div",
-                    null,
-                    "loading..."
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        "Loading..."
+                    )
                 );
             } else {
                 return _react2.default.createElement(
@@ -33010,9 +33019,17 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                     null,
                     this.state.isAddEntryModalOpen ? _react2.default.createElement(_addEntryModal.AddEntryModal, { authToken: this.state.authToken, onModalClosed: this.onModalClosed, onSuccessfulSubmission: this.onSuccessfulSubmission }) : "",
                     _react2.default.createElement(
-                        "a",
-                        { onClick: this.openAddEntryModal, href: "#" },
-                        "Add Entry"
+                        "div",
+                        { className: "body-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "inner-card card card-1" },
+                            _react2.default.createElement(
+                                "a",
+                                { className: "button", onClick: this.openAddEntryModal, href: "#" },
+                                "Add Entry"
+                            )
+                        )
                     ),
                     _react2.default.createElement(this.Entries, null)
                 );

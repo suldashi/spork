@@ -94,11 +94,10 @@ body {
 }
 
 .inner-card h1 {
-	padding: 20px 0;
+	padding: 10px 0;
 }
 
 .inner-card h3,h2 {
-	padding: 10px 0;
 	font-size: 15px;
 }
 
@@ -107,6 +106,7 @@ body {
 	border-radius: 2px;
 	margin: 5px;
 	position: relative;
+	padding: 10px;
 }
 
 .card form {

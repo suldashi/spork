@@ -50,12 +50,15 @@ export class HomeComponent extends React.Component {
     }
 
     Entry(props) {
-        return <div className="home-entry">
-            <div>Distance: {this.toKm(props.entry.distance)}Km</div>
-            <div>Duration: {this.toMins(props.entry.duration)}min</div>
-            <div>Average Speed: {this.toKmh(this.calcSpeed(props.entry.distance,props.entry.duration))}Km/h</div>
-            <div>Time:{moment(props.entry.timestamp).toString()}</div>
-            <div>Location:<a onClick={(e) => {this.displayMap(e,JSON.parse(props.entry.location))}} href="#">View on map</a></div>
+        let hasLocation = !(props.entry.location===null || props.entry.location === "null");
+        return <div className="body-container">
+            <div className="inner-card card card-1">
+                <div>Distance: {this.toKm(props.entry.distance)}Km</div>
+                <div>Duration: {this.toMins(props.entry.duration)}min</div>
+                <div>Average Speed: {this.toKmh(this.calcSpeed(props.entry.distance,props.entry.duration))}Km/h</div>
+                <div>Time:{moment(props.entry.timestamp).toString()}</div>
+                {hasLocation?<div>Location:<a onClick={(e) => {this.displayMap(e,JSON.parse(props.entry.location))}} href="#">View on map</a></div>:""}
+            </div>
         </div>;
     }
 
@@ -103,12 +106,16 @@ export class HomeComponent extends React.Component {
 
     render() {
         if(this.state.isLoading) {
-            return <div>loading...</div>;
+            return <div className="body-container">
+                <div className="inner-card card card-1">Loading...</div>
+            </div>;
         }
         else {
             return <div>
                 {this.state.isAddEntryModalOpen?<AddEntryModal authToken={this.state.authToken} onModalClosed={this.onModalClosed} onSuccessfulSubmission={this.onSuccessfulSubmission} />:""}
-                <a onClick={this.openAddEntryModal}href="#">Add Entry</a>
+                <div className="body-container">
+                    <div className="inner-card card card-1"><a className="button" onClick={this.openAddEntryModal}href="#">Add Entry</a></div>
+                </div>
                 <this.Entries />
             </div>;
         }

@@ -33089,8 +33089,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
             loginSucceeded: false,
             needsActivation: false,
             activationCodeGenerator: null,
-            activationCode: null,
-            passwordHasBeenReset: false
+            activationCode: null
         };
         return _this;
     }
@@ -33170,19 +33169,35 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: "/" });
             } else if (this.state.activationCode) {
                 return _react2.default.createElement(
-                    "button",
-                    { onClick: this.activateAccount },
-                    "Activate account"
+                    "div",
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        _react2.default.createElement(
+                            "h3",
+                            { onClick: this.activateAccount },
+                            "An email has been sent with instructions on how to activate this account"
+                        )
+                    )
                 );
             } else if (this.state.needsActivation) {
                 return _react2.default.createElement(
                     "div",
-                    null,
-                    "y'all need to activate your account",
+                    { className: "body-container" },
                     _react2.default.createElement(
-                        "button",
-                        { onClick: this.sendActivationEmail },
-                        "Send Activation Code"
+                        "div",
+                        { className: "inner-card card card-1" },
+                        _react2.default.createElement(
+                            "h3",
+                            null,
+                            "This account needs to be activated before it can be used. ",
+                            _react2.default.createElement(
+                                "a",
+                                { href: "#", onClick: this.sendActivationEmail },
+                                "Click here to send an activation code to your email"
+                            )
+                        )
                     )
                 );
             } else {
@@ -33242,13 +33257,6 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
             this[e.target.name] = e.target.value;
             this.setState({
                 formHasError: false
-            });
-        }
-    }, {
-        key: "resetPassword",
-        value: function resetPassword() {
-            this.setState({
-                passwordHasBeenReset: true
             });
         }
     }, {

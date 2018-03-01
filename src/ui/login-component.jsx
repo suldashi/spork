@@ -19,8 +19,7 @@ export class LoginComponent extends React.Component {
             loginSucceeded: false,
             needsActivation:false,
             activationCodeGenerator:null,
-            activationCode:null,
-            passwordHasBeenReset:false
+            activationCode:null
         };
     }
 
@@ -45,11 +44,18 @@ export class LoginComponent extends React.Component {
             return <Redirect to="/" />
         }
         else if(this.state.activationCode) {
-            return <button onClick={this.activateAccount}>Activate account</button>;
+            return <div className="body-container">
+                <div className="inner-card card card-1">
+                        <h3 onClick={this.activateAccount}>An email has been sent with instructions on how to activate this account</h3>
+                    </div>
+            </div>;
         }
         else if(this.state.needsActivation) {
-            return <div>y'all need to activate your account
-            <button onClick={this.sendActivationEmail}>Send Activation Code</button></div>;
+            return <div className="body-container">
+                <div className="inner-card card card-1">
+                        <h3>This account needs to be activated before it can be used. <a href="#" onClick={this.sendActivationEmail}>Click here to send an activation code to your email</a></h3>
+                    </div>
+            </div>;
         }
         else {
             return <div className="body-container">
@@ -73,12 +79,6 @@ export class LoginComponent extends React.Component {
         this[e.target.name] = e.target.value;
         this.setState({
             formHasError:false
-        });
-    }
-
-    resetPassword() {
-        this.setState({
-            passwordHasBeenReset:true
         });
     }
 

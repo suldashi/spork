@@ -32,6 +32,41 @@ class ApiClientClass {
         	data,
         	status:res.status
         };
+    }
+
+    async deleteUser(authToken,userId) {
+		let res = await fetch("/api/user/delete",{
+            method:"post",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                userId
+            })
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        };
+    }
+    
+    async getAllUsers(authToken) {
+		let res = await fetch("/api/user/all",{
+            method:"get",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            }
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        };
 	}
 
 	async login(username,password) {
@@ -89,8 +124,8 @@ class ApiClientClass {
         }
     }
     
-    async getEntries(authToken) {
-		let res = await fetch("/api/entry",{
+    async getEntries(authToken,userId) {
+		let res = await fetch("/api/entry?userId="+userId,{
             method:"get",
             headers: {
                 "Accept":"application/json",

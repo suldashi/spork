@@ -8,7 +8,11 @@ const authMiddleware = require("./auth-middleware");
 router.use(authMiddleware);
 
 router.get("/",async (req,res) => {
-    let entries = await entryService.getEntriesByUserId(req.userId);
+    let userId = req.query.userId;
+    if(!userId || userId === "undefined") {
+        userId = req.userId;
+    }
+    let entries = await entryService.getEntriesByUserId(userId);
     res.send({entries});
 });
 
@@ -19,7 +23,7 @@ router.post("/add",async (req,res) => {
 
 router.post("/delete",async (req,res) => {
     let entry = await entryService.getEntryById(req.body.entryId);
-    if(entry && entry.userId === req.userId) {
+    if(entry) {
         let result = await entryService.deleteEntry(req.body.entryId);
         res.send({entryId:result});
     }

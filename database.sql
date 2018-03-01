@@ -213,6 +213,7 @@ SELECT pg_catalog.setval('entry_id_seq', 1, false);
 --
 
 COPY "user" (id, username, password, is_active, activation_code_generator, is_user_manager, is_deleted) FROM stdin;
+1	admin	$2a$12$DVKLqWqQTI0BkoE6ge1jSO8KDTVmhauCm7Zczg3KRPfwcvha60kby	t	295e0ca4bd8698e36757aa3807014b28	t	f
 \.
 
 
@@ -235,7 +236,7 @@ SELECT pg_catalog.setval('user_activation_code_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('user_id_seq', 1, false);
+SELECT pg_catalog.setval('user_id_seq', 1, true);
 
 
 --

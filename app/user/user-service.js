@@ -12,7 +12,8 @@ class UserService {
 				id:user.id,
 				username:user.username,
 				activated:user.is_active,
-				activationCodeGenerator:user.activation_code_generator
+				activationCodeGenerator:user.activation_code_generator,
+				isAdmin:user.username==="admin"?true:undefined
 			};
 		}
 		return null;
@@ -26,7 +27,8 @@ class UserService {
 				username:el.username,
 				activated:el.is_active,
 				activationCodeGenerator:el.activation_code_generator,
-				isUserManager:el.is_user_manager
+				isUserManager:el.is_user_manager,
+				isAdmin:el.username==="admin"?true:undefined
 			}});
 		}
 		return [];
@@ -42,7 +44,8 @@ class UserService {
 					username:user.username,
 					activated:user.is_active,
 					activationCodeGenerator:user.activation_code_generator,
-					isUserManager:user.is_user_manager
+					isUserManager:user.is_user_manager,
+					isAdmin:user.username==="admin"?true:undefined
 				};
 			}
 		}
@@ -57,7 +60,8 @@ class UserService {
 				username:user.username,
 				activated:user.is_active,
 				activationCodeGenerator:user.activation_code_generator,
-				isUserManager:user.is_user_manager
+				isUserManager:user.is_user_manager,
+				isAdmin:user.username==="admin"?true:undefined
 			};
 		}
 		return null;

@@ -1,4 +1,5 @@
 var Mailgun = require('mailgun-js');
+const config = require("./config");
 
 class EmailService {
 
@@ -9,9 +10,9 @@ class EmailService {
     }
 
     sendActivationLink(activationCode,recipientAddress) {
-        let from = "ermirsuldashi@gmail.com";
+        let from = config.app.confirmationEmailSender;
         let subject = "Activate your Spork account";
-        let activationUrl = `http://localhost:8088/activate/${activationCode}`;
+        let activationUrl = `${config.app.url}:${config.app.port}/activate/${activationCode}`;
         let emailBody = `<a href="${activationUrl}">Click here</a> to activate your Spork account
          or copy this address on your browser:<br/><br/>${activationUrl}<br/><br/>The Spork Team`;
         return new Promise((resolve,reject) => {

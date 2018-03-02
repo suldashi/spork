@@ -8,7 +8,8 @@ var config = {
     },
     app: {
         url: "http://localhost",
-        port: 8088
+        port: 8088,
+        confirmationEmailSender:"ermirsuldashi@gmail.com"
         
     }
 };

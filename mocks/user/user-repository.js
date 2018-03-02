@@ -51,6 +51,14 @@ const UserRepository = {
         return false;
     },
 
+    changePassword: async (userId,hashedPassword) => {
+        if(users[userId]) {
+            users[userId].password = hashedPassword;
+            return true;
+        }
+        return false;
+    },
+
     generateActivationCode: async (activationCodeGenerator) => {
         let user = Object.values(users).find(el => el.activation_code_generator === activationCodeGenerator);
         let userId = user?user.id:null;

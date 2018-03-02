@@ -45,6 +45,14 @@ const UserRepository = {
         return false;
     },
 
+    changePassword: async (id,hashedPassword) => {
+        let result = await db.oneOrNone('UPDATE "user" SET "password" = $2 WHERE "id" = $1 RETURNING id',[id,hashedPassword]);
+        if(result) {
+            return true;
+        }
+        return false;
+    },
+
     generateActivationCode: async (activationCodeGenerator) => {
         let user = await db.oneOrNone('SELECT * FROM "user" WHERE "activation_code_generator" = $1 AND "is_active" = $2 AND "is_deleted" = false',[activationCodeGenerator,false]);
         if(user) {

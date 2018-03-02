@@ -52,6 +52,25 @@ class ApiClientClass {
         	status:res.status
         };
     }
+
+    async changePassword(authToken,userId,password) {
+		let res = await fetch("/api/auth/changePassword",{
+            method:"put",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                userId,password
+            })
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        };
+    }
     
     async getAllUsers(authToken) {
 		let res = await fetch("/api/user/all",{

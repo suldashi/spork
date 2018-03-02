@@ -70,4 +70,15 @@ router.post("/register",async (req,res) => {
     }
 });
 
+router.put("/changePassword",async (req,res) => {
+    let user = await userService.getUserById(req.body.userId);
+    if(!user) {
+        res.status(400).send(JSON.stringify({error:"no such user"}));
+    }
+    else {
+        result = await userService.changePassword(req.body.userId,req.body.password);
+        res.status(200).send({});
+    }
+});
+
 module.exports = router;

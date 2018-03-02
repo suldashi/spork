@@ -67,6 +67,11 @@ class UserService {
 		return null;
 	}
 
+	async changePassword(userId,password) {
+		let hashedPassword = await CryptoService.hashPassword(password);
+		return this.userRepository.changePassword(userId,hashedPassword);
+	}
+
 	async getUserByActivationCodeGenerator(activationCodeGenerator) {
 		return this.userRepository.getUserByActivationCodeGenerator(activationCodeGenerator);
 	}

@@ -32314,7 +32314,7 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
     }]);
     return AddEntryModal;
 }(_react2.default.Component);
-},{"./map-component":208,"babel-runtime/core-js/json/stringify":2,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154}],199:[function(require,module,exports){
+},{"./map-component":209,"babel-runtime/core-js/json/stringify":2,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154}],199:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32581,22 +32581,25 @@ var ApiClientClass = function () {
             return deleteUser;
         }()
     }, {
-        key: "getAllUsers",
+        key: "changePassword",
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(authToken) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(authToken, userId, password) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 _context4.next = 2;
-                                return fetch("/api/user/all", {
-                                    method: "get",
+                                return fetch("/api/auth/changePassword", {
+                                    method: "put",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
-                                    }
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        userId: userId, password: password
+                                    })
                                 });
 
                             case 2:
@@ -32619,32 +32622,29 @@ var ApiClientClass = function () {
                 }, _callee4, this);
             }));
 
-            function getAllUsers(_x6) {
+            function changePassword(_x6, _x7, _x8) {
                 return _ref4.apply(this, arguments);
             }
 
-            return getAllUsers;
+            return changePassword;
         }()
     }, {
-        key: "login",
+        key: "getAllUsers",
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(username, password) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(authToken) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 _context5.next = 2;
-                                return fetch("/api/auth/login", {
-                                    method: "post",
+                                return fetch("/api/user/all", {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        username: username,
-                                        password: password
-                                    })
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    }
                                 });
 
                             case 2:
@@ -32667,30 +32667,31 @@ var ApiClientClass = function () {
                 }, _callee5, this);
             }));
 
-            function login(_x7, _x8) {
+            function getAllUsers(_x9) {
                 return _ref5.apply(this, arguments);
             }
 
-            return login;
+            return getAllUsers;
         }()
     }, {
-        key: "sendActivationEmail",
+        key: "login",
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(activationCodeGenerator) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(username, password) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 _context6.next = 2;
-                                return fetch("/api/auth/sendActivationCode", {
+                                return fetch("/api/auth/login", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json"
                                     },
                                     body: (0, _stringify2.default)({
-                                        activationCodeGenerator: activationCodeGenerator
+                                        username: username,
+                                        password: password
                                     })
                                 });
 
@@ -32714,30 +32715,30 @@ var ApiClientClass = function () {
                 }, _callee6, this);
             }));
 
-            function sendActivationEmail(_x9) {
+            function login(_x10, _x11) {
                 return _ref6.apply(this, arguments);
             }
 
-            return sendActivationEmail;
+            return login;
         }()
     }, {
-        key: "activateAccount",
+        key: "sendActivationEmail",
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(activationCode) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(activationCodeGenerator) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
                                 _context7.next = 2;
-                                return fetch("/api/auth/activate", {
+                                return fetch("/api/auth/sendActivationCode", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json"
                                     },
                                     body: (0, _stringify2.default)({
-                                        activationCode: activationCode
+                                        activationCodeGenerator: activationCodeGenerator
                                     })
                                 });
 
@@ -32761,29 +32762,31 @@ var ApiClientClass = function () {
                 }, _callee7, this);
             }));
 
-            function activateAccount(_x10) {
+            function sendActivationEmail(_x12) {
                 return _ref7.apply(this, arguments);
             }
 
-            return activateAccount;
+            return sendActivationEmail;
         }()
     }, {
-        key: "getEntries",
+        key: "activateAccount",
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(authToken, lowerLimit, upperLimit, userId) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(activationCode) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.next = 2;
-                                return fetch("/api/entry?userId=" + userId + "&lowerLimit=" + lowerLimit + "&upperLimit=" + upperLimit, {
-                                    method: "get",
+                                return fetch("/api/auth/activate", {
+                                    method: "post",
                                     headers: {
                                         "Accept": "application/json",
-                                        "Content-Type": "application/json",
-                                        "Authorization": "Bearer " + authToken
-                                    }
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCode: activationCode
+                                    })
                                 });
 
                             case 2:
@@ -32806,32 +32809,29 @@ var ApiClientClass = function () {
                 }, _callee8, this);
             }));
 
-            function getEntries(_x11, _x12, _x13, _x14) {
+            function activateAccount(_x13) {
                 return _ref8.apply(this, arguments);
             }
 
-            return getEntries;
+            return activateAccount;
         }()
     }, {
-        key: "addEntry",
+        key: "getEntries",
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(authToken, distance, duration, timestamp, location, userId) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(authToken, lowerLimit, upperLimit, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
                                 _context9.next = 2;
-                                return fetch("/api/entry/add", {
-                                    method: "post",
+                                return fetch("/api/entry?userId=" + userId + "&lowerLimit=" + lowerLimit + "&upperLimit=" + upperLimit, {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
-                                    })
+                                    }
                                 });
 
                             case 2:
@@ -32854,31 +32854,31 @@ var ApiClientClass = function () {
                 }, _callee9, this);
             }));
 
-            function addEntry(_x15, _x16, _x17, _x18, _x19, _x20) {
+            function getEntries(_x14, _x15, _x16, _x17) {
                 return _ref9.apply(this, arguments);
             }
 
-            return addEntry;
+            return getEntries;
         }()
     }, {
-        key: "editEntry",
+        key: "addEntry",
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(authToken, entryId, distance, duration, timestamp, location) {
+            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(authToken, distance, duration, timestamp, location, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
                             case 0:
                                 _context10.next = 2;
-                                return fetch("/api/entry/edit", {
-                                    method: "put",
+                                return fetch("/api/entry/add", {
+                                    method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
+                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
                                     })
                                 });
 
@@ -32902,31 +32902,31 @@ var ApiClientClass = function () {
                 }, _callee10, this);
             }));
 
-            function editEntry(_x21, _x22, _x23, _x24, _x25, _x26) {
+            function addEntry(_x18, _x19, _x20, _x21, _x22, _x23) {
                 return _ref10.apply(this, arguments);
             }
 
-            return editEntry;
+            return addEntry;
         }()
     }, {
-        key: "deleteEntry",
+        key: "editEntry",
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(authToken, entryId) {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(authToken, entryId, distance, duration, timestamp, location) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
                                 _context11.next = 2;
-                                return fetch("/api/entry/delete", {
-                                    method: "delete",
+                                return fetch("/api/entry/edit", {
+                                    method: "put",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId
+                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
                                     })
                                 });
 
@@ -32950,8 +32950,56 @@ var ApiClientClass = function () {
                 }, _callee11, this);
             }));
 
-            function deleteEntry(_x27, _x28) {
+            function editEntry(_x24, _x25, _x26, _x27, _x28, _x29) {
                 return _ref11.apply(this, arguments);
+            }
+
+            return editEntry;
+        }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(authToken, entryId) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee12$(_context12) {
+                    while (1) {
+                        switch (_context12.prev = _context12.next) {
+                            case 0:
+                                _context12.next = 2;
+                                return fetch("/api/entry/delete", {
+                                    method: "delete",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        entryId: entryId
+                                    })
+                                });
+
+                            case 2:
+                                res = _context12.sent;
+                                _context12.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context12.sent;
+                                return _context12.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context12.stop();
+                        }
+                    }
+                }, _callee12, this);
+            }));
+
+            function deleteEntry(_x30, _x31) {
+                return _ref12.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -32962,6 +33010,159 @@ var ApiClientClass = function () {
 
 var ApiClient = exports.ApiClient = new ApiClientClass();
 },{"babel-runtime/core-js/json/stringify":2,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/regenerator":115}],201:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ChangePasswordModal = undefined;
+
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require("babel-runtime/helpers/inherits");
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _mapComponent = require("./map-component");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var autoBind = require("react-auto-bind");
+
+var ChangePasswordModal = exports.ChangePasswordModal = function (_React$Component) {
+    (0, _inherits3.default)(ChangePasswordModal, _React$Component);
+
+    function ChangePasswordModal(props) {
+        (0, _classCallCheck3.default)(this, ChangePasswordModal);
+
+        var _this = (0, _possibleConstructorReturn3.default)(this, (ChangePasswordModal.__proto__ || (0, _getPrototypeOf2.default)(ChangePasswordModal)).call(this, props));
+
+        autoBind(_this);
+        _this.onModalClosed = props.onModalClosed;
+        _this.onSubmission = props.onSubmission;
+        _this.state = {
+            password: "",
+            userId: props.userId
+        };
+        return _this;
+    }
+
+    (0, _createClass3.default)(ChangePasswordModal, [{
+        key: "onFormSubmit",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                e.preventDefault();
+                                this.onSubmission(this.state.userId, this.state.password);
+
+                            case 2:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function onFormSubmit(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return onFormSubmit;
+        }()
+    }, {
+        key: "onChangePassword",
+        value: function onChangePassword(e) {
+            e.preventDefault();
+            this.setState({
+                password: e.target.value
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "modal" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "modal-inner" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "body-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "inner-card card card-1" },
+                            _react2.default.createElement(
+                                "h1",
+                                null,
+                                "Change password"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "inner-card card card-1" },
+                            _react2.default.createElement(
+                                "form",
+                                { className: "modal-form", onSubmit: this.onFormSubmit },
+                                _react2.default.createElement(
+                                    "div",
+                                    { className: "input-group" },
+                                    _react2.default.createElement(
+                                        "label",
+                                        null,
+                                        "New password:"
+                                    ),
+                                    _react2.default.createElement("input", { className: "text-input", onChange: this.onChangePassword, type: "password", name: "password", value: this.state.password })
+                                ),
+                                _react2.default.createElement(
+                                    "div",
+                                    null,
+                                    _react2.default.createElement("input", { className: "button", type: "submit", value: "Submit" }),
+                                    _react2.default.createElement(
+                                        "button",
+                                        { className: "button", onClick: this.onModalClosed },
+                                        "Close"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+    return ChangePasswordModal;
+}(_react2.default.Component);
+},{"./map-component":209,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153}],202:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33015,7 +33216,7 @@ var ForbiddenComponent = exports.ForbiddenComponent = function (_React$Component
     }]);
     return ForbiddenComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],202:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],203:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33041,7 +33242,7 @@ var GeolocationPromise = exports.GeolocationPromise = function GeolocationPromis
 		});
 	});
 };
-},{"babel-runtime/core-js/promise":7}],203:[function(require,module,exports){
+},{"babel-runtime/core-js/promise":7}],204:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33228,7 +33429,7 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
     }]);
     return HeaderComponent;
 }(_react2.default.Component);
-},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],204:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],205:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33836,7 +34037,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }]);
     return HomeComponent;
 }(_react2.default.Component);
-},{"./add-entry-modal":198,"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/helpers/toConsumableArray":15,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154,"react-router-dom":176}],205:[function(require,module,exports){
+},{"./add-entry-modal":198,"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/helpers/toConsumableArray":15,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154,"react-router-dom":176}],206:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34137,7 +34338,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
     }]);
     return LoginComponent;
 }(_react2.default.Component);
-},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],206:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],207:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34196,7 +34397,7 @@ var LogoutComponent = exports.LogoutComponent = function (_React$Component) {
     }]);
     return LogoutComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],207:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -34353,7 +34554,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }]);
     return MainComponent;
 }(_react2.default.Component);
-},{"./activate-component":197,"./anon-home-component":199,"./forbidden-component":201,"./header-component":203,"./home-component":204,"./login-component":205,"./logout-component":206,"./not-found-component":209,"./register-component":210,"./user-manager-component":212,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],208:[function(require,module,exports){
+},{"./activate-component":197,"./anon-home-component":199,"./forbidden-component":202,"./header-component":204,"./home-component":205,"./login-component":206,"./logout-component":207,"./not-found-component":210,"./register-component":211,"./user-manager-component":213,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],209:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34506,7 +34707,7 @@ var MapComponent = exports.MapComponent = function (_React$Component) {
 	}]);
 	return MapComponent;
 }(_react2.default.Component);
-},{"./geolocation-promise":202,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153}],209:[function(require,module,exports){
+},{"./geolocation-promise":203,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34560,7 +34761,7 @@ var NotFoundComponent = exports.NotFoundComponent = function (_React$Component) 
     }]);
     return NotFoundComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],210:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],211:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34759,7 +34960,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
     }]);
     return RegisterComponent;
 }(_react2.default.Component);
-},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],211:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],212:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -34781,7 +34982,7 @@ _reactDom2.default.render(_react2.default.createElement(
     null,
     _react2.default.createElement(_mainComponent.MainComponent, null)
 ), document.getElementById('root'));
-},{"./main-component":207,"react":191,"react-dom":163,"react-router-dom":176}],212:[function(require,module,exports){
+},{"./main-component":208,"react":191,"react-dom":163,"react-router-dom":176}],213:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34825,6 +35026,8 @@ var _apiClient = require("./api-client");
 
 var _reactRouterDom = require("react-router-dom");
 
+var _changePasswordModal = require("./change-password-modal");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var autoBind = require("react-auto-bind");
@@ -34844,7 +35047,9 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
             isAuthenticated: false,
             isLoadingUsers: true,
             isAdmin: false,
-            users: null
+            users: null,
+            activeUser: null,
+            changePasswordModalOpen: false
         };
         return _this;
     }
@@ -34970,6 +35175,33 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
             return deleteUser;
         }()
     }, {
+        key: "changePasswordModal",
+        value: function () {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(userId) {
+                return _regenerator2.default.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                this.setState({
+                                    changePasswordModalOpen: true,
+                                    activeUser: userId
+                                });
+
+                            case 1:
+                            case "end":
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function changePasswordModal(_x2) {
+                return _ref4.apply(this, arguments);
+            }
+
+            return changePasswordModal;
+        }()
+    }, {
         key: "Users",
         value: function Users() {
             var _this2 = this;
@@ -34996,7 +35228,11 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                     this.state.isAdmin ? _react2.default.createElement(
                         _reactRouterDom.Link,
                         { to: "/admin/" + props.user.id },
-                        props.user.username
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            props.user.username
+                        )
                     ) : _react2.default.createElement(
                         "h3",
                         null,
@@ -35005,12 +35241,57 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                     _react2.default.createElement(
                         "button",
                         { onClick: function onClick(e) {
+                                e.preventDefault();_this3.changePasswordModal(props.user.id);
+                            }, className: "button" },
+                        "Change password"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: function onClick(e) {
                                 e.preventDefault();_this3.deleteUser(props.user.id);
                             }, className: "button" },
                         "Delete User"
                     )
-                )
+                ),
+                this.state.changePasswordModalOpen && this.state.activeUser === props.user.id ? _react2.default.createElement(_changePasswordModal.ChangePasswordModal, { userId: props.user.id, onModalClosed: this.onPasswordMocalClosed, onSubmission: this.onPasswordChanged }) : ""
             );
+        }
+    }, {
+        key: "onPasswordChanged",
+        value: function () {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(userId, password) {
+                return _regenerator2.default.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                _context5.next = 2;
+                                return _apiClient.ApiClient.changePassword(this.state.authToken, userId, password);
+
+                            case 2:
+                                this.setState({
+                                    changePasswordModalOpen: false
+                                });
+
+                            case 3:
+                            case "end":
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this);
+            }));
+
+            function onPasswordChanged(_x3, _x4) {
+                return _ref5.apply(this, arguments);
+            }
+
+            return onPasswordChanged;
+        }()
+    }, {
+        key: "onPasswordMocalClosed",
+        value: function onPasswordMocalClosed() {
+            this.setState({
+                changePasswordModalOpen: false
+            });
         }
     }, {
         key: "render",
@@ -35050,4 +35331,4 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
     }]);
     return UserManagerComponent;
 }(_react2.default.Component);
-},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}]},{},[211]);
+},{"./api-client":200,"./change-password-modal":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}]},{},[212]);

@@ -2,6 +2,7 @@ import React from "react";
 import {ApiClient} from "./api-client";
 import {Link} from "react-router-dom";
 
+import {ChangePasswordModal} from "./change-password-modal";
 const autoBind = require("react-auto-bind");
 
 export class UserManagerComponent extends React.Component {
@@ -15,7 +16,9 @@ export class UserManagerComponent extends React.Component {
             isAuthenticated:false,
             isLoadingUsers:true,
             isAdmin:false,
-            users:null
+            users:null,
+            activeUser:null,
+            changePasswordModalOpen:false
         }
     }
 
@@ -57,6 +60,13 @@ export class UserManagerComponent extends React.Component {
         }
     }
 
+    async changePasswordModal(userId) {
+        this.setState({
+            changePasswordModalOpen:true,
+            activeUser:userId
+        })
+    }
+
     Users() {
         return <div>
             {this.state.users.map((el) => <this.User user={el} key={el.id} />)}
@@ -66,10 +76,25 @@ export class UserManagerComponent extends React.Component {
     User(props) {
         return <div className="body-container">
             <div className="inner-card card card-1">
-            {this.state.isAdmin?<Link to={"/admin/"+props.user.id}>{props.user.username}</Link>:<h3>{props.user.username}</h3>}
+            {this.state.isAdmin?<Link to={"/admin/"+props.user.id}><div>{props.user.username}</div></Link>:<h3>{props.user.username}</h3>}
+            <button onClick={(e) => {e.preventDefault();this.changePasswordModal(props.user.id)}} className="button">Change password</button>
             <button onClick={(e) => {e.preventDefault();this.deleteUser(props.user.id)}} className="button">Delete User</button>
             </div>
+            {this.state.changePasswordModalOpen && this.state.activeUser===props.user.id?<ChangePasswordModal userId={props.user.id} onModalClosed={this.onPasswordMocalClosed} onSubmission={this.onPasswordChanged} />:""}
         </div>
+    }
+
+    async onPasswordChanged(userId,password) {
+        await ApiClient.changePassword(this.state.authToken,userId,password);
+        this.setState({
+            changePasswordModalOpen:false
+        })
+    }
+
+    onPasswordMocalClosed() {
+        this.setState({
+            changePasswordModalOpen:false
+        })
     }
 
     render() {

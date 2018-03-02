@@ -20,6 +20,7 @@ body {
 	height: 50px;
 	line-height: 50px;
 	padding: 0 50px;
+	background: white;
 }
 
 .site-header *.header-text-element {

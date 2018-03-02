@@ -1,12 +1,19 @@
 const SessionService = require("../session/session-service");
 const sessionService = new SessionService();
 
+const UserService = require("../user/user-service");
+const userService = new UserService();
+
 module.exports = async (req,res,next) => {
     let bearer = req.header("Authorization");
     if(bearer) {
         let authToken = getAuthTokenFromBearerHeader(bearer);
         let userId = await sessionService.getUserId(authToken);
         if(userId) {
+            let user = await userService.getUserById(userId);
+            if(user.isAdmin) {
+                req.isAdmin = true;
+            }
             req.userId = userId;
             next();
         }

@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, Route, Link } from 'react-router-dom'
 import {HomeComponent} from './home-component';
 import {UserManagerComponent} from './user-manager-component';
-import {AdminComponent} from './admin-component';
 import {AnonHomeComponent} from './anon-home-component';
 import {NotFoundComponent} from './not-found-component';
 import {ForbiddenComponent} from './forbidden-component';
@@ -39,7 +38,7 @@ export class MainComponent extends React.Component {
     }
 
     AdminComponent(props) {
-        return <AdminComponent userId={props.match.params.userId} authToken={this.state.authToken} />
+        return <HomeComponent userId={props.match.params.userId} authToken={this.state.authToken} />
     }
 
     ActivateComponentWithProps(props) {

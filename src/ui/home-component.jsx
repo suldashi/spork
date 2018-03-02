@@ -20,6 +20,7 @@ export class HomeComponent extends React.Component {
             isAddEntryModalOpen:false,
             activeEntry:null,
             addEditSubmitCallback:this.onAddEntry,
+            userId:props.userId,
             lowerLimit:moment().add(-1,"y"),
             upperLimit:moment()
         }
@@ -32,7 +33,7 @@ export class HomeComponent extends React.Component {
     }
 
     async getEntries() {
-        let result = await ApiClient.getEntries(this.state.authToken,this.state.lowerLimit,this.state.upperLimit);
+        let result = await ApiClient.getEntries(this.state.authToken,this.state.lowerLimit,this.state.upperLimit,this.state.userId?this.state.userId:undefined);
         this.setState({
             entries:result.data.entries,
             isLoading:false
@@ -85,7 +86,7 @@ export class HomeComponent extends React.Component {
     }
 
     async editEntry(entry) {
-        let result = await ApiClient.editEntry(this.state.authToken,entry.id,entry.distance,entry.duration,entry.timestamp,entry.location);
+        let result = await ApiClient.editEntry(this.state.authToken,entry.id,entry.distance,entry.duration,entry.timestamp,entry.location,this.state.userId?this.state.userId:undefined);
         if(result.status===200) {
             this.setState({
                 entries:this.state.entries.map((el) => {
@@ -115,7 +116,7 @@ export class HomeComponent extends React.Component {
     }
 
     async deleteEntry(entryId) {
-        let result = await ApiClient.deleteEntry(this.state.authToken,entryId);
+        let result = await ApiClient.deleteEntry(this.state.authToken,entryId,this.state.userId?this.state.userId:undefined);
         if(result.status === 200) {
             this.setState({
                 entries:this.state.entries.filter((el) => el.id !==entryId)
@@ -159,7 +160,7 @@ export class HomeComponent extends React.Component {
     }
 
     async onAddEntry(entry) {
-        let result = await ApiClient.addEntry(this.state.authToken,entry.distance,entry.duration,entry.timestamp,entry.location);
+        let result = await ApiClient.addEntry(this.state.authToken,entry.distance,entry.duration,entry.timestamp,entry.location,this.state.userId?this.state.userId:undefined);
         entry.id = result.data.entryId;
         if(result.status===200) {
             this.setState({

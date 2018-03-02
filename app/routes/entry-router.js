@@ -20,13 +20,17 @@ router.get("/",async (req,res) => {
 });
 
 router.post("/add",async (req,res) => {
-    let result = await entryService.addEntry(req.userId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);
+    let userId = req.userId;
+    if(req.body.userId && req.body.userId!=="undefined") {
+        userId = req.body.userId;
+    }
+    let result = await entryService.addEntry(userId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);
     res.send({entryId:result});
 });
 
 router.delete("/delete",async (req,res) => {
     let entry = await entryService.getEntryById(req.body.entryId);
-    if(entry) {
+    if(entry && (entry.userId === req.userId || req.isAdmin)) {
         let result = await entryService.deleteEntry(req.body.entryId);
         res.send({entryId:result});
     }
@@ -37,12 +41,12 @@ router.delete("/delete",async (req,res) => {
 
 router.put("/edit",async (req,res) => {
     let entry = await entryService.getEntryById(req.body.entryId);
-    if(entry && entry.userId === req.userId) {
+    if(entry && (entry.userId === req.userId || req.isAdmin)) {
         let result = await entryService.editEntry(req.body.entryId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);
         res.send({});
     }
     else {
-        res.status(403).send({error:"cannot delete entry"});
+        res.status(403).send({error:"cannot edit entry"});
     }
 });
 

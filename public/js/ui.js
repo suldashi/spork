@@ -32072,7 +32072,7 @@ var ActivateComponent = exports.ActivateComponent = function (_React$Component) 
     }]);
     return ActivateComponent;
 }(_react2.default.Component);
-},{"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],198:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],198:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32314,346 +32314,7 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
     }]);
     return AddEntryModal;
 }(_react2.default.Component);
-},{"./map-component":209,"babel-runtime/core-js/json/stringify":2,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154}],199:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.AdminComponent = undefined;
-
-var _regenerator = require("babel-runtime/regenerator");
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require("babel-runtime/helpers/createClass");
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require("babel-runtime/helpers/inherits");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _apiClient = require("./api-client");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var moment = require("moment");
-
-var autoBind = require("react-auto-bind");
-
-var AdminComponent = exports.AdminComponent = function (_React$Component) {
-    (0, _inherits3.default)(AdminComponent, _React$Component);
-
-    function AdminComponent(props) {
-        (0, _classCallCheck3.default)(this, AdminComponent);
-
-        var _this = (0, _possibleConstructorReturn3.default)(this, (AdminComponent.__proto__ || (0, _getPrototypeOf2.default)(AdminComponent)).call(this, props));
-
-        autoBind(_this);
-        _this.state = {
-            authToken: props.authToken,
-            isLoading: true,
-            isAuthenticated: false,
-            userId: props.userId,
-            entries: null,
-            isAddEntryModalOpen: false,
-            activeEntry: null,
-            addEditSubmitCallback: _this.onAddEntry
-        };
-        return _this;
-    }
-
-    (0, _createClass3.default)(AdminComponent, [{
-        key: "componentDidMount",
-        value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-                var result;
-                return _regenerator2.default.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                if (!this.state.authToken) {
-                                    _context.next = 5;
-                                    break;
-                                }
-
-                                _context.next = 3;
-                                return _apiClient.ApiClient.getUser(this.state.authToken);
-
-                            case 3:
-                                result = _context.sent;
-
-                                if (result.status === 200 && result.data.user.isAdmin) {
-                                    this.setState({
-                                        isLoading: false,
-                                        isAuthenticated: true
-                                    });
-                                    this.getEntries();
-                                } else {
-                                    this.setState({
-                                        isLoading: false
-                                    });
-                                }
-
-                            case 5:
-                            case "end":
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this);
-            }));
-
-            function componentDidMount() {
-                return _ref.apply(this, arguments);
-            }
-
-            return componentDidMount;
-        }()
-    }, {
-        key: "getEntries",
-        value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-                var result;
-                return _regenerator2.default.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                _context2.next = 2;
-                                return _apiClient.ApiClient.getEntries(this.state.authToken, this.state.userId);
-
-                            case 2:
-                                result = _context2.sent;
-
-                                this.setState({
-                                    entries: result.data.entries
-                                });
-
-                            case 4:
-                            case "end":
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this);
-            }));
-
-            function getEntries() {
-                return _ref2.apply(this, arguments);
-            }
-
-            return getEntries;
-        }()
-    }, {
-        key: "displayMap",
-        value: function displayMap(ev, location) {
-            ev.preventDefault();
-            console.log(location);
-        }
-    }, {
-        key: "Entries",
-        value: function Entries() {
-            var _this2 = this;
-
-            if (this.state.entries && this.state.entries.length > 0) {
-                return _react2.default.createElement(
-                    "div",
-                    null,
-                    this.state.entries.map(function (el) {
-                        return _react2.default.createElement(_this2.Entry, { entry: el, key: el.id });
-                    })
-                );
-            } else {
-                return _react2.default.createElement(
-                    "div",
-                    { className: "body-container" },
-                    _react2.default.createElement(
-                        "div",
-                        { className: "inner-card card card-1" },
-                        _react2.default.createElement(
-                            "h3",
-                            null,
-                            "No entries"
-                        )
-                    )
-                );
-            }
-        }
-    }, {
-        key: "Entry",
-        value: function Entry(props) {
-            var _this3 = this;
-
-            var hasLocation = !(props.entry.location === null || props.entry.location === "null");
-            return _react2.default.createElement(
-                "div",
-                { className: "body-container" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "inner-card card card-1" },
-                    _react2.default.createElement(
-                        "div",
-                        null,
-                        "Distance: ",
-                        this.toKm(props.entry.distance),
-                        "Km"
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        null,
-                        "Duration: ",
-                        this.toMins(props.entry.duration),
-                        "min"
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        null,
-                        "Average Speed: ",
-                        this.toKmh(this.calcSpeed(props.entry.distance, props.entry.duration)),
-                        "Km/h"
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        null,
-                        "Time:",
-                        moment(props.entry.timestamp).toString()
-                    ),
-                    hasLocation ? _react2.default.createElement(
-                        "div",
-                        null,
-                        "Location:",
-                        _react2.default.createElement(
-                            "a",
-                            { onClick: function onClick(e) {
-                                    _this3.displayMap(e, JSON.parse(props.entry.location));
-                                }, href: "#" },
-                            "View on map"
-                        )
-                    ) : "",
-                    _react2.default.createElement(
-                        "button",
-                        { onClick: function onClick(e) {
-                                e.preventDefault();_this3.editEntryModal(props.entry);
-                            }, className: "button" },
-                        "Edit"
-                    ),
-                    _react2.default.createElement(
-                        "button",
-                        { onClick: function onClick(e) {
-                                e.preventDefault();_this3.deleteEntry(props.entry.id);
-                            }, className: "button" },
-                        "Delete"
-                    )
-                )
-            );
-        }
-    }, {
-        key: "deleteEntry",
-        value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(entryId) {
-                var result;
-                return _regenerator2.default.wrap(function _callee3$(_context3) {
-                    while (1) {
-                        switch (_context3.prev = _context3.next) {
-                            case 0:
-                                _context3.next = 2;
-                                return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId);
-
-                            case 2:
-                                result = _context3.sent;
-
-                                if (result.status === 200) {
-                                    this.setState({
-                                        entries: this.state.entries.filter(function (el) {
-                                            return el.id !== entryId;
-                                        })
-                                    });
-                                }
-
-                            case 4:
-                            case "end":
-                                return _context3.stop();
-                        }
-                    }
-                }, _callee3, this);
-            }));
-
-            function deleteEntry(_x) {
-                return _ref3.apply(this, arguments);
-            }
-
-            return deleteEntry;
-        }()
-    }, {
-        key: "toKm",
-        value: function toKm(meters) {
-            return meters / 1000;
-        }
-    }, {
-        key: "toMins",
-        value: function toMins(seconds) {
-            return seconds / 60;
-        }
-    }, {
-        key: "toKmh",
-        value: function toKmh(mps) {
-            return mps * 3.6;
-        }
-    }, {
-        key: "calcSpeed",
-        value: function calcSpeed(distance, duration) {
-            return (distance / duration).toFixed(2);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            if (this.state.isLoading) {
-                return _react2.default.createElement(
-                    "div",
-                    { className: "body-container" },
-                    _react2.default.createElement(
-                        "div",
-                        { className: "inner-card card card-1" },
-                        "Loading..."
-                    )
-                );
-            } else if (this.state.isAuthenticated) {
-                return _react2.default.createElement(this.Entries, null);
-            } else {
-                return _react2.default.createElement(
-                    "div",
-                    { className: "body-container" },
-                    _react2.default.createElement(
-                        "div",
-                        { className: "inner-card card card-1" },
-                        "Not authenticated"
-                    )
-                );
-            }
-        }
-    }]);
-    return AdminComponent;
-}(_react2.default.Component);
-},{"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153}],200:[function(require,module,exports){
+},{"./map-component":208,"babel-runtime/core-js/json/stringify":2,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154}],199:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32743,7 +32404,7 @@ var AnonHomeComponent = exports.AnonHomeComponent = function (_React$Component) 
     }]);
     return AnonHomeComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],201:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],200:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33154,7 +32815,7 @@ var ApiClientClass = function () {
     }, {
         key: "addEntry",
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(authToken, distance, duration, timestamp, location) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(authToken, distance, duration, timestamp, location, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -33169,7 +32830,7 @@ var ApiClientClass = function () {
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        distance: distance, duration: duration, timestamp: timestamp, location: location
+                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
                                     })
                                 });
 
@@ -33193,7 +32854,7 @@ var ApiClientClass = function () {
                 }, _callee9, this);
             }));
 
-            function addEntry(_x15, _x16, _x17, _x18, _x19) {
+            function addEntry(_x15, _x16, _x17, _x18, _x19, _x20) {
                 return _ref9.apply(this, arguments);
             }
 
@@ -33241,7 +32902,7 @@ var ApiClientClass = function () {
                 }, _callee10, this);
             }));
 
-            function editEntry(_x20, _x21, _x22, _x23, _x24, _x25) {
+            function editEntry(_x21, _x22, _x23, _x24, _x25, _x26) {
                 return _ref10.apply(this, arguments);
             }
 
@@ -33289,7 +32950,7 @@ var ApiClientClass = function () {
                 }, _callee11, this);
             }));
 
-            function deleteEntry(_x26, _x27) {
+            function deleteEntry(_x27, _x28) {
                 return _ref11.apply(this, arguments);
             }
 
@@ -33300,7 +32961,7 @@ var ApiClientClass = function () {
 }();
 
 var ApiClient = exports.ApiClient = new ApiClientClass();
-},{"babel-runtime/core-js/json/stringify":2,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/regenerator":115}],202:[function(require,module,exports){
+},{"babel-runtime/core-js/json/stringify":2,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/regenerator":115}],201:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33354,7 +33015,7 @@ var ForbiddenComponent = exports.ForbiddenComponent = function (_React$Component
     }]);
     return ForbiddenComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],203:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],202:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33380,7 +33041,7 @@ var GeolocationPromise = exports.GeolocationPromise = function GeolocationPromis
 		});
 	});
 };
-},{"babel-runtime/core-js/promise":7}],204:[function(require,module,exports){
+},{"babel-runtime/core-js/promise":7}],203:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33567,7 +33228,7 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
     }]);
     return HeaderComponent;
 }(_react2.default.Component);
-},{"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],205:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],204:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33639,6 +33300,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             isAddEntryModalOpen: false,
             activeEntry: null,
             addEditSubmitCallback: _this.onAddEntry,
+            userId: props.userId,
             lowerLimit: moment().add(-1, "y"),
             upperLimit: moment()
         };
@@ -33681,7 +33343,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.next = 2;
-                                return _apiClient.ApiClient.getEntries(this.state.authToken, this.state.lowerLimit, this.state.upperLimit);
+                                return _apiClient.ApiClient.getEntries(this.state.authToken, this.state.lowerLimit, this.state.upperLimit, this.state.userId ? this.state.userId : undefined);
 
                             case 2:
                                 result = _context2.sent;
@@ -33830,7 +33492,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 _context3.next = 2;
-                                return _apiClient.ApiClient.editEntry(this.state.authToken, entry.id, entry.distance, entry.duration, entry.timestamp, entry.location);
+                                return _apiClient.ApiClient.editEntry(this.state.authToken, entry.id, entry.distance, entry.duration, entry.timestamp, entry.location, this.state.userId ? this.state.userId : undefined);
 
                             case 2:
                                 result = _context3.sent;
@@ -33883,7 +33545,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 _context4.next = 2;
-                                return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId);
+                                return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId, this.state.userId ? this.state.userId : undefined);
 
                             case 2:
                                 result = _context4.sent;
@@ -33962,7 +33624,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 _context5.next = 2;
-                                return _apiClient.ApiClient.addEntry(this.state.authToken, entry.distance, entry.duration, entry.timestamp, entry.location);
+                                return _apiClient.ApiClient.addEntry(this.state.authToken, entry.distance, entry.duration, entry.timestamp, entry.location, this.state.userId ? this.state.userId : undefined);
 
                             case 2:
                                 result = _context5.sent;
@@ -34174,7 +33836,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }]);
     return HomeComponent;
 }(_react2.default.Component);
-},{"./add-entry-modal":198,"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/helpers/toConsumableArray":15,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154,"react-router-dom":176}],206:[function(require,module,exports){
+},{"./add-entry-modal":198,"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/helpers/toConsumableArray":15,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153,"react-datetime":154,"react-router-dom":176}],205:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34475,7 +34137,7 @@ var LoginComponent = exports.LoginComponent = function (_React$Component) {
     }]);
     return LoginComponent;
 }(_react2.default.Component);
-},{"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],207:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],206:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34534,7 +34196,7 @@ var LogoutComponent = exports.LogoutComponent = function (_React$Component) {
     }]);
     return LogoutComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],208:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -34571,8 +34233,6 @@ var _reactRouterDom = require('react-router-dom');
 var _homeComponent = require('./home-component');
 
 var _userManagerComponent = require('./user-manager-component');
-
-var _adminComponent = require('./admin-component');
 
 var _anonHomeComponent = require('./anon-home-component');
 
@@ -34633,7 +34293,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }, {
         key: 'AdminComponent',
         value: function AdminComponent(props) {
-            return _react2.default.createElement(_adminComponent.AdminComponent, { userId: props.match.params.userId, authToken: this.state.authToken });
+            return _react2.default.createElement(_homeComponent.HomeComponent, { userId: props.match.params.userId, authToken: this.state.authToken });
         }
     }, {
         key: 'ActivateComponentWithProps',
@@ -34693,7 +34353,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }]);
     return MainComponent;
 }(_react2.default.Component);
-},{"./activate-component":197,"./admin-component":199,"./anon-home-component":200,"./forbidden-component":202,"./header-component":204,"./home-component":205,"./login-component":206,"./logout-component":207,"./not-found-component":210,"./register-component":211,"./user-manager-component":213,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],209:[function(require,module,exports){
+},{"./activate-component":197,"./anon-home-component":199,"./forbidden-component":201,"./header-component":203,"./home-component":204,"./login-component":205,"./logout-component":206,"./not-found-component":209,"./register-component":210,"./user-manager-component":212,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],208:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34846,7 +34506,7 @@ var MapComponent = exports.MapComponent = function (_React$Component) {
 	}]);
 	return MapComponent;
 }(_react2.default.Component);
-},{"./geolocation-promise":203,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153}],210:[function(require,module,exports){
+},{"./geolocation-promise":202,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153}],209:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34900,7 +34560,7 @@ var NotFoundComponent = exports.NotFoundComponent = function (_React$Component) 
     }]);
     return NotFoundComponent;
 }(_react2.default.Component);
-},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],211:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35099,7 +34759,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
     }]);
     return RegisterComponent;
 }(_react2.default.Component);
-},{"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],212:[function(require,module,exports){
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],211:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -35121,7 +34781,7 @@ _reactDom2.default.render(_react2.default.createElement(
     null,
     _react2.default.createElement(_mainComponent.MainComponent, null)
 ), document.getElementById('root'));
-},{"./main-component":208,"react":191,"react-dom":163,"react-router-dom":176}],213:[function(require,module,exports){
+},{"./main-component":207,"react":191,"react-dom":163,"react-router-dom":176}],212:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35390,4 +35050,4 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
     }]);
     return UserManagerComponent;
 }(_react2.default.Component);
-},{"./api-client":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}]},{},[212]);
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}]},{},[211]);

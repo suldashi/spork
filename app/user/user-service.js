@@ -13,7 +13,8 @@ class UserService {
 				username:user.username,
 				activated:user.is_active,
 				activationCodeGenerator:user.activation_code_generator,
-				isAdmin:user.username==="admin"?true:undefined
+				isUserManager:el.is_user_manager,
+				isAdmin:user.is_admin
 			};
 		}
 		return null;
@@ -28,7 +29,7 @@ class UserService {
 				activated:el.is_active,
 				activationCodeGenerator:el.activation_code_generator,
 				isUserManager:el.is_user_manager,
-				isAdmin:el.username==="admin"?true:undefined
+				isAdmin:el.is_admin
 			}});
 		}
 		return [];
@@ -45,7 +46,7 @@ class UserService {
 					activated:user.is_active,
 					activationCodeGenerator:user.activation_code_generator,
 					isUserManager:user.is_user_manager,
-					isAdmin:user.username==="admin"?true:undefined
+					isAdmin:user.is_admin
 				};
 			}
 		}
@@ -61,7 +62,7 @@ class UserService {
 				activated:user.is_active,
 				activationCodeGenerator:user.activation_code_generator,
 				isUserManager:user.is_user_manager,
-				isAdmin:user.username==="admin"?true:undefined
+				isAdmin:user.is_admin
 			};
 		}
 		return null;
@@ -96,6 +97,18 @@ class UserService {
 
 	async activateUser(activationCode) {
 		return this.userRepository.activateUser(activationCode);
+	}
+
+	async makeUserAdmin(userId) {
+		return this.userRepository.makeUserAdmin(userId);
+	}
+
+	async makeUserUserManager(userId) {
+		return this.userRepository.makeUserUserManager(userId);
+	}
+
+	async makeUserRegular(userId) {
+		return this.userRepository.makeUserRegular(userId);
 	}
 }
 

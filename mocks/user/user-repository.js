@@ -38,7 +38,8 @@ const UserRepository = {
             password,
             is_active:false,
             activation_code_generator:activationCodeGenerator,
-            is_user_manager:false
+            is_user_manager:false,
+            is_admin:false
         };
         return userCtr++;
     },
@@ -78,7 +79,34 @@ const UserRepository = {
             return true;
         }
         return false;
-    }
+    },
+
+    makeUserAdmin: async (userId) => {
+        if(users[userId]) {
+            users[userId].is_admin = true;
+            users[userId].is_user_manager = true;
+            return true;
+        }
+        return false;
+    },
+
+    makeUserUserManager: async (userId) => {
+        if(users[userId]) {
+            users[userId].is_admin = false;
+            users[userId].is_user_manager = true;
+            return true;
+        }
+        return false;
+    },
+
+    makeUserRegular: async (userId) => {
+        if(users[userId]) {
+            users[userId].is_admin = false;
+            users[userId].is_user_manager = false;
+            return true;
+        }
+        return false;
+    },
 };
 
 module.exports = UserRepository;

@@ -71,6 +71,25 @@ class ApiClientClass {
         	status:res.status
         };
     }
+
+    async changeRole(authToken,userId,newRole) {
+		let res = await fetch("/api/user/changeRole",{
+            method:"put",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                userId,newRole
+            })
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        };
+    }
     
     async getAllUsers(authToken) {
 		let res = await fetch("/api/user/all",{

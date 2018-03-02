@@ -32629,22 +32629,25 @@ var ApiClientClass = function () {
             return changePassword;
         }()
     }, {
-        key: "getAllUsers",
+        key: "changeRole",
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(authToken) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(authToken, userId, newRole) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 _context5.next = 2;
-                                return fetch("/api/user/all", {
-                                    method: "get",
+                                return fetch("/api/user/changeRole", {
+                                    method: "put",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
-                                    }
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        userId: userId, newRole: newRole
+                                    })
                                 });
 
                             case 2:
@@ -32667,32 +32670,29 @@ var ApiClientClass = function () {
                 }, _callee5, this);
             }));
 
-            function getAllUsers(_x9) {
+            function changeRole(_x9, _x10, _x11) {
                 return _ref5.apply(this, arguments);
             }
 
-            return getAllUsers;
+            return changeRole;
         }()
     }, {
-        key: "login",
+        key: "getAllUsers",
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(username, password) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(authToken) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 _context6.next = 2;
-                                return fetch("/api/auth/login", {
-                                    method: "post",
+                                return fetch("/api/user/all", {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        username: username,
-                                        password: password
-                                    })
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    }
                                 });
 
                             case 2:
@@ -32715,30 +32715,31 @@ var ApiClientClass = function () {
                 }, _callee6, this);
             }));
 
-            function login(_x10, _x11) {
+            function getAllUsers(_x12) {
                 return _ref6.apply(this, arguments);
             }
 
-            return login;
+            return getAllUsers;
         }()
     }, {
-        key: "sendActivationEmail",
+        key: "login",
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(activationCodeGenerator) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(username, password) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
                                 _context7.next = 2;
-                                return fetch("/api/auth/sendActivationCode", {
+                                return fetch("/api/auth/login", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json"
                                     },
                                     body: (0, _stringify2.default)({
-                                        activationCodeGenerator: activationCodeGenerator
+                                        username: username,
+                                        password: password
                                     })
                                 });
 
@@ -32762,30 +32763,30 @@ var ApiClientClass = function () {
                 }, _callee7, this);
             }));
 
-            function sendActivationEmail(_x12) {
+            function login(_x13, _x14) {
                 return _ref7.apply(this, arguments);
             }
 
-            return sendActivationEmail;
+            return login;
         }()
     }, {
-        key: "activateAccount",
+        key: "sendActivationEmail",
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(activationCode) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(activationCodeGenerator) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.next = 2;
-                                return fetch("/api/auth/activate", {
+                                return fetch("/api/auth/sendActivationCode", {
                                     method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json"
                                     },
                                     body: (0, _stringify2.default)({
-                                        activationCode: activationCode
+                                        activationCodeGenerator: activationCodeGenerator
                                     })
                                 });
 
@@ -32809,29 +32810,31 @@ var ApiClientClass = function () {
                 }, _callee8, this);
             }));
 
-            function activateAccount(_x13) {
+            function sendActivationEmail(_x15) {
                 return _ref8.apply(this, arguments);
             }
 
-            return activateAccount;
+            return sendActivationEmail;
         }()
     }, {
-        key: "getEntries",
+        key: "activateAccount",
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(authToken, lowerLimit, upperLimit, userId) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(activationCode) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
                                 _context9.next = 2;
-                                return fetch("/api/entry?userId=" + userId + "&lowerLimit=" + lowerLimit + "&upperLimit=" + upperLimit, {
-                                    method: "get",
+                                return fetch("/api/auth/activate", {
+                                    method: "post",
                                     headers: {
                                         "Accept": "application/json",
-                                        "Content-Type": "application/json",
-                                        "Authorization": "Bearer " + authToken
-                                    }
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        activationCode: activationCode
+                                    })
                                 });
 
                             case 2:
@@ -32854,32 +32857,29 @@ var ApiClientClass = function () {
                 }, _callee9, this);
             }));
 
-            function getEntries(_x14, _x15, _x16, _x17) {
+            function activateAccount(_x16) {
                 return _ref9.apply(this, arguments);
             }
 
-            return getEntries;
+            return activateAccount;
         }()
     }, {
-        key: "addEntry",
+        key: "getEntries",
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(authToken, distance, duration, timestamp, location, userId) {
+            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(authToken, lowerLimit, upperLimit, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
                             case 0:
                                 _context10.next = 2;
-                                return fetch("/api/entry/add", {
-                                    method: "post",
+                                return fetch("/api/entry?userId=" + userId + "&lowerLimit=" + lowerLimit + "&upperLimit=" + upperLimit, {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
-                                    })
+                                    }
                                 });
 
                             case 2:
@@ -32902,31 +32902,31 @@ var ApiClientClass = function () {
                 }, _callee10, this);
             }));
 
-            function addEntry(_x18, _x19, _x20, _x21, _x22, _x23) {
+            function getEntries(_x17, _x18, _x19, _x20) {
                 return _ref10.apply(this, arguments);
             }
 
-            return addEntry;
+            return getEntries;
         }()
     }, {
-        key: "editEntry",
+        key: "addEntry",
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(authToken, entryId, distance, duration, timestamp, location) {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(authToken, distance, duration, timestamp, location, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
                                 _context11.next = 2;
-                                return fetch("/api/entry/edit", {
-                                    method: "put",
+                                return fetch("/api/entry/add", {
+                                    method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
+                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
                                     })
                                 });
 
@@ -32950,31 +32950,31 @@ var ApiClientClass = function () {
                 }, _callee11, this);
             }));
 
-            function editEntry(_x24, _x25, _x26, _x27, _x28, _x29) {
+            function addEntry(_x21, _x22, _x23, _x24, _x25, _x26) {
                 return _ref11.apply(this, arguments);
             }
 
-            return editEntry;
+            return addEntry;
         }()
     }, {
-        key: "deleteEntry",
+        key: "editEntry",
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(authToken, entryId) {
+            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(authToken, entryId, distance, duration, timestamp, location) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
                             case 0:
                                 _context12.next = 2;
-                                return fetch("/api/entry/delete", {
-                                    method: "delete",
+                                return fetch("/api/entry/edit", {
+                                    method: "put",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId
+                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
                                     })
                                 });
 
@@ -32998,8 +32998,56 @@ var ApiClientClass = function () {
                 }, _callee12, this);
             }));
 
-            function deleteEntry(_x30, _x31) {
+            function editEntry(_x27, _x28, _x29, _x30, _x31, _x32) {
                 return _ref12.apply(this, arguments);
+            }
+
+            return editEntry;
+        }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(authToken, entryId) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee13$(_context13) {
+                    while (1) {
+                        switch (_context13.prev = _context13.next) {
+                            case 0:
+                                _context13.next = 2;
+                                return fetch("/api/entry/delete", {
+                                    method: "delete",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        entryId: entryId
+                                    })
+                                });
+
+                            case 2:
+                                res = _context13.sent;
+                                _context13.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context13.sent;
+                                return _context13.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context13.stop();
+                        }
+                    }
+                }, _callee13, this);
+            }));
+
+            function deleteEntry(_x33, _x34) {
+                return _ref13.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -35251,20 +35299,94 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                                 e.preventDefault();_this3.deleteUser(props.user.id);
                             }, className: "button" },
                         "Delete User"
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        "Change user role",
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement(
+                                "select",
+                                { onChange: function onChange(e) {
+                                        _this3.changeUserRole(props.user.id, e);
+                                    }, value: props.user.isAdmin ? "admin" : props.user.isUserManager ? "userManager" : "regular" },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "regular" },
+                                    "Regular user"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "userManager" },
+                                    "User manager"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "admin" },
+                                    "Admin"
+                                )
+                            )
+                        )
                     )
                 ),
                 this.state.changePasswordModalOpen && this.state.activeUser === props.user.id ? _react2.default.createElement(_changePasswordModal.ChangePasswordModal, { userId: props.user.id, onModalClosed: this.onPasswordMocalClosed, onSubmission: this.onPasswordChanged }) : ""
             );
         }
     }, {
-        key: "onPasswordChanged",
+        key: "changeUserRole",
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(userId, password) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(userId, ev) {
+                var result, isAdmin, isUserManager;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 _context5.next = 2;
+                                return _apiClient.ApiClient.changeRole(this.state.authToken, userId, ev.target.value);
+
+                            case 2:
+                                result = _context5.sent;
+
+                                if (result.status === 200) {
+                                    isAdmin = ev.target.value === "admin";
+                                    isUserManager = ev.target.value === "userManager";
+
+                                    this.setState({
+                                        users: this.state.users.map(function (el) {
+                                            if (el.id === userId) {
+                                                el.isAdmin = isAdmin;
+                                                el.isUserManager = isUserManager;
+                                            }
+                                            return el;
+                                        })
+                                    });
+                                }
+
+                            case 4:
+                            case "end":
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this);
+            }));
+
+            function changeUserRole(_x3, _x4) {
+                return _ref5.apply(this, arguments);
+            }
+
+            return changeUserRole;
+        }()
+    }, {
+        key: "onPasswordChanged",
+        value: function () {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(userId, password) {
+                return _regenerator2.default.wrap(function _callee6$(_context6) {
+                    while (1) {
+                        switch (_context6.prev = _context6.next) {
+                            case 0:
+                                _context6.next = 2;
                                 return _apiClient.ApiClient.changePassword(this.state.authToken, userId, password);
 
                             case 2:
@@ -35274,14 +35396,14 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
 
                             case 3:
                             case "end":
-                                return _context5.stop();
+                                return _context6.stop();
                         }
                     }
-                }, _callee5, this);
+                }, _callee6, this);
             }));
 
-            function onPasswordChanged(_x3, _x4) {
-                return _ref5.apply(this, arguments);
+            function onPasswordChanged(_x5, _x6) {
+                return _ref6.apply(this, arguments);
             }
 
             return onPasswordChanged;

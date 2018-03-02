@@ -73,6 +73,30 @@ const UserRepository = {
             }
         }
         return false;
+    },
+
+    makeUserAdmin: async (userId) => {
+        let result = await db.oneOrNone('UPDATE "user" SET "is_admin" = true, "is_user_manager" = true WHERE "id" = $1 AND "is_active" = true RETURNING id',userId);
+        if(result) {
+            return true;      
+        }
+        return false;
+    },
+
+    makeUserUserManager: async (userId) => {
+        let result = await db.oneOrNone('UPDATE "user" SET "is_admin" = false, "is_user_manager" = true WHERE "id" = $1 AND "is_active" = true RETURNING id',userId);
+        if(result) {
+            return true;      
+        }
+        return false;
+    },
+
+    makeUserRegular: async (userId) => {
+        let result = await db.oneOrNone('UPDATE "user" SET "is_admin" = false, "is_user_manager" = false WHERE "id" = $1 AND "is_active" = true RETURNING id',userId);
+        if(result) {
+            return true;      
+        }
+        return false;
     }
 };
 

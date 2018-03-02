@@ -18,6 +18,31 @@ router.get("/all",usrMgrMiddleware,async (req,res) => {
     res.send({users});
 });
 
+router.put("/changeRole",usrMgrMiddleware,async (req,res) => {
+    let user = await userService.getUserById(req.body.userId);
+    if(user) {
+        if(req.body.newRole === "admin") {
+            await userService.makeUserAdmin(req.body.userId);
+            res.send({});
+        }
+        else if(req.body.newRole === "userManager") {
+            await userService.makeUserUserManager(req.body.userId);
+            res.send({});
+        }
+        else if(req.body.newRole === "regular") {
+            await userService.makeUserRegular(req.body.userId);
+            res.send({});
+        }
+        else {
+            res.status(400).send({error:"no such user"});    
+        }
+    }
+    else {
+        res.status(400).send({error:"no such user"});
+    }
+    
+});
+
 router.delete("/delete",usrMgrMiddleware,async (req,res) => {
     let result = await userService.removeUser(req.body.userId);
     res.send({result});

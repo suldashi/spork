@@ -79,9 +79,37 @@ export class UserManagerComponent extends React.Component {
             {this.state.isAdmin?<Link to={"/admin/"+props.user.id}><div>{props.user.username}</div></Link>:<h3>{props.user.username}</h3>}
             <button onClick={(e) => {e.preventDefault();this.changePasswordModal(props.user.id)}} className="button">Change password</button>
             <button onClick={(e) => {e.preventDefault();this.deleteUser(props.user.id)}} className="button">Delete User</button>
+            <div>
+                Change user role
+                <div>
+                    <select onChange={(e) => {this.changeUserRole(props.user.id,e)}} value={props.user.isAdmin?"admin":props.user.isUserManager?"userManager":"regular"}>
+                        <option value="regular">Regular user</option>
+                        <option value="userManager">User manager</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+            </div>
             </div>
             {this.state.changePasswordModalOpen && this.state.activeUser===props.user.id?<ChangePasswordModal userId={props.user.id} onModalClosed={this.onPasswordMocalClosed} onSubmission={this.onPasswordChanged} />:""}
         </div>
+    }
+
+    async changeUserRole(userId,ev) {
+        let result = await ApiClient.changeRole(this.state.authToken,userId,ev.target.value);
+        if(result.status === 200) {
+            let isAdmin = ev.target.value === "admin";
+            let isUserManager = ev.target.value === "userManager";
+            this.setState({
+                users:this.state.users.map((el) => {
+                    if(el.id === userId) {
+                        el.isAdmin = isAdmin;
+                        el.isUserManager = isUserManager;
+                        
+                    }
+                    return el;
+                })
+            })
+        }
     }
 
     async onPasswordChanged(userId,password) {

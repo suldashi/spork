@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.5
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -79,7 +79,8 @@ CREATE TABLE "user" (
     is_active boolean DEFAULT false NOT NULL,
     activation_code_generator text NOT NULL,
     is_user_manager boolean DEFAULT false NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
+    is_deleted boolean DEFAULT false NOT NULL,
+    is_admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -212,8 +213,8 @@ SELECT pg_catalog.setval('entry_id_seq', 1, false);
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY "user" (id, username, password, is_active, activation_code_generator, is_user_manager, is_deleted) FROM stdin;
-1	admin	$2a$12$DVKLqWqQTI0BkoE6ge1jSO8KDTVmhauCm7Zczg3KRPfwcvha60kby	t	295e0ca4bd8698e36757aa3807014b28	t	f
+COPY "user" (id, username, password, is_active, activation_code_generator, is_user_manager, is_deleted, is_admin) FROM stdin;
+1	admin	$2a$12$DVKLqWqQTI0BkoE6ge1jSO8KDTVmhauCm7Zczg3KRPfwcvha60kby	t	295e0ca4bd8698e36757aa3807014b28	t	f	f
 \.
 
 

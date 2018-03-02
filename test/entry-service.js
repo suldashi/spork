@@ -11,11 +11,11 @@ const EntryRepository = require("../mocks/entry/entry-repository");
 const moment = require("moment");
 
 const userService = new UserService({
-	//userRepository:UserRepository
+	userRepository:UserRepository
 });
 
 const entryService = new EntryService({
-	//entryRepository:EntryRepository
+	entryRepository:EntryRepository
 });
 
 let userToInsert = {
@@ -128,6 +128,49 @@ describe("EntryService.getEntriesByUserId() no entries", () => {
 	let userId = 0;	//no user with id 0
 	it("there should be an array of zero entries received",async () => {
 		let entries = await entryService.getEntriesByUserId(userId);
+		expect(entries.length).to.equals(0);
+	});
+	after("deleting the user", async () => {
+		await userService.removeUser(userId);
+	});
+});
+
+describe("EntryService.getEntriesBetweenDates() multiple entries", () => {
+	let userId = null;
+	let firstEntryId = null;
+	let secondEntryId = null;
+	let thirdEntryId = null;
+	let fourthEntryId = null;
+	before("creating and activating the user, adding some entries", async () => {
+		userId = await userService.addUser(userToInsert.username,userToInsert.password);
+		let user = await userService.getUserById(userId);
+		let activationCode = await userService.generateActivationCode(user.activationCodeGenerator);
+		let result = await userService.activateUser(activationCode);
+		firstEntryId = await entryService.addEntry(userId,moment().add(-1,"M"),distance,duration,location);
+		secondEntryId = await entryService.addEntry(userId,moment().add(-3,"M"),distance,duration,location);
+		thirdEntryId = await entryService.addEntry(userId,moment().add(-5,"M"),distance,duration,location);
+		fourthEntryId = await entryService.addEntry(userId,moment().add(-7,"M"),distance,duration,location);
+	});
+	it("there should be 2 entries received",async () => {
+		let entries = await entryService.getEntriesBetweenDates(userId,moment().add(-6,"M"),moment().add(-2,"M"));
+		expect(entries.length).to.equals(2);
+		expect(entries[0].id).to.equal(secondEntryId);
+		expect(entries[1].id).to.equal(thirdEntryId);
+	});
+	it("there should be 4 entries received",async () => {
+		let entries = await entryService.getEntriesBetweenDates(userId,moment().add(-1,"Y"),moment());
+		expect(entries.length).to.equals(4);
+		expect(entries[0].id).to.equal(firstEntryId);
+		expect(entries[1].id).to.equal(secondEntryId);
+		expect(entries[2].id).to.equal(thirdEntryId);
+		expect(entries[3].id).to.equal(fourthEntryId);
+	});
+	it("there should be 0 entries received, no entries on those dates",async () => {
+		let entries = await entryService.getEntriesBetweenDates(userId,moment().add(-2,"Y"),moment().add(-1,"Y"));
+		expect(entries.length).to.equals(0);
+	});
+	it("there should be 0 entries received, non-overlapping dates",async () => {
+		let entries = await entryService.getEntriesBetweenDates(userId,moment().add(-1,"Y"),moment().add(-2,"Y"));
 		expect(entries.length).to.equals(0);
 	});
 	after("deleting the user", async () => {

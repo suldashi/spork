@@ -16,7 +16,6 @@ export class HomeComponent extends React.Component {
         this.state = {
             authToken:props.authToken,
             entries:null,
-            filteredEntries:null,
             isLoading:props.authToken?true:false,
             isAddEntryModalOpen:false,
             activeEntry:null,
@@ -28,15 +27,17 @@ export class HomeComponent extends React.Component {
 
     async componentDidMount() {
         if(this.state.authToken) {
-            let result = await ApiClient.getEntries(this.state.authToken);
-            this.setState({
-                entries:result.data.entries,
-                filteredEntries:result.data.entries,
-                isLoading:false
-            });
+            this.getEntries();
         }
     }
 
+    async getEntries() {
+        let result = await ApiClient.getEntries(this.state.authToken,this.state.lowerLimit,this.state.upperLimit);
+        this.setState({
+            entries:result.data.entries,
+            isLoading:false
+        });
+    }
     componentWillReceiveProps(nextProps) {
         if(this.state.authToken!==nextProps.authToken) {
             this.setState({
@@ -48,7 +49,7 @@ export class HomeComponent extends React.Component {
     Entries() {
         if(this.state.entries && this.state.entries.length>0) {
             return <div>
-                {this.state.filteredEntries.map(el => <this.Entry entry={el} key={el.id} />)}
+                {this.state.entries.map(el => <this.Entry entry={el} key={el.id} />)}
             </div>;
         }
         else {
@@ -176,15 +177,20 @@ export class HomeComponent extends React.Component {
     onLowerLimitChanged(e) {
         this.setState({
             lowerLimit:e,
-            filteredEntries:this.state.entries.filter((el) => moment(el.timestamp).isAfter(moment(e) && moment(el.timestamp).isBefore(this.state.upperLimit)))
-        })
+            isLoading:true
+        },() => {
+            this.getEntries();
+        });
+        
     }
 
     onUpperLimitChanged(e) {
         this.setState({
             upperLimit:e,
-            filteredEntries:this.state.entries.filter((el) => moment(el.timestamp).isAfter(moment(this.state.lowerLimit) && moment(el.timestamp).isBefore(e)))
-        })
+            isLoading:true
+        },() => {
+            this.getEntries();
+        });
     }
 
     getFastest(entries) {
@@ -257,8 +263,9 @@ export class HomeComponent extends React.Component {
                 </div>
                 <div className="body-container">
                     <div className="inner-card card card-1">
-                    <Datetime value={this.state.lowerLimit} onChange={this.onLowerLimitChanged} />
-                    <Datetime value={this.state.upperLimit} onChange={this.onUpperLimitChanged} />
+                    <h3>Get entries between dates</h3>
+                    <div><Datetime value={this.state.lowerLimit} onChange={this.onLowerLimitChanged} /></div>
+                    <div><Datetime value={this.state.upperLimit} onChange={this.onUpperLimitChanged} /></div>
                     </div>
                 </div>
                 <div className="body-container">

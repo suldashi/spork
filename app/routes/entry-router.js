@@ -1,4 +1,5 @@
 let router = require('express').Router();
+let moment = require("moment");
 
 const EntryService = require("../entry/entry-service");
 const entryService = new EntryService();
@@ -9,10 +10,12 @@ router.use(authMiddleware);
 
 router.get("/",async (req,res) => {
     let userId = req.query.userId;
+    let lowerLimit = moment(parseInt(req.query.lowerLimit));
+    let upperLimit = moment(parseInt(req.query.upperLimit));
     if(!userId || userId === "undefined") {
         userId = req.userId;
     }
-    let entries = await entryService.getEntriesByUserId(userId);
+    let entries = await entryService.getEntriesBetweenDates(userId,lowerLimit,upperLimit);
     res.send({entries});
 });
 

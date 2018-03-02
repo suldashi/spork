@@ -32297,12 +32297,12 @@ var AddEntryModal = exports.AddEntryModal = function (_React$Component) {
                                 _react2.default.createElement(
                                     "div",
                                     null,
+                                    _react2.default.createElement("input", { className: "button", disabled: this.state.isSubmitting, type: "submit", value: "Submit" }),
                                     _react2.default.createElement(
                                         "button",
                                         { className: "button", disabled: this.state.isSubmitting, onClick: this.onModalClosed },
                                         "Close"
-                                    ),
-                                    _react2.default.createElement("input", { className: "button", disabled: this.state.isSubmitting, type: "submit", value: "submit" })
+                                    )
                                 )
                             ),
                             this.state.isLocationModalOpen ? _react2.default.createElement(_mapComponent.MapComponent, { onNewLocation: this.onNewLocation }) : ""
@@ -33109,14 +33109,14 @@ var ApiClientClass = function () {
     }, {
         key: "getEntries",
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(authToken, userId) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(authToken, lowerLimit, upperLimit, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.next = 2;
-                                return fetch("/api/entry?userId=" + userId, {
+                                return fetch("/api/entry?userId=" + userId + "&lowerLimit=" + lowerLimit + "&upperLimit=" + upperLimit, {
                                     method: "get",
                                     headers: {
                                         "Accept": "application/json",
@@ -33145,7 +33145,7 @@ var ApiClientClass = function () {
                 }, _callee8, this);
             }));
 
-            function getEntries(_x11, _x12) {
+            function getEntries(_x11, _x12, _x13, _x14) {
                 return _ref8.apply(this, arguments);
             }
 
@@ -33193,7 +33193,7 @@ var ApiClientClass = function () {
                 }, _callee9, this);
             }));
 
-            function addEntry(_x13, _x14, _x15, _x16, _x17) {
+            function addEntry(_x15, _x16, _x17, _x18, _x19) {
                 return _ref9.apply(this, arguments);
             }
 
@@ -33241,7 +33241,7 @@ var ApiClientClass = function () {
                 }, _callee10, this);
             }));
 
-            function editEntry(_x18, _x19, _x20, _x21, _x22, _x23) {
+            function editEntry(_x20, _x21, _x22, _x23, _x24, _x25) {
                 return _ref10.apply(this, arguments);
             }
 
@@ -33289,7 +33289,7 @@ var ApiClientClass = function () {
                 }, _callee11, this);
             }));
 
-            function deleteEntry(_x24, _x25) {
+            function deleteEntry(_x26, _x27) {
                 return _ref11.apply(this, arguments);
             }
 
@@ -33635,7 +33635,6 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
         _this.state = {
             authToken: props.authToken,
             entries: null,
-            filteredEntries: null,
             isLoading: props.authToken ? true : false,
             isAddEntryModalOpen: false,
             activeEntry: null,
@@ -33650,29 +33649,15 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
         key: "componentDidMount",
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-                var result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                if (!this.state.authToken) {
-                                    _context.next = 5;
-                                    break;
+                                if (this.state.authToken) {
+                                    this.getEntries();
                                 }
 
-                                _context.next = 3;
-                                return _apiClient.ApiClient.getEntries(this.state.authToken);
-
-                            case 3:
-                                result = _context.sent;
-
-                                this.setState({
-                                    entries: result.data.entries,
-                                    filteredEntries: result.data.entries,
-                                    isLoading: false
-                                });
-
-                            case 5:
+                            case 1:
                             case "end":
                                 return _context.stop();
                         }
@@ -33685,6 +33670,40 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
             }
 
             return componentDidMount;
+        }()
+    }, {
+        key: "getEntries",
+        value: function () {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+                var result;
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return _apiClient.ApiClient.getEntries(this.state.authToken, this.state.lowerLimit, this.state.upperLimit);
+
+                            case 2:
+                                result = _context2.sent;
+
+                                this.setState({
+                                    entries: result.data.entries,
+                                    isLoading: false
+                                });
+
+                            case 4:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function getEntries() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return getEntries;
         }()
     }, {
         key: "componentWillReceiveProps",
@@ -33704,7 +33723,7 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                 return _react2.default.createElement(
                     "div",
                     null,
-                    this.state.filteredEntries.map(function (el) {
+                    this.state.entries.map(function (el) {
                         return _react2.default.createElement(_this2.Entry, { entry: el, key: el.id });
                     })
                 );
@@ -33804,17 +33823,17 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }, {
         key: "editEntry",
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(entry) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(entry) {
                 var result;
-                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
-                        switch (_context2.prev = _context2.next) {
+                        switch (_context3.prev = _context3.next) {
                             case 0:
-                                _context2.next = 2;
+                                _context3.next = 2;
                                 return _apiClient.ApiClient.editEntry(this.state.authToken, entry.id, entry.distance, entry.duration, entry.timestamp, entry.location);
 
                             case 2:
-                                result = _context2.sent;
+                                result = _context3.sent;
 
                                 if (result.status === 200) {
                                     this.setState({
@@ -33842,14 +33861,14 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
                             case 4:
                             case "end":
-                                return _context2.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee2, this);
+                }, _callee3, this);
             }));
 
             function editEntry(_x) {
-                return _ref2.apply(this, arguments);
+                return _ref3.apply(this, arguments);
             }
 
             return editEntry;
@@ -33857,17 +33876,17 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }, {
         key: "deleteEntry",
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(entryId) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(entryId) {
                 var result;
-                return _regenerator2.default.wrap(function _callee3$(_context3) {
+                return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
-                        switch (_context3.prev = _context3.next) {
+                        switch (_context4.prev = _context4.next) {
                             case 0:
-                                _context3.next = 2;
+                                _context4.next = 2;
                                 return _apiClient.ApiClient.deleteEntry(this.state.authToken, entryId);
 
                             case 2:
-                                result = _context3.sent;
+                                result = _context4.sent;
 
                                 if (result.status === 200) {
                                     this.setState({
@@ -33879,14 +33898,14 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
                             case 4:
                             case "end":
-                                return _context3.stop();
+                                return _context4.stop();
                         }
                     }
-                }, _callee3, this);
+                }, _callee4, this);
             }));
 
             function deleteEntry(_x2) {
-                return _ref3.apply(this, arguments);
+                return _ref4.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -33936,17 +33955,17 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
     }, {
         key: "onAddEntry",
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(entry) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(entry) {
                 var result;
-                return _regenerator2.default.wrap(function _callee4$(_context4) {
+                return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
-                        switch (_context4.prev = _context4.next) {
+                        switch (_context5.prev = _context5.next) {
                             case 0:
-                                _context4.next = 2;
+                                _context5.next = 2;
                                 return _apiClient.ApiClient.addEntry(this.state.authToken, entry.distance, entry.duration, entry.timestamp, entry.location);
 
                             case 2:
-                                result = _context4.sent;
+                                result = _context5.sent;
 
                                 entry.id = result.data.entryId;
                                 if (result.status === 200) {
@@ -33962,14 +33981,14 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
                             case 5:
                             case "end":
-                                return _context4.stop();
+                                return _context5.stop();
                         }
                     }
-                }, _callee4, this);
+                }, _callee5, this);
             }));
 
             function onAddEntry(_x3) {
-                return _ref4.apply(this, arguments);
+                return _ref5.apply(this, arguments);
             }
 
             return onAddEntry;
@@ -33981,9 +34000,9 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
             this.setState({
                 lowerLimit: e,
-                filteredEntries: this.state.entries.filter(function (el) {
-                    return moment(el.timestamp).isAfter(moment(e) && moment(el.timestamp).isBefore(_this4.state.upperLimit));
-                })
+                isLoading: true
+            }, function () {
+                _this4.getEntries();
             });
         }
     }, {
@@ -33993,9 +34012,9 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
 
             this.setState({
                 upperLimit: e,
-                filteredEntries: this.state.entries.filter(function (el) {
-                    return moment(el.timestamp).isAfter(moment(_this5.state.lowerLimit) && moment(el.timestamp).isBefore(e));
-                })
+                isLoading: true
+            }, function () {
+                _this5.getEntries();
             });
         }
     }, {
@@ -34118,8 +34137,21 @@ var HomeComponent = exports.HomeComponent = function (_React$Component) {
                         _react2.default.createElement(
                             "div",
                             { className: "inner-card card card-1" },
-                            _react2.default.createElement(Datetime, { value: this.state.lowerLimit, onChange: this.onLowerLimitChanged }),
-                            _react2.default.createElement(Datetime, { value: this.state.upperLimit, onChange: this.onUpperLimitChanged })
+                            _react2.default.createElement(
+                                "h3",
+                                null,
+                                "Get entries between dates"
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                _react2.default.createElement(Datetime, { value: this.state.lowerLimit, onChange: this.onLowerLimitChanged })
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                _react2.default.createElement(Datetime, { value: this.state.upperLimit, onChange: this.onUpperLimitChanged })
+                            )
                         )
                     ),
                     _react2.default.createElement(

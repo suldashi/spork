@@ -88,8 +88,9 @@ export class AddEntryModal extends React.Component {
                             <div className="input-group"><label>Duration in Seconds:</label><input className="text-input" onChange={this.onChangeDuration} type='number' name="duration" value={this.state.duration} /></div>
                             <div className="input-group"><label>Jog timestamp:</label><Datetime value={this.state.timestamp} onChange={this.onTimestampChanged} /></div>
                             <div className="input-group"><label>Location:</label><a onClick={this.openLocationModal} href="#">Click to enter location on map</a></div>
-                            <div><button className="button" disabled={this.state.isSubmitting} onClick={this.onModalClosed}>Close</button>
-                            <input className="button" disabled={this.state.isSubmitting} type="submit" value="submit" /></div>
+                            <div>
+                            <input className="button" disabled={this.state.isSubmitting} type="submit" value="Submit" />
+                            <button className="button" disabled={this.state.isSubmitting} onClick={this.onModalClosed}>Close</button></div>
                         </form>
                         {this.state.isLocationModalOpen?<MapComponent onNewLocation={this.onNewLocation} />:""}
                     </div>

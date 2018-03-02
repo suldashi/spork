@@ -124,8 +124,8 @@ class ApiClientClass {
         }
     }
     
-    async getEntries(authToken,userId) {
-		let res = await fetch("/api/entry?userId="+userId,{
+    async getEntries(authToken,lowerLimit,upperLimit,userId) {
+		let res = await fetch(`/api/entry?userId=${userId}&lowerLimit=${lowerLimit}&upperLimit=${upperLimit}`,{
             method:"get",
             headers: {
                 "Accept":"application/json",

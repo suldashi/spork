@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 let entries = {};
 
 let ctr = 1;
@@ -25,7 +27,14 @@ const EntryRepository = {
 
 	getEntriesByUserId: async (userId) => {
 		let result = Object.values(entries).filter((el) => el.user_id === userId);
-		return result.sort((l,r) => l.timestamp>r.timestamp);
+		return result.sort((l,r) => l.timestamp < r.timestamp);
+	},
+
+	getEntriesBetweenDates: async (userId,lowerDate,upperDate) => {
+		let result = Object.values(entries).filter((el) => 
+			el.user_id === userId &&
+			moment(el.timestamp).isBetween(moment(lowerDate),moment(upperDate),null,"[]"));
+		return result.sort((l,r) => l.timestamp < r.timestamp);
 	},
 
 	deleteEntry: async (entryId) => {

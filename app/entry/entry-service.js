@@ -36,6 +36,18 @@ class EntryService {
 		}});
 	}
 
+	async getEntriesBetweenDates(userId,lowerDate,upperDate) {
+		let entries = await this.entryRepository.getEntriesBetweenDates(userId,lowerDate,upperDate);
+		return entries.map((el) => {return {
+			id: el.id,
+			userId: el.user_id,
+			distance:el.distance_in_meters,
+			duration:el.duration_in_secs,
+			location:el.location,
+			timestamp:el.timestamp
+		}});
+	}
+
 	async deleteEntry(entryId) {
 		return this.entryRepository.deleteEntry(entryId);
 	}

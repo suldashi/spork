@@ -25,6 +25,14 @@ const EntryRepository = {
 		return [];
 	},
 
+	getEntriesBetweenDates: async (userId,lowerDate,upperDate) => {
+		let entries = await db.any('SELECT * FROM "entry" WHERE "user_id" = $1 AND "deleted" = false AND "timestamp" >= $2 AND "timestamp" <= $3 ORDER BY "timestamp" DESC',[userId,lowerDate,upperDate]);
+		if(entries) {
+			return entries;
+		}
+		return [];
+	},
+
 	deleteEntry: async (entryId) => {
 		let result = await db.any('UPDATE "entry" SET "deleted" = true WHERE "id" = $1 RETURNING "id"',entryId);
 		if(result) {

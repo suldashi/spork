@@ -10,6 +10,7 @@ import {ActivateComponent} from './activate-component';
 import {LogoutComponent} from './logout-component';
 import {RegisterComponent} from './register-component';
 import {HeaderComponent} from "./header-component";
+import {WeeklyStatsComponent} from "./weekly-stats-component";
 const autoBind = require("react-auto-bind");
 
 export class MainComponent extends React.Component {
@@ -32,9 +33,14 @@ export class MainComponent extends React.Component {
                 <Route path="/activate/:activationCode" component={this.ActivateComponentWithProps} />
                 <Route exact path="/userManager" component={this.UserManagerComponentWithProps} />
                 <Route path="/admin/:userId" component={this.AdminComponent} />
+                <Route path="/weekly" component={this.WeeklyStatsComponentWithProps} />
                 <Route exact path="*" component={this.NotFoundComponentWithProps} />
             </Switch>
         </div>;
+    }
+
+    WeeklyStatsComponentWithProps(props) {
+        return <WeeklyStatsComponent authToken={this.state.authToken} />
     }
 
     AdminComponent(props) {

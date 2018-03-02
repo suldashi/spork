@@ -177,6 +177,22 @@ class ApiClientClass {
         	status:res.status
         }
     }
+
+    async getWeeklyStats(authToken,year,week) {
+		let res = await fetch(`/api/entry/weeklyStats?year=${year}&week=${week}`,{
+            method:"get",
+            headers: {
+                "Accept":"application/json",
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${authToken}`
+            }
+        });
+        let data = await res.json();
+        return {
+        	data,
+        	status:res.status
+        }
+    }
     
     async addEntry(authToken,distance,duration,timestamp,location,userId) {
 		let res = await fetch("/api/entry/add",{

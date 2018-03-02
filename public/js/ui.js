@@ -32909,25 +32909,22 @@ var ApiClientClass = function () {
             return getEntries;
         }()
     }, {
-        key: "addEntry",
+        key: "getWeeklyStats",
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(authToken, distance, duration, timestamp, location, userId) {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(authToken, year, week) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
                                 _context11.next = 2;
-                                return fetch("/api/entry/add", {
-                                    method: "post",
+                                return fetch("/api/entry/weeklyStats?year=" + year + "&week=" + week, {
+                                    method: "get",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
-                                    },
-                                    body: (0, _stringify2.default)({
-                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
-                                    })
+                                    }
                                 });
 
                             case 2:
@@ -32950,31 +32947,31 @@ var ApiClientClass = function () {
                 }, _callee11, this);
             }));
 
-            function addEntry(_x21, _x22, _x23, _x24, _x25, _x26) {
+            function getWeeklyStats(_x21, _x22, _x23) {
                 return _ref11.apply(this, arguments);
             }
 
-            return addEntry;
+            return getWeeklyStats;
         }()
     }, {
-        key: "editEntry",
+        key: "addEntry",
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(authToken, entryId, distance, duration, timestamp, location) {
+            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(authToken, distance, duration, timestamp, location, userId) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
                             case 0:
                                 _context12.next = 2;
-                                return fetch("/api/entry/edit", {
-                                    method: "put",
+                                return fetch("/api/entry/add", {
+                                    method: "post",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
+                                        distance: distance, duration: duration, timestamp: timestamp, location: location, userId: userId
                                     })
                                 });
 
@@ -32998,31 +32995,31 @@ var ApiClientClass = function () {
                 }, _callee12, this);
             }));
 
-            function editEntry(_x27, _x28, _x29, _x30, _x31, _x32) {
+            function addEntry(_x24, _x25, _x26, _x27, _x28, _x29) {
                 return _ref12.apply(this, arguments);
             }
 
-            return editEntry;
+            return addEntry;
         }()
     }, {
-        key: "deleteEntry",
+        key: "editEntry",
         value: function () {
-            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(authToken, entryId) {
+            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(authToken, entryId, distance, duration, timestamp, location) {
                 var res, data;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
                         switch (_context13.prev = _context13.next) {
                             case 0:
                                 _context13.next = 2;
-                                return fetch("/api/entry/delete", {
-                                    method: "delete",
+                                return fetch("/api/entry/edit", {
+                                    method: "put",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer " + authToken
                                     },
                                     body: (0, _stringify2.default)({
-                                        entryId: entryId
+                                        entryId: entryId, distance: distance, duration: duration, timestamp: timestamp, location: location
                                     })
                                 });
 
@@ -33046,8 +33043,56 @@ var ApiClientClass = function () {
                 }, _callee13, this);
             }));
 
-            function deleteEntry(_x33, _x34) {
+            function editEntry(_x30, _x31, _x32, _x33, _x34, _x35) {
                 return _ref13.apply(this, arguments);
+            }
+
+            return editEntry;
+        }()
+    }, {
+        key: "deleteEntry",
+        value: function () {
+            var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(authToken, entryId) {
+                var res, data;
+                return _regenerator2.default.wrap(function _callee14$(_context14) {
+                    while (1) {
+                        switch (_context14.prev = _context14.next) {
+                            case 0:
+                                _context14.next = 2;
+                                return fetch("/api/entry/delete", {
+                                    method: "delete",
+                                    headers: {
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + authToken
+                                    },
+                                    body: (0, _stringify2.default)({
+                                        entryId: entryId
+                                    })
+                                });
+
+                            case 2:
+                                res = _context14.sent;
+                                _context14.next = 5;
+                                return res.json();
+
+                            case 5:
+                                data = _context14.sent;
+                                return _context14.abrupt("return", {
+                                    data: data,
+                                    status: res.status
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context14.stop();
+                        }
+                    }
+                }, _callee14, this);
+            }));
+
+            function deleteEntry(_x36, _x37) {
+                return _ref14.apply(this, arguments);
             }
 
             return deleteEntry;
@@ -33424,6 +33469,12 @@ var HeaderComponent = exports.HeaderComponent = function (_React$Component) {
                         _reactRouterDom.Link,
                         { to: "/" },
                         "Spork"
+                    ),
+                    "\xA0|\xA0",
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/weekly" },
+                        "Weekly Statistics"
                     ),
                     _react2.default.createElement(
                         "span",
@@ -34499,6 +34550,8 @@ var _registerComponent = require('./register-component');
 
 var _headerComponent = require('./header-component');
 
+var _weeklyStatsComponent = require('./weekly-stats-component');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var autoBind = require("react-auto-bind");
@@ -34535,9 +34588,15 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/activate/:activationCode', component: this.ActivateComponentWithProps }),
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/userManager', component: this.UserManagerComponentWithProps }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/admin/:userId', component: this.AdminComponent }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/weekly', component: this.WeeklyStatsComponentWithProps }),
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '*', component: this.NotFoundComponentWithProps })
                 )
             );
+        }
+    }, {
+        key: 'WeeklyStatsComponentWithProps',
+        value: function WeeklyStatsComponentWithProps(props) {
+            return _react2.default.createElement(_weeklyStatsComponent.WeeklyStatsComponent, { authToken: this.state.authToken });
         }
     }, {
         key: 'AdminComponent',
@@ -34602,7 +34661,7 @@ var MainComponent = exports.MainComponent = function (_React$Component) {
     }]);
     return MainComponent;
 }(_react2.default.Component);
-},{"./activate-component":197,"./anon-home-component":199,"./forbidden-component":202,"./header-component":204,"./home-component":205,"./login-component":206,"./logout-component":207,"./not-found-component":210,"./register-component":211,"./user-manager-component":213,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],209:[function(require,module,exports){
+},{"./activate-component":197,"./anon-home-component":199,"./forbidden-component":202,"./header-component":204,"./home-component":205,"./login-component":206,"./logout-component":207,"./not-found-component":210,"./register-component":211,"./user-manager-component":213,"./weekly-stats-component":214,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"react":191,"react-auto-bind":153,"react-router-dom":176}],209:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35300,7 +35359,7 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                             }, className: "button" },
                         "Delete User"
                     ),
-                    props.user.isAdmin ? _react2.default.createElement(
+                    _react2.default.createElement(
                         "div",
                         null,
                         "Change user role",
@@ -35329,7 +35388,7 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                                 )
                             )
                         )
-                    ) : ""
+                    )
                 ),
                 this.state.changePasswordModalOpen && this.state.activeUser === props.user.id ? _react2.default.createElement(_changePasswordModal.ChangePasswordModal, { userId: props.user.id, onModalClosed: this.onPasswordMocalClosed, onSubmission: this.onPasswordChanged }) : ""
             );
@@ -35465,4 +35524,277 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
     }]);
     return UserManagerComponent;
 }(_react2.default.Component);
-},{"./api-client":200,"./change-password-modal":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}]},{},[212]);
+},{"./api-client":200,"./change-password-modal":201,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"react":191,"react-auto-bind":153,"react-router-dom":176}],214:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.WeeklyStatsComponent = undefined;
+
+var _promise = require("babel-runtime/core-js/promise");
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require("babel-runtime/helpers/inherits");
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _apiClient = require("./api-client");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var moment = require("moment");
+var autoBind = require("react-auto-bind");
+
+var WeeklyStatsComponent = exports.WeeklyStatsComponent = function (_React$Component) {
+    (0, _inherits3.default)(WeeklyStatsComponent, _React$Component);
+
+    function WeeklyStatsComponent(props) {
+        (0, _classCallCheck3.default)(this, WeeklyStatsComponent);
+
+        var _this = (0, _possibleConstructorReturn3.default)(this, (WeeklyStatsComponent.__proto__ || (0, _getPrototypeOf2.default)(WeeklyStatsComponent)).call(this, props));
+
+        autoBind(_this);
+        var currentTime = moment().hour(12).minute(0).second(0);
+        var prevWeek = moment().isoWeeks(currentTime.isoWeeks() - 1);
+        var nextWeek = moment().isoWeeks(currentTime.isoWeeks() + 1);
+        _this.state = {
+            currentTime: currentTime,
+            prevWeek: prevWeek,
+            nextWeek: nextWeek,
+            isLoading: true,
+            thisWeekStats: null,
+            prevWeekStats: null,
+            nextWeekStats: null,
+            authToken: props.authToken
+        };
+        return _this;
+    }
+
+    (0, _createClass3.default)(WeeklyStatsComponent, [{
+        key: "componentDidMount",
+        value: function () {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.getStats();
+
+                            case 1:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function componentDidMount() {
+                return _ref.apply(this, arguments);
+            }
+
+            return componentDidMount;
+        }()
+    }, {
+        key: "getStats",
+        value: function () {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+                var prevWeekYear, prevWeekNr, nextWeekYear, nextWeekNr, stats, thisWeekStats, prevWeekStats, nextWeekStats;
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                prevWeekYear = this.state.prevWeek.year();
+                                prevWeekNr = this.state.prevWeek.isoWeeks();
+                                nextWeekYear = this.state.nextWeek.year();
+                                nextWeekNr = this.state.nextWeek.isoWeeks();
+                                _context2.next = 6;
+                                return _promise2.default.all([_apiClient.ApiClient.getWeeklyStats(this.state.authToken, this.state.currentYear, this.state.currentTime.isoWeeks()), _apiClient.ApiClient.getWeeklyStats(this.state.authToken, prevWeekYear, prevWeekNr), _apiClient.ApiClient.getWeeklyStats(this.state.authToken, nextWeekYear, nextWeekNr)]);
+
+                            case 6:
+                                stats = _context2.sent;
+                                thisWeekStats = stats[0].data;
+                                prevWeekStats = stats[1].data;
+                                nextWeekStats = stats[2].data;
+
+                                this.setState({
+                                    isLoading: false,
+                                    thisWeekStats: thisWeekStats,
+                                    prevWeekStats: prevWeekStats,
+                                    nextWeekStats: nextWeekStats
+                                });
+
+                            case 11:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function getStats() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return getStats;
+        }()
+    }, {
+        key: "WeekCard",
+        value: function WeekCard(props) {
+            console.log(props);
+            return _react2.default.createElement(
+                "div",
+                { className: "inner-card card card-1" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "Year ",
+                    props.targetTime.year(),
+                    " Week ",
+                    props.targetTime.isoWeeks()
+                ),
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    "Fastest Run: ",
+                    props.stats.fastestRun
+                ),
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    "Greatest Distance: ",
+                    props.stats.greatestDistance
+                ),
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    "Total Distance: ",
+                    props.stats.totalDistance
+                ),
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    "Average Speed: ",
+                    props.stats.averageSpeed
+                )
+            );
+        }
+    }, {
+        key: "getPrevWeek",
+        value: function getPrevWeek(e) {
+            var _this2 = this;
+
+            e.preventDefault();
+            var targetWeek = moment(this.state.currentTime).isoWeeks(this.state.currentTime.isoWeeks() - 1);
+            var weekBeforeThat = moment(targetWeek).isoWeeks(targetWeek.isoWeeks() - 1);
+            var nextWeek = this.state.currentTime;
+            this.setState({
+                isLoading: true,
+                currentTime: targetWeek,
+                prevWeek: weekBeforeThat,
+                nextWeek: nextWeek
+            }, function () {
+                _this2.getStats();
+            });
+        }
+    }, {
+        key: "getNextWeek",
+        value: function getNextWeek(e) {
+            var _this3 = this;
+
+            e.preventDefault();
+            var targetWeek = moment(this.state.currentTime).isoWeeks(this.state.currentTime.isoWeeks() + 1);
+            var weekBeforeThat = this.state.currentTime;
+            var nextWeek = moment(targetWeek).isoWeeks(targetWeek.isoWeeks() + 1);
+            this.setState({
+                isLoading: true,
+                currentTime: targetWeek,
+                prevWeek: weekBeforeThat,
+                nextWeek: nextWeek
+            }, function () {
+                _this3.getStats();
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            if (this.state.isLoading) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        "Loading..."
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "large-body-container" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "inner-card card card-1" },
+                        _react2.default.createElement(
+                            "h3",
+                            null,
+                            "Weekly statistics"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement(
+                                "button",
+                                { onClick: this.getPrevWeek, className: "button button-big" },
+                                "Previous Week"
+                            ),
+                            _react2.default.createElement(
+                                "button",
+                                { onClick: this.getNextWeek, className: "button button-big" },
+                                "Next Week"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "flex-container" },
+                            _react2.default.createElement(this.WeekCard, { targetTime: this.state.prevWeek, stats: this.state.prevWeekStats }),
+                            _react2.default.createElement(this.WeekCard, { targetTime: this.state.currentTime, stats: this.state.thisWeekStats }),
+                            _react2.default.createElement(this.WeekCard, { targetTime: this.state.nextWeek, stats: this.state.nextWeekStats })
+                        )
+                    )
+                );
+            }
+        }
+    }]);
+    return WeeklyStatsComponent;
+}(_react2.default.Component);
+},{"./api-client":200,"babel-runtime/core-js/object/get-prototype-of":5,"babel-runtime/core-js/promise":7,"babel-runtime/helpers/asyncToGenerator":10,"babel-runtime/helpers/classCallCheck":11,"babel-runtime/helpers/createClass":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/possibleConstructorReturn":14,"babel-runtime/regenerator":115,"moment":145,"react":191,"react-auto-bind":153}]},{},[212]);

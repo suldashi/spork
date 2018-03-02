@@ -52,9 +52,25 @@ body {
 	z-index: 500;
 }
 
+.flex-container {
+	display: flex;
+	flex-grow: 0;
+	flex-basis: 33%;
+}
+
+.flex-container .card {
+	width:33%;
+}
+
 .body-container {
 	padding-top: 20px;
 	width:400px;
+	margin: 0 auto;
+}
+
+.large-body-container {
+	padding-top: 20px;
+	width:800px;
 	margin: 0 auto;
 }
 
@@ -74,6 +90,10 @@ body {
     display: inline-block;
 	width: 100px;
 	cursor: pointer;
+}
+
+.button-big {
+	width: 200px;
 }
 
 .button[disabled] {

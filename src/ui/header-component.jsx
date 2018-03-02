@@ -44,7 +44,7 @@ export class HeaderComponent extends React.Component {
     render() {
         if(this.state.authToken) {
             return <header className="site-header">
-                <Link to="/">Spork</Link>
+                <Link to="/">Spork</Link>&nbsp;|&nbsp;<Link to="/weekly">Weekly Statistics</Link>
                 <span className="header-text-element">
                     {this.state.user?<span>Welcome {this.state.user.username} | </span>:""}
                     {this.state.user && this.state.user.isUserManager?<Link to="/userManager">User manager | </Link>:""}

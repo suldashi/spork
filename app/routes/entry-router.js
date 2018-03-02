@@ -1,6 +1,7 @@
 let router = require('express').Router();
 let moment = require("moment");
 
+const EntryStatsHelper = require("./entry-stats-helper");
 const EntryService = require("../entry/entry-service");
 const entryService = new EntryService();
 
@@ -17,6 +18,21 @@ router.get("/",async (req,res) => {
     }
     let entries = await entryService.getEntriesBetweenDates(userId,lowerLimit,upperLimit);
     res.send({entries});
+});
+
+router.get("/weeklyStats",async (req,res) => {
+    let userId = req.query.userId;
+    let lowerLimit = moment().isoWeekday(1).year(req.query.year).isoWeeks(req.query.week).hour(0).minute(0).second(0);
+    let upperLimit = moment(lowerLimit).add(1,"w");
+    if(!userId || userId === "undefined") {
+        userId = req.userId;
+    }
+    let entries = await entryService.getEntriesBetweenDates(userId,lowerLimit,upperLimit);
+    let fastestRun = EntryStatsHelper.getFastest(entries);
+    let greatestDistance = EntryStatsHelper.getGreatest(entries);
+    let totalDistance = EntryStatsHelper.getTotal(entries);
+    let averageSpeed = EntryStatsHelper.getAverage(entries);
+    res.send({fastestRun,greatestDistance,totalDistance,averageSpeed});
 });
 
 router.post("/add",async (req,res) => {

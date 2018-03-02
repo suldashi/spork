@@ -19,7 +19,7 @@ router.get("/all",usrMgrMiddleware,async (req,res) => {
     res.send({users});
 });
 
-router.put("/changeRole",adminMiddleware,async (req,res) => {
+router.put("/changeRole",usrMgrMiddleware,async (req,res) => {
     let user = await userService.getUserById(req.body.userId);
     if(user) {
         if(req.body.newRole === "admin") {
@@ -41,7 +41,6 @@ router.put("/changeRole",adminMiddleware,async (req,res) => {
     else {
         res.status(400).send({error:"no such user"});
     }
-    
 });
 
 router.delete("/delete",usrMgrMiddleware,async (req,res) => {

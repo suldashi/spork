@@ -79,7 +79,6 @@ export class UserManagerComponent extends React.Component {
             {this.state.isAdmin?<Link to={"/admin/"+props.user.id}><div>{props.user.username}</div></Link>:<h3>{props.user.username}</h3>}
             <button onClick={(e) => {e.preventDefault();this.changePasswordModal(props.user.id)}} className="button">Change password</button>
             <button onClick={(e) => {e.preventDefault();this.deleteUser(props.user.id)}} className="button">Delete User</button>
-            {props.user.isAdmin?
             <div>
                 Change user role
                 <div>
@@ -90,7 +89,6 @@ export class UserManagerComponent extends React.Component {
                     </select>
                 </div>
             </div>
-            :""}
             </div>
             {this.state.changePasswordModalOpen && this.state.activeUser===props.user.id?<ChangePasswordModal userId={props.user.id} onModalClosed={this.onPasswordMocalClosed} onSubmission={this.onPasswordChanged} />:""}
         </div>

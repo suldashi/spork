@@ -26,6 +26,11 @@ const UserRepository = {
 		return targetUser?targetUser:null;
     },
 
+    getUserByActivationCodeGenerator: async (activationCodeGenerator) => {
+        let targetUser = users.filter(user => user.activation_code_generator === activationCodeGenerator);
+		return targetUser[0]?targetUser[0]:null;
+    },
+
     addUser: async (username,password,activationCodeGenerator) => {
         users[userCtr] = {
             id:userCtr,

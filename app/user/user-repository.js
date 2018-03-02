@@ -24,6 +24,14 @@ const UserRepository = {
         return null;
     },
 
+    getUserByActivationCodeGenerator: async (activationCodeGenerator) => {
+        let user = await db.oneOrNone('SELECT * FROM "user" WHERE "activation_code_generator" = $1 AND "is_deleted" = false',activationCodeGenerator);
+        if(user) {
+            return user;
+        }
+        return null;
+    },
+
     addUser: async (username,password,activationCodeGenerator) => {
         var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_code_generator") VALUES ($1,$2,$3,$4) RETURNING id',[username,password,false,activationCodeGenerator]);
         return resultRow.id;

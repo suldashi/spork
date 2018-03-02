@@ -7,6 +7,7 @@ import {AnonHomeComponent} from './anon-home-component';
 import {NotFoundComponent} from './not-found-component';
 import {ForbiddenComponent} from './forbidden-component';
 import {LoginComponent} from './login-component';
+import {ActivateComponent} from './activate-component';
 import {LogoutComponent} from './logout-component';
 import {RegisterComponent} from './register-component';
 import {HeaderComponent} from "./header-component";
@@ -29,6 +30,7 @@ export class MainComponent extends React.Component {
                 <Route exact path="/login" component={this.LoginComponent} />
                 <Route exact path="/logout" component={this.LogoutComponent} />
                 <Route exact path="/register" component={this.RegisterComponent} />
+                <Route path="/activate/:activationCode" component={this.ActivateComponentWithProps} />
                 <Route exact path="/userManager" component={this.UserManagerComponentWithProps} />
                 <Route path="/admin/:userId" component={this.AdminComponent} />
                 <Route exact path="*" component={this.NotFoundComponentWithProps} />
@@ -38,6 +40,10 @@ export class MainComponent extends React.Component {
 
     AdminComponent(props) {
         return <AdminComponent userId={props.match.params.userId} authToken={this.state.authToken} />
+    }
+
+    ActivateComponentWithProps(props) {
+        return <ActivateComponent activationCode={props.match.params.activationCode} authToken={this.state.authToken} />
     }
 
     UserManagerComponentWithProps() {

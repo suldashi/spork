@@ -27,15 +27,18 @@ export class LoginComponent extends React.Component {
         e.preventDefault();
         let result = await ApiClient.sendActivationEmail(this.state.activationCodeGenerator);
         this.setState({
-            activationCode:result.data.activationCode
+            activationCode:result.data.activationCode?result.data.activationCode:"nocode"
         });
+        
     }
 
     async activateAccount(e) {
         e.preventDefault();
-        let result = await ApiClient.activateAccount(this.state.activationCode);
-        if(result.status===200) {
-            this.submitLogin();
+        if(this.state.activationCode!=="nocode") {
+            let result = await ApiClient.activateAccount(this.state.activationCode);
+            if(result.status===200) {
+                this.submitLogin();
+            }
         }
     }
 

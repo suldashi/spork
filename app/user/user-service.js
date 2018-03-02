@@ -67,6 +67,10 @@ class UserService {
 		return null;
 	}
 
+	async getUserByActivationCodeGenerator(activationCodeGenerator) {
+		return this.userRepository.getUserByActivationCodeGenerator(activationCodeGenerator);
+	}
+
 	async addUser(username,password) {
 		let possibleUser = await this.userRepository.getByUsername(username);
 		if(!possibleUser) {

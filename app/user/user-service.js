@@ -13,7 +13,7 @@ class UserService {
 				username:user.username,
 				activated:user.is_active,
 				activationCodeGenerator:user.activation_code_generator,
-				isUserManager:el.is_user_manager,
+				isUserManager:user.is_user_manager,
 				isAdmin:user.is_admin
 			};
 		}

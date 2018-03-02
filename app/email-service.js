@@ -4,13 +4,11 @@ const config = require("./config");
 class EmailService {
 
     constructor() {
-        this.mailgunApiKey = "key-7b2c907ddd7ebcef726661af6202cdc4";
-        this.mailgunDomain = "sandboxbf3469aa3b6b4b22b86009317bafd2f6.mailgun.org";
-        this.mailgunInstance = new Mailgun({apiKey:this.mailgunApiKey,domain:this.mailgunDomain});
+        this.mailgunInstance = new Mailgun({apiKey:config.email.mailgunApiKey,domain:config.email.mailgunDomain});
     }
 
     sendActivationLink(activationCode,recipientAddress) {
-        let from = config.app.confirmationEmailSender;
+        let from = config.email.confirmationEmailSender;
         let subject = "Activate your Spork account";
         let activationUrl = `${config.app.url}:${config.app.port}/activate/${activationCode}`;
         let emailBody = `<a href="${activationUrl}">Click here</a> to activate your Spork account

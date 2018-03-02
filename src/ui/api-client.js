@@ -36,7 +36,7 @@ class ApiClientClass {
 
     async deleteUser(authToken,userId) {
 		let res = await fetch("/api/user/delete",{
-            method:"post",
+            method:"delete",
             headers: {
                 "Accept":"application/json",
                 "Content-Type":"application/json",
@@ -161,7 +161,7 @@ class ApiClientClass {
 
     async editEntry(authToken,entryId,distance,duration,timestamp,location) {
 		let res = await fetch("/api/entry/edit",{
-            method:"post",
+            method:"put",
             headers: {
                 "Accept":"application/json",
                 "Content-Type":"application/json",
@@ -180,7 +180,7 @@ class ApiClientClass {
     
     async deleteEntry(authToken,entryId) {
 		let res = await fetch("/api/entry/delete",{
-            method:"post",
+            method:"delete",
             headers: {
                 "Accept":"application/json",
                 "Content-Type":"application/json",

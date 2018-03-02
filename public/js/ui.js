@@ -32882,7 +32882,7 @@ var ApiClientClass = function () {
                             case 0:
                                 _context3.next = 2;
                                 return fetch("/api/user/delete", {
-                                    method: "post",
+                                    method: "delete",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
@@ -33210,7 +33210,7 @@ var ApiClientClass = function () {
                             case 0:
                                 _context10.next = 2;
                                 return fetch("/api/entry/edit", {
-                                    method: "post",
+                                    method: "put",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",
@@ -33258,7 +33258,7 @@ var ApiClientClass = function () {
                             case 0:
                                 _context11.next = 2;
                                 return fetch("/api/entry/delete", {
-                                    method: "post",
+                                    method: "delete",
                                     headers: {
                                         "Accept": "application/json",
                                         "Content-Type": "application/json",

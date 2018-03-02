@@ -18,7 +18,7 @@ router.get("/all",usrMgrMiddleware,async (req,res) => {
     res.send({users});
 });
 
-router.post("/delete",usrMgrMiddleware,async (req,res) => {
+router.delete("/delete",usrMgrMiddleware,async (req,res) => {
     let result = await userService.removeUser(req.body.userId);
     res.send({result});
 });

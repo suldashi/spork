@@ -21,7 +21,7 @@ router.post("/add",async (req,res) => {
     res.send({entryId:result});
 });
 
-router.post("/delete",async (req,res) => {
+router.delete("/delete",async (req,res) => {
     let entry = await entryService.getEntryById(req.body.entryId);
     if(entry) {
         let result = await entryService.deleteEntry(req.body.entryId);
@@ -32,7 +32,7 @@ router.post("/delete",async (req,res) => {
     }
 });
 
-router.post("/edit",async (req,res) => {
+router.put("/edit",async (req,res) => {
     let entry = await entryService.getEntryById(req.body.entryId);
     if(entry && entry.userId === req.userId) {
         let result = await entryService.editEntry(req.body.entryId,req.body.timestamp,req.body.distance,req.body.duration,req.body.location);

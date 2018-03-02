@@ -5,6 +5,7 @@ const userService = new UserService();
 
 const authMiddleware = require("./auth-middleware");
 const usrMgrMiddleware = require("./user-mgr-middleware");
+const adminMiddleware = require("./admin-middleware");
 
 router.use(authMiddleware);
 
@@ -18,7 +19,7 @@ router.get("/all",usrMgrMiddleware,async (req,res) => {
     res.send({users});
 });
 
-router.put("/changeRole",usrMgrMiddleware,async (req,res) => {
+router.put("/changeRole",adminMiddleware,async (req,res) => {
     let user = await userService.getUserById(req.body.userId);
     if(user) {
         if(req.body.newRole === "admin") {

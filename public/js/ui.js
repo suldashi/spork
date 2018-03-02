@@ -35300,7 +35300,7 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                             }, className: "button" },
                         "Delete User"
                     ),
-                    _react2.default.createElement(
+                    props.user.isAdmin ? _react2.default.createElement(
                         "div",
                         null,
                         "Change user role",
@@ -35329,7 +35329,7 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
                                 )
                             )
                         )
-                    )
+                    ) : ""
                 ),
                 this.state.changePasswordModalOpen && this.state.activeUser === props.user.id ? _react2.default.createElement(_changePasswordModal.ChangePasswordModal, { userId: props.user.id, onModalClosed: this.onPasswordMocalClosed, onSubmission: this.onPasswordChanged }) : ""
             );
@@ -35338,33 +35338,45 @@ var UserManagerComponent = exports.UserManagerComponent = function (_React$Compo
         key: "changeUserRole",
         value: function () {
             var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(userId, ev) {
-                var result, isAdmin, isUserManager;
+                var isAdmin, isUserManager, result, user, newUser;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
-                                _context5.next = 2;
+                                isAdmin = ev.target.value === "admin";
+                                isUserManager = ev.target.value === "userManager" || ev.target.value === "admin";
+
+                                ev.preventDefault();
+                                _context5.next = 5;
                                 return _apiClient.ApiClient.changeRole(this.state.authToken, userId, ev.target.value);
 
-                            case 2:
+                            case 5:
                                 result = _context5.sent;
+                                user = this.state.users.filter(function (el) {
+                                    return el.id === userId;
+                                })[0];
 
                                 if (result.status === 200) {
-                                    isAdmin = ev.target.value === "admin";
-                                    isUserManager = ev.target.value === "userManager";
+                                    newUser = {
+                                        id: user.id,
+                                        username: user.username,
+                                        activated: user.activated,
+                                        activationCodeGenerator: user.activationCodeGenerator,
+                                        isAdmin: isAdmin,
+                                        isUserManager: isUserManager
+                                    };
 
                                     this.setState({
                                         users: this.state.users.map(function (el) {
                                             if (el.id === userId) {
-                                                el.isAdmin = isAdmin;
-                                                el.isUserManager = isUserManager;
+                                                return newUser;
                                             }
                                             return el;
                                         })
                                     });
                                 }
 
-                            case 4:
+                            case 8:
                             case "end":
                                 return _context5.stop();
                         }

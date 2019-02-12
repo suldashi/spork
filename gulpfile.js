@@ -4,7 +4,6 @@ const minify = require('gulp-minify');
 const babel = require('gulp-babel');
 const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
-const runSequence = require("run-sequence");
 const exec = require('child_process').exec;
 const del = require("del");
 
@@ -44,21 +43,15 @@ gulp.task("minify", () => {
 		.pipe(gulp.dest("public/js"));
 });
 
-gulp.task("ui-min", () => {
-	runSequence("apply-prod-environment","ui-babel","browserify","minify","clean");
-});
+gulp.task("ui-min", gulp.series("apply-prod-environment","ui-babel","browserify","minify","clean"));
 
-gulp.task("ui", () => {
-	return runSequence("ui-babel","browserify","clean");
-});
+gulp.task("ui", gulp.series("ui-babel","browserify","clean"));
 
 gulp.task("watch-ui", () => {
 	return gulp.watch("src/ui/**/*.jsx",["ui"]);
 })
 
-gulp.task("default", () => {
-	return runSequence("ui");
-});
+gulp.task("default", gulp.series("ui"));
 
 gulp.task("db-dump", () => {
 	var dbConfig = require("./app/config").db;

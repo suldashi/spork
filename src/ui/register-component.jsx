@@ -19,7 +19,7 @@ export class RegisterComponent extends React.Component {
 
     render() {
         if(this.state.registrationSucceeded) {
-            return <div className="body-container"><div className="inner-card card card-1"><h3>Registration successful, activation code has been sent to your email. <Link to="/login">Click here to log in</Link></h3></div></div>;
+            return <div className="body-container"><div className="inner-card card card-1"><h3>Registration successful. <Link to="/login">Click here to log in</Link></h3></div></div>;
         }
         else {
             return <div className="body-container">

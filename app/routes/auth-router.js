@@ -60,12 +60,12 @@ router.post("/register",async (req,res) => {
         user = await userService.addUser(req.body.username,req.body.password);
         let userModel = await userService.getUserById(user);
         let activationCode = await userService.generateActivationCode(userModel.activationCodeGenerator);
-        try {
+        /* try {
             let emailConfirmation = await EmailService.sendActivationLink(activationCode,req.body.username);
         }
         catch(err) {
             console.log("confirmation email could not be sent. Reason:",err);
-        }
+        } */
         res.status(200).send({});
     }
 });

@@ -33,7 +33,7 @@ const UserRepository = {
     },
 
     addUser: async (username,password,activationCodeGenerator) => {
-        var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_code_generator") VALUES ($1,$2,$3,$4) RETURNING id',[username,password,false,activationCodeGenerator]);
+        var resultRow = await db.one('INSERT INTO "user" ("username","password","is_active","activation_code_generator") VALUES ($1,$2,$3,$4) RETURNING id',[username,password,true,activationCodeGenerator]);
         return resultRow.id;
     },
 

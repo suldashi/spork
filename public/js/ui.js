@@ -34948,7 +34948,7 @@ var RegisterComponent = exports.RegisterComponent = function (_React$Component) 
                         _react2.default.createElement(
                             "h3",
                             null,
-                            "Registration successful, activation code has been sent to your email. ",
+                            "Registration successful. ",
                             _react2.default.createElement(
                                 _reactRouterDom.Link,
                                 { to: "/login" },

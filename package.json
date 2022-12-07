@@ -12,7 +12,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "mailgun-js": "^0.22.0",
     "moment": "^2.20.1",
     "pg-promise": "^7.5.4",
